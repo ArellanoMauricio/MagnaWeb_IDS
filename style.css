@@ -1,7 +1,0 @@
-:root {
-    --color-fuente: #000000;
-}
-
-body {
-    color: var(--color-fuente);
-}

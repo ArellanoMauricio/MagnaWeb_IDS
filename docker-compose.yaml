@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  backend:
+    image: node:18-alpine
+    working_dir: /web/backend
+    volumes:
+      - ./web:/web
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm install nodemon && npx nodemon api.js"
+  db:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./db/.volumes/postgres/data:/var/lib/postgresql/data/
