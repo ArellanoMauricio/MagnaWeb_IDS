@@ -84,11 +84,7 @@ polygon {
     transform: translateY(10px);
   }
 }
-@keyframes fadeIn {
-    to {
-        opacity: 0.9;
-    }
-}
+
 #intro.clicked {
   animation: fadeOutUp 1s ease-in forwards;
 }
