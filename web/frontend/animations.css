@@ -1,0 +1,59 @@
+@keyframes fadeIn {
+    to {
+        opacity: 0.9;
+    }
+}
+@keyframes fadeIn2 {
+    to {
+        opacity: 0.75;
+    }
+}
+@keyframes fadeIn3 {
+    to {
+        opacity: 0.5;
+    }
+}
+@keyframes bajarBoton {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+@keyframes fadeOutUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(5vh);
+    
+  }
+  100% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
+@keyframes apartado {
+    to {
+        transform: translateY(-50px);
+    }
+}
+@keyframes abrirIndice {
+  50% {
+    width: 0vh;
+    height: 2px;
+    border-radius: 0px;
+  }
+  75% {
+    width: 45vh;
+    height: 2px;
+    border-radius: 0px;
+  }
+  100% {
+    width: 45vh;
+    height: 60vh;
+    border-radius: 15px;
+  }
+}
