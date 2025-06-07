@@ -1,7 +1,5 @@
 # MagnaWeb - Introducción al Desarrollo de Software
-Trabajo Práctico Final para la materia de Introducción al Desarrollo de Software.
-
-2025 - Facultad de Ingeniería de la Universidad de Buenos Aires
+<p>Trabajo Práctico Final para la materia de Introducción al Desarrollo de Software.<br>2025 - Facultad de Ingeniería de la Universidad de Buenos Aires</p>
 
 ## Índice
 - [Descripción](#descripción)
