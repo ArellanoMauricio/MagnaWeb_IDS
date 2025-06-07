@@ -15,7 +15,7 @@
 
 ## Descripción
 
-MagnaWeb es una plataforma web desarrollada como herramienta de apoyo para la creación, organización y gestión del universo narrativo de MAGNAONIRICA. Su propósito principal es centralizar y facilitar el acceso a información sobre personajes, lugares e historia del mundo, permitiendo a sus usuarios navegar de forma intuitiva por los elementos clave del lore y mantener la coherencia narrativa a lo largo del tiempo. Su función es la de un gestor narrativo.
+MagnaWeb es una plataforma web desarrollada como herramienta de apoyo para la creación, organización y gestión del universo narrativo de MAGNAONIRICA. Su propósito principal es centralizar y facilitar el acceso a información sobre personajes, lugares e historia del mundo, permitiendo a sus usuarios navegar de forma intuitiva por los elementos clave del lore y mantener la coherencia narrativa a lo largo del tiempo.
 
 ## Requisitos
 
