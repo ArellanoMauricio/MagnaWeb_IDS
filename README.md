@@ -1,6 +1,6 @@
-# Magna Web - IDS
-Trabajo Práctico Final para Introducción al Desarrollo de Software
-2025 - Facultad de Ingeniería de la UBA
+# MagnaWeb - Introducción al Desarrollo de Software
+Trabajo Práctico Final para la materia de Introducción al Desarrollo de Software.
+2025 - Facultad de Ingeniería de la Universidad de Buenos Aires
 
 ## Índice
 - [Descripción](#descripción)
