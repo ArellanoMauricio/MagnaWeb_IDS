@@ -2,26 +2,30 @@
 <p>Trabajo Práctico Final para la materia de Introducción al Desarrollo de Software.<br>2025 — Facultad de Ingeniería de la Universidad de Buenos Aires.</p>
 
 ## Tabla de Contenidos
-📄 [Descripción](#descripción)  
-🎯 [Objetivos](#objetivos)  
-📋 [Requisitos](#requisitos)  
-💾 [Instalación](#instalación)  
-🚀 [Ejecución](#ejecución)  
-🛠️ [Tecnologías Utilizadas](#tecnologías-utilizadas)  
-📂 [Estructura del Proyecto](#estructura-del-proyecto)  
+📄 [Descripción](#descripción)
+🎯 [Objetivos](#objetivos)
+📋 [Requisitos](#requisitos)
+💾 [Instalación](#instalación)
+🚀 [Ejecución](#ejecución)
+🛠️ [Tecnologías Utilizadas](#tecnologías-utilizadas)
+📂 [Estructura del Proyecto](#estructura-del-proyecto)
 🧑‍💻 [Autores](#autores)
 
 ---
 
 ## Descripción
 
-Esta página web sirve de soporte para la lectura de la novela "Magnaonírica" de Lautaro de la Fuente. Cuenta con apartados de personajes, capítulos y lugares para poder explorar los sucesos de la novela. Nuestro objetivo con este proyecto es implementar bases de datos relacionales.
+MagnaWeb es una plataforma web desarrollada como herramienta de apoyo para la creación, organización y gestión del universo narrativo de MAGNAONIRICA. Su propósito principal es centralizar y facilitar el acceso a información sobre personajes, lugares e historia del mundo, permitiendo a sus usuarios navegar de forma intuitiva por los elementos clave del lore y mantener la coherencia narrativa a lo largo del tiempo.
 
 ## Requisitos
 
-- Node.js 17
+- Docker Desktop.
 
 ## Instalación
+
+- Abra la aplicación Docker Desktop.
+- Corra el comando "docker-compose up -d".
+- Abra la página localhost/3000:3000.
 
 ## Tecnologías Utilizadas
 
