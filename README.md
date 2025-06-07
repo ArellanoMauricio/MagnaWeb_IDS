@@ -6,9 +6,7 @@
 🎯 [Objetivos](#objetivos)
 📋 [Requisitos](#requisitos)
 💾 [Instalación](#instalación)
-🚀 [Ejecución](#ejecución)
 🛠️ [Tecnologías Utilizadas](#tecnologías-utilizadas)
-📂 [Estructura del Proyecto](#estructura-del-proyecto)
 🧑‍💻 [Autores](#autores)
 
 ---
