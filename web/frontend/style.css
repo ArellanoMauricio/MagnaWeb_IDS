@@ -22,12 +22,20 @@ svg {
 
 .fade-in {
     opacity: 0;
-    animation: fadeIn 2s ease-in-out forwards;
+    transform: translateY(18px);
+    animation: fadeIn 2s ease-in-out forwards, irArriba 2s ease-in forwards;
     max-width: 80%;
 }
+
 @keyframes fadeIn {
     to {
         opacity: 0.9;
+    }
+}
+
+@keyframes irArriba {
+    to {
+        transform: translateY(-18px);
     }
 }
 
@@ -118,7 +126,8 @@ polygon {
   justify-content: center;
   mix-blend-mode: add;
   opacity: 0.75;
-  font-family: "Noto Serif Dives Akuru", serif;
+  font-family: "Averia Serif Libre", serif;
+  text-shadow: -0rem 0rem 0.125rem #000000;
   font-weight: 400;
   font-size: 25px;
 }
