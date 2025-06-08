@@ -22,7 +22,7 @@ MagnaWeb es una plataforma web desarrollada como herramienta de apoyo para la cr
 ## Instalación
 
 - Abra la aplicación Docker Desktop.
-- Corra el comando "docker-compose up -d".
+- Corra el comando ```docker-compose up -d```.
 - Abra la página localhost/3000:3000.
 
 ## Tecnologías Utilizadas
@@ -31,8 +31,6 @@ MagnaWeb es una plataforma web desarrollada como herramienta de apoyo para la cr
 - Framework: 'Node'
 - Base de datos: 'PostgreSQL'
 - Herramientas: 'Git', 'Docker' y 'VSCode'
-
-## Estructura del proyecto
 
 ## Autores
 - **Mauricio Arellano**
