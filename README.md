@@ -30,20 +30,20 @@ Este trabajo nos permite afianzar nuestras habilidades técnicas, promover el tr
 
 ## Requisitos
 
-- Docker Desktop.
+- *Docker Desktop.*
 
 ## Instalación
 
-- Abra la aplicación Docker Desktop.
-- Corra el comando ```docker-compose up -d```.
-- Abra la página ```localhost/3000:3000```.
+1. **Abra la aplicación *Docker Desktop*.**
+2. **Corra el comando ```docker-compose up -d```.**
+3. **Abra la página ```localhost/3000:3000```.**
 
 ## Tecnologías Utilizadas
 
-- Lenguaje de programación: 'JavaScript'
-- Framework: 'Node'
-- Base de datos: 'PostgreSQL'
-- Herramientas: 'Git', 'Docker' y 'VSCode'
+- **Lenguaje de programación:** 'JavaScript'
+- **Framework:** 'Node'
+- **Base de datos:** 'PostgreSQL'
+- **Herramientas:** 'Git', 'Docker' y 'VSCode'
 
 ## Autores
 - **Mauricio Arellano**
