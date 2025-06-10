@@ -1,3 +1,5 @@
+@import url("animations.css");
+
 body {
     background-image: url("res/back.png");
     background-size: cover;
@@ -8,18 +10,8 @@ body {
     padding: 0;
     overflow-x: hidden;
 }
-#intro {
-    height: 100vh;
-    margin: 0;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-svg {
-    animation: bajarBoton 4s ease-in-out infinite;
-}
 
+<<<<<<< HEAD
 .fade-in {
     opacity: 0;
     transform: translateY(18px);
@@ -56,6 +48,8 @@ svg {
 #more-arrows:hover .arrow-top {
     transform: translateY(18px);
 }
+=======
+>>>>>>> 241d93c2208d8f47dd055ccfbcfc33fadd0f649c
 polygon {
   fill: #fff;
   opacity: 0;
@@ -63,22 +57,22 @@ polygon {
   animation: fadeIn 2s ease-in-out forwards;
   transition: all .2s ease-out;
     
-  &.arrow-middle {
+    &.middle_arrow {
 	  opacity: 0;
       animation: fadeIn2 2s ease-in-out forwards;
 	}
 
-	&.arrow-top {
+	&.top_arrow {
 	  opacity: 0;
       animation: fadeIn3 2s ease-in-out forwards;
 	}
 	 
 }
-@keyframes fadeIn2 {
-    to {
-        opacity: 0.75;
-    }
+
+svg {
+    animation: bajarBoton 4s ease-in-out infinite;
 }
+<<<<<<< HEAD
 @keyframes fadeIn3 {
     to {
         opacity: 0.5;
@@ -109,6 +103,16 @@ polygon {
     transform: translateY(-100vh);
     opacity: 0;
   }
+=======
+
+#intro {
+    height: 100vh;
+    margin: 0;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+>>>>>>> 241d93c2208d8f47dd055ccfbcfc33fadd0f649c
 }
 
 #indice {
@@ -132,39 +136,43 @@ polygon {
   font-size: 25px;
 }
 
+#arrows {
+    width: 75px;
+    height: 65px;
+}
+
 #indice.clicked {
   animation: abrirIndice 3s ease-in forwards;
 }
-#indicetex {
+
+#text {
   opacity: 0;
   font-size: 30px;
 }
-#indicetex.iniciado {
+
+#text.iniciado {
   animation:
     fadeIn 2s ease-in forwards,
     apartado 0.5s ease-in forwards 2s; /* Empieza cuando termina fadeIn */
 }
 
-@keyframes apartado {
-    to {
-        transform: translateY(-50px);
-    }
+#intro.clicked {
+  animation: fadeOutUp 1s ease-in forwards;
 }
 
-@keyframes abrirIndice {
-  50% {
-    width: 0vh;
-    height: 2px;
-    border-radius: 0px;
-  }
-  75% {
-    width: 45vh;
-    height: 2px;
-    border-radius: 0px;
-  }
-  100% {
-    width: 45vh;
-    height: 60vh;
-    border-radius: 15px;
-  }
+.fade_intro {
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards;
+    max-width: 80%;
+}
+
+/* animacion de flechas cuando el mause esta por encima */
+#arrows:hover polygon {
+    fill: #770909;
+}
+#arrows:hover .bottom_arrow {
+    transform: translateY(-18px);
+}
+#arrows:hover .top_arrow {
+    transform: translateY(18px);
 }
