@@ -57,8 +57,8 @@ svg {
 
 #arrows {
     /*formatos*/
-    width: 75px;
-    height: 65px;
+    width: 4.6875rem;
+    height: 4.0625rem;
 }
 
 polygon {
@@ -66,7 +66,7 @@ polygon {
     fill: #ffffff;
     opacity: 0;
     mix-blend-mode: overlay;
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
 
     /*animaciones*/
     animation-name: fade_in_9;
@@ -98,11 +98,11 @@ polygon {
 }
 
 #arrows:hover .arrow_bottom {
-    transform: translateY(-18px);
+    transform: translateY(-1.125rem);
 }
 
 #arrows:hover .arrow_top {
-    transform: translateY(18px);
+    transform: translateY(1.125rem);
 }
 
 /*salida*/
