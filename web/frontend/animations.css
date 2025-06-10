@@ -48,7 +48,7 @@
 
 @keyframes move_up_index {
     to {
-        transform: translateY(-150px);
+        transform: translateY(-200px);
     }
 }
 
