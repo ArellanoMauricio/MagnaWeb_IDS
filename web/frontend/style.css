@@ -2,7 +2,7 @@
 
 body {
     /*fondo*/
-    background-image: url("res/back.png");
+    background-image: url("source/back.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
