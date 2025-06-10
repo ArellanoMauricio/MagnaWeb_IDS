@@ -57,8 +57,8 @@ svg {
 
 #arrows {
     /*formatos*/
-    width: 4.9rem;
-    height: 4rem;
+    width: 75px;
+    height: 65px;
 }
 
 polygon {
@@ -98,11 +98,11 @@ polygon {
 }
 
 #arrows:hover .arrow_bottom {
-    transform: translateY(-1.125rem);
+    transform: translateY(-18px);
 }
 
 #arrows:hover .arrow_top {
-    transform: translateY(1.125rem);
+    transform: translateY(18px);
 }
 
 /*salida*/
