@@ -1,5 +1,9 @@
 @import url("animations.css");
 
+html {
+  font-size: calc(100vw / 120); /* En 1920px: 1920/120 = 16px */
+}
+
 body {
     /*fondo*/
     background-image: url("source/back.png");
@@ -32,7 +36,7 @@ body {
 #title {
     /*formatos*/
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(1.25rem);
     max-width: 70%;
 
     /*animaciones*/
@@ -53,8 +57,8 @@ svg {
 
 #arrows {
     /*formatos*/
-    width: 75px;
-    height: 65px;
+    width: 4.9rem;
+    height: 4rem;
 }
 
 polygon {
@@ -94,11 +98,11 @@ polygon {
 }
 
 #arrows:hover .arrow_bottom {
-    transform: translateY(-18px);
+    transform: translateY(-1.125rem);
 }
 
 #arrows:hover .arrow_top {
-    transform: translateY(18px);
+    transform: translateY(1.125rem);
 }
 
 /*salida*/
@@ -133,7 +137,7 @@ polygon {
     font-family: "Averia Serif Libre", serif;
     text-shadow: -0rem 0rem 0.125rem #000000;
     font-weight: 400;
-    font-size: 25px;
+    font-size: 1.5625rem;
 
     /*alineamiento de elementos*/
     display: flex;
@@ -146,7 +150,7 @@ polygon {
     /*formatos*/
     position: absolute;
     opacity: 0;
-    font-size: 30px;
+    font-size: 1.875rem;
 }
 
 #index.in {
