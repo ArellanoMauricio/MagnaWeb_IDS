@@ -14,6 +14,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    user-select: none;
 }
 
 /*-------------------------------------------------------------------------------------------------*/
@@ -161,4 +162,18 @@ polygon {
     animation:
         fade_in_down 2s ease-in forwards,
         move_up_index 0.5s ease-in forwards 3s;
+}
+
+#index p {
+    transition: all 0.5s ease-out;
+}
+
+#item1:hover {
+    color: #770909;
+}
+#item2:hover {
+    color: #770909;
+}
+#item3:hover {
+    color: #770909;
 }

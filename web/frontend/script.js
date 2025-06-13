@@ -30,11 +30,11 @@ async function toggleArrows() {
 
     /* Ejecutamos la animación de tipeo de cada elemento del índice. */
     await new Promise(res => setTimeout(res, 3500))
-    typeWriter("PERSONAJES", 0, 500, "item1")
+    typeWriter("PERSONAJES", 0, 250, "item1")
 
-    await new Promise(res => setTimeout(res, 500))
-    typeWriter("HISTORIA", 0, 500, "item2")
+    await new Promise(res => setTimeout(res, 2500))
+    typeWriter("HISTORIA", 0, 250, "item2")
 
-    await new Promise(res => setTimeout(res, 500))
-    typeWriter("LUGARES", 0, 500, "item3")
+    await new Promise(res => setTimeout(res, 2000))
+    typeWriter("LUGARES", 0, 250, "item3")
 }
