@@ -26,6 +26,39 @@
     font-size: 2.75rem;
 }
 
+#personajesvolver {
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 400;
+    letter-spacing: 0.3rem;
+    font-size: 1.75rem;
+}
+
+.divisor {
+  width: 95%;
+  height: 0.05rem;
+  background: #000;
+}
+
+.divisorpeq {
+  width: 94%;
+  height: 0.05rem;
+  background: #000;
+}
+
+.divisorvac {
+  width: 60%;
+  height: 0.05rem;
+}
+
+.personaje {
+    background: rgba(241, 237, 2, 0.75);
+    width: 100%;
+    height: 10rem;
+}
+
+/* Orden de Aparición: Cuadro 1, Cuadro 3, Cuadro 2.*/
+
 #cuadro1 {
     background: rgba(184, 28, 20, 0.75);
     width: 100%;
@@ -40,9 +73,17 @@
     background: rgba(88, 187, 93, 0.75);
     width: 100%;
     height: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 #cuadro3 {
     background: rgba(129, 120, 210, 0.75);
     width: 100%;
-    height: 10%;
+    height: 11%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
