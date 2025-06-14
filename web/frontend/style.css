@@ -120,19 +120,27 @@ polygon {
     /*  indice */
 /*-------------------------------------------------------------------------------------------------*/
 
+/*  El wrapper del índice. Es necesario para centrarlo sin que las subsecuentes animaciones pisen dicha transformación.*/
+#index_wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
 #index {
     /*formatos*/
-    position: absolute; /* Lo saca del flujo normal */
-    width: 0vw; /* 35 */
-    height: 0vh; /* 60 */
+    width: 0vw; /* Será 35 */
+    height: 0vh; /* Será 60 */
     background: #FFFFFB;
     opacity: 0.75;
     border-radius: 0px;
 
-    /*alineacion*/
-    top: 50%; /* Coloca el div a la mitad de la altura */
-    left: 50%; /* Coloca el div a la mitad del ancho */
-    transform: translate(-50%, -50%); /* Ajusta el div para que quede perfectamente centrado */
+    transform-style: preserve-3d;
 
     /*fuente*/
     font-family: "Averia Serif Libre", serif;
@@ -151,7 +159,9 @@ polygon {
     /*formatos*/
     position: absolute;
     opacity: 0;
-    font-size: 1.875rem;
+    font-size: 2.75rem;
+    letter-spacing: 0.3rem;
+    font-weight: 400;
 }
 
 #index.in {
@@ -168,12 +178,7 @@ polygon {
     transition: all 0.5s ease-out;
 }
 
-#item1:hover {
+.item:hover {
     color: #770909;
-}
-#item2:hover {
-    color: #770909;
-}
-#item3:hover {
-    color: #770909;
+    font-size: 2rem;
 }
