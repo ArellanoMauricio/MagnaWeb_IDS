@@ -145,6 +145,10 @@ polygon {
     opacity: 0.5;
 }
 
+.tilt {
+  transition: transform 0.5s ease-out !important;
+}
+
 #index {
     /*formatos*/
     width: 0vw; /* Será 35 */
