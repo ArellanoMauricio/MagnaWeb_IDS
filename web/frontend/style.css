@@ -154,9 +154,10 @@ polygon {
     width: 0vw; /* Será 35 */
     height: 0vh; /* Será 60 */
     background: #FFFFFB;
-    opacity: 0.75;
+    opacity: 0.6;
     border-radius: 0px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
 
     transform-style: preserve-3d;
 
