@@ -35,8 +35,9 @@ Este trabajo nos permite afianzar nuestras habilidades técnicas, promover el tr
 ## Instalación
 
 1. **Abra la aplicación *Docker Desktop*.**
-2. **Corra el comando ```docker-compose up -d```.**
-3. **Abra la página ```localhost/3000:3000```.**
+2. **Corra el comando ```docker-compose build -d```.**
+3. **Corra el comando ```docker-compose up -d```.**
+4. **Abra la página ```localhost/3000:3000```.**
 
 ## Tecnologías Utilizadas
 
