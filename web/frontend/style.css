@@ -15,6 +15,29 @@ body {
     padding: 0;
     overflow: hidden;
     user-select: none;
+    cursor: none;
+}
+
+.mf-cursor::before {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: -30px;
+  transform: scale(0.25) !important; /* Escala por defecto más grande */
+}
+
+.mf-cursor.-clicked {
+  &:before {
+    transform: scale(0.4) !important;
+  }
+
+  &.-text:before {
+    transform: scale(2);
+  }
+
+  &.-icon:before {
+    transform: scale(1.7);
+  }
 }
 
 /*-------------------------------------------------------------------------------------------------*/
