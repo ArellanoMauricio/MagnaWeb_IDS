@@ -65,7 +65,7 @@
     font-family: "Averia Serif Libre", serif;
     text-shadow: -0rem 0rem 0.125rem #000000;
     font-weight: 200;
-    letter-spacing: 0.3rem;
+    letter-spacing: 1rem;
     font-size: 1.8rem;
 }
 
@@ -74,15 +74,17 @@
 }
 
 .imgcontainer {
-    padding-left: 86px;
-    padding-right: 86px;
+    padding-left: 4.47916rem;
+    padding-right: 4.47916rem;
 }
 
 .imgpers {
-    width: 15rem;
-    height: 6rem;
+    width: 18rem;
+    height: 7rem;
     border-radius: 1rem;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Orden de Aparición: Cuadro 1, Cuadro 3, Cuadro 2.*/
