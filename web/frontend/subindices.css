@@ -55,6 +55,34 @@
     background: rgba(241, 237, 2, 0.75);
     width: 100%;
     height: 8rem;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    /* Fuente */
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 200;
+    letter-spacing: 0.3rem;
+    font-size: 1.8rem;
+}
+
+.nombrepers {
+    width: 100%;
+}
+
+.imgcontainer {
+    padding-left: 86px;
+    padding-right: 86px;
+}
+
+.imgpers {
+    width: 15rem;
+    height: 6rem;
+    border-radius: 1rem;
+
 }
 
 /* Orden de Aparición: Cuadro 1, Cuadro 3, Cuadro 2.*/
