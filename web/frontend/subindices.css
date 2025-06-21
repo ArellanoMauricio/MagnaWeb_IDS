@@ -38,12 +38,14 @@
   width: 95%;
   height: 0.05rem;
   background: #000;
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
 }
 
 .divisorpeq {
   width: 94%;
   height: 0.05rem;
   background: #000;
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
 }
 
 .divisorvac {
@@ -74,14 +76,18 @@
 }
 
 .imgcontainer {
-    padding-left: 4.47916rem;
-    padding-right: 4.47916rem;
+    width: 100%;
+    transform: translateX(-0.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .imgpers {
     width: 18rem;
     height: 7rem;
     border-radius: 1rem;
+    object-fit: cover;
     display: flex;
     align-items: center;
     justify-content: center;
