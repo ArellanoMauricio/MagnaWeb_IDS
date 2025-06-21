@@ -4,10 +4,10 @@
 ## Tabla de Contenidos
 📄 [Descripción](#descripción)
 🎯 [Objetivos](#objetivos)
-📋 [Requisitos](#requisitos)
 💾 [Instalación](#instalación)
 🛠️ [Tecnologías Utilizadas](#tecnologías-utilizadas)
 🧑‍💻 [Autores](#autores)
+📁 [Estructura](#estructura-del-proyecto)
 
 ---
 
@@ -27,10 +27,6 @@ El objetivo principal de este trabajo práctico es poner en práctica los concep
 - Integrar los diferentes componentes del sistema utilizando Docker Compose para facilitar su despliegue.
 
 Este trabajo nos permite afianzar nuestras habilidades técnicas, promover el trabajo en equipo y prepararnos para desafíos reales dentro del mundo del desarrollo de software.
-
-## Requisitos
-
-- *Docker Desktop.*
 
 ## Instalación
 
