@@ -54,7 +54,6 @@
 }
 
 .personaje {
-    background: rgba(241, 237, 2, 0.75);
     width: 100%;
     height: 8rem;
     display: flex;
@@ -96,7 +95,6 @@
 /* Orden de Aparición: Cuadro 1, Cuadro 3, Cuadro 2.*/
 
 #cuadro1 {
-    background: rgba(184, 28, 20, 0.75);
     width: 100%;
     height: 15%;
     display: flex;
@@ -106,7 +104,6 @@
     overflow: hidden;
 }
 #cuadro2 {
-    background: rgba(88, 187, 93, 0.75);
     width: 100%;
     height: 75%;
     display: flex;
@@ -114,7 +111,6 @@
     align-items: center;
 }
 #cuadro3 {
-    background: rgba(129, 120, 210, 0.75);
     width: 100%;
     height: 11%;
     display: flex;
