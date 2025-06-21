@@ -45,6 +45,32 @@ Este trabajo nos permite afianzar nuestras habilidades técnicas, promover el tr
 - **Base de datos:** 'PostgreSQL'
 - **Herramientas:** 'Git', 'Docker' y 'VSCode'
 
+## 📁 Estructura del Proyecto
+
+Este proyecto tiene la siguiente estructura:
+
+```
+/
+├── db
+│   ├── .volumes: la base de datos donde se guarda toda la información.
+└── web
+    ├── backend: partes de la aplicación que no son directamente visibles para el usuario.
+        ├── api.js:
+        ├── package.json:
+        └── package-lock.json:
+    └── frontend: partes de la aplicación que si son directamente visibles para el usuario.
+        ├── source: carpeta donde se guardan las imágenes básicas del sitio, como el fondo.
+        ├── animations.css: todas las animaciones del sitio.
+        ├── index.html: página de inicio de la aplicación, contiene el índice para navegar.
+        ├── lugares.html: índice donde se muestran todas las locaclizaciones del libro.
+        ├── personajes.html: índice donde se muestran todos los personajes del libro.
+        ├── script.js: funciones de javascript necesarias para las animaciones más complejas.
+        ├── style.css: aspectos para los elementos visibles de la aplicación principal.
+        ├── subindices.css: aspectos para los elementos visibles de los subindices (personajes, lugares, etc).
+        └── vanillatilt.js: librería vanillatilt, usada para que los índices sigan el movimiento del mouse.
+        
+```
+
 ## Autores
 - **Mauricio Arellano**
 - **Lautaro de la Fuente**
