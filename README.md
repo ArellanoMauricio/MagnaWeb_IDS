@@ -7,7 +7,7 @@
 💾 [Instalación](#instalación)
 🛠️ [Tecnologías Utilizadas](#tecnologías-utilizadas)
 🧑‍💻 [Autores](#autores)
-📁 [Estructura](#estructura-del-proyecto)
+📁 [Estructura del Proyecto](#estructura-del-proyecto)
 
 ---
 
