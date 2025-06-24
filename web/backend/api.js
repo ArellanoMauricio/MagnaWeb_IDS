@@ -2,9 +2,45 @@ const express = require("express")
 const path = require("path")
 
 const app = express()
-const port = 3000
-
 app.use(express.json())
+
+const port = 3000
+app.listen(port, () => console.log(`Server running on port ${port}`));
+
+const {
+  get_all_caracters,
+  get_all_ethnicities,
+  get_all_places,
+} = require("./db.js")
+
+/*-------------------------------------------------------------------------------------*/
+/*
+ACLARACION IMPORTANTE (Mauricio)
+
+En clase se dejo claro que no hay que mesclar ingles y español,
+pero opte por usar español unicamente para las variables de retorno,
+el resto estara en ingles.
+*/
+/*-------------------------------------------------------------------------------------*/
+
+/*Solicitudes de la api*/
+
+app.get("/api/personajes", async (req, res) => {
+  const personajes = await get_all_caracters()
+  res.json(personajes)
+})
+
+app.get("/api/etnias", async (req, res) => {
+  const etnias = await get_all_ethnicities()
+  res.json(etnias)
+})
+
+app.get("/api/lugares", async (req, res) => {
+  const lugares = await get_all_places()
+  res.json(lugares)
+})
+
+/*solicitudes de la web*/
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "index.html"));
@@ -45,5 +81,3 @@ app.get("/personajes", (req, res) => {
 app.get("/lugares", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "lugares.html"));
 })
-
-app.listen(port, () => console.log(`Server running on port ${port}`));
