@@ -14,39 +14,39 @@
     <script src="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.js"></script>
   </head>
   <body>
-    <div id="personajes">
+    <div id="cuadro-principal">
       <div id="cuadro1">
-        <h1 id="personajestitulo">— LUGARES —</h1>
+        <h1 id="titulo-principal">— PERSONAJES —</h1>
         <div class="divisorpeq"></div>
         <div class="divisorvac"></div>
         <div class="divisor"></div>
       </div>
       <div id="cuadro2">
-        <div class="personaje">
-          <div class="nombrepers">
-            <p><span>-</span><br> <span><a>PASEUS</a></span><br> <span>-</span></p>
+        <div class="objeto">
+          <div class="nombre-objeto">
+            <p><span>-</span><br> <span><a>ENÝPNIA</a></span><br> <span>-</span></p>
           </div>
-          <div class="imgcontainer">
-            <img src="source/paseus.jpg" class="imgpers">
+          <div class="img-container">
+            <img src="source/eni.jpg" class="img-objeto">
           </div>
         </div>
-        <div class="personaje">
-          <div class="imgcontainer">
-            <img src="source/heras.jpg" class="imgpers">
+        <div class="objeto">
+          <div class="img-container">
+            <img src="source/thuric.jpg" class="img-objeto">
           </div>
-          <div class="divisorpers"></div>
-          <div class="nombrepers">
-            <p><span>-</span><br> <span><a>HERAS</a></span><br> <span>-</span></p>
+          <div class="divisor-objeto"></div>
+          <div class="nombre-objeto">
+            <p><span>-</span><br> <span><a>THURIC</a></span><br> <span>-</span></p>
           </div>
         </div>
       </div>
       <div id="cuadro3">
-        <p id="personajesvolver">— VOLVER —</p>
+        <p id="titulo-volver">— VOLVER —</p>
       </div>
     </div>
     <script>
       window.onload = () => {
-        const indice = document.getElementById("personajes");
+        const indice = document.getElementById("cuadro-principal");
         indice.classList.add("clicked");
       };
     </script>
