@@ -51,9 +51,9 @@ Este proyecto tiene la siguiente estructura:
 │   ├── .volumes: la base de datos donde se guarda toda la información.
 └── web
     ├── backend: partes de la aplicación que no son directamente visibles para el usuario.
-        ├── api.js:
-        ├── package.json:
-        └── package-lock.json:
+    │   ├── api.js:
+    │   ├── package.json:
+    │    └── package-lock.json:
     └── frontend: partes de la aplicación que si son directamente visibles para el usuario.
         ├── source: carpeta donde se guardan las imágenes básicas del sitio, como el fondo.
         ├── animations.css: todas las animaciones del sitio.
