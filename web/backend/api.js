@@ -17,7 +17,7 @@ const {
 /*
 ACLARACION IMPORTANTE (Mauricio)
 
-En clase se dejo claro que no hay que mesclar ingles y español,
+En clase se dejo claro que no hay que mezclar ingles y español,
 pero opte por usar español unicamente para las variables de retorno,
 el resto estara en ingles.
 */
