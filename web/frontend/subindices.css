@@ -1,18 +1,29 @@
-#personajes {
+#containerpersonajes {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(255, 255, 251, 0.75);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#personajes {
+    background: #FFFFFB;
+    opacity: 0.6;
     border-radius: 0rem;
     width: 0rem;
     height: 0rem;
     display: flex;
+    transition: transform 0.25s ease-out !important;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     mix-blend-mode: add;
     overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
 }
 #personajes.clicked {
     animation: open_character_index 2s ease-in forwards;
@@ -34,33 +45,14 @@
     font-size: 1.75rem;
 }
 
-.divisor {
-  width: 95%;
-  height: 0.05rem;
-  background: #000;
-  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
-}
-
-.divisorpeq {
-  width: 94%;
-  height: 0.05rem;
-  background: #000;
-  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
-}
-
-.divisorvac {
-  width: 60%;
-  height: 0.05rem;
-}
-
 .personaje {
     width: 100%;
     height: 8rem;
     display: flex;
-
     align-items: center;
     justify-content: center;
     text-align: center;
+    padding-top: 1rem;
 
     /* Fuente */
     font-family: "Averia Serif Libre", serif;
