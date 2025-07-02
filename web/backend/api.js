@@ -11,6 +11,7 @@ const {
   get_all_caracters,
   get_all_ethnicities,
   get_all_places,
+  get_character,
 } = require("./db.js")
 
 /*-------------------------------------------------------------------------------------*/
@@ -26,8 +27,13 @@ el resto estara en ingles.
 /*Solicitudes de la api*/
 
 app.get("/api/personajes", async (req, res) => {
-  const personajes = await get_all_caracters()
+  const personajes = await get_all_characters()
   res.json(personajes)
+})
+
+app.get("/api/personajes/:num", async (req, res) => {
+  const personaje = await get_character(req.params.num)
+  res.json(personaje)
 })
 
 app.get("/api/etnias", async (req, res) => {
