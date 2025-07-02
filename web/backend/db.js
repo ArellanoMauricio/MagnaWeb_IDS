@@ -31,9 +31,31 @@ async function get_all_ethnicities() {
     return result.rows
 }
 
+async function get_ethnicity(id) {
+    const result = await pool.query('SELECT * FROM etnias WHERE id = $1',
+        [id]
+    )
+    if (result.rowCount === 0) {
+        return undefined
+    } else {
+        return result.rows[0]
+    }
+}
+
 async function get_all_places() {
     const result = await pool.query('SELECT * FROM lugares')
     return result.rows
+}
+
+async function get_place(id) {
+    const result = await pool.query('SELECT * FROM lugares WHERE id = $1',
+        [id]
+    )
+    if (result.rowCount === 0) {
+        return undefined
+    } else {
+        return result.rows[0]
+    }
 }
 
 /*Funciones a exportar*/
@@ -43,4 +65,6 @@ module.exports = {
     get_all_ethnicities,
     get_all_places,
     get_character,
+    get_ethnicity,
+    get_place,
 }

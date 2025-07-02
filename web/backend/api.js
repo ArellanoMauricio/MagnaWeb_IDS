@@ -12,6 +12,8 @@ const {
   get_all_ethnicities,
   get_all_places,
   get_character,
+  get_ethnicity,
+  get_place,
 } = require("./db.js")
 
 /*-------------------------------------------------------------------------------------*/
@@ -41,9 +43,19 @@ app.get("/api/etnias", async (req, res) => {
   res.json(etnias)
 })
 
+app.get("/api/etnias/:num", async (req, res) => {
+  const personaje = await get_ethnicity(req.params.num)
+  res.json(personaje)
+})
+
 app.get("/api/lugares", async (req, res) => {
   const lugares = await get_all_places()
   res.json(lugares)
+})
+
+app.get("/api/lugares/:num", async (req, res) => {
+  const personaje = await get_place(req.params.num)
+  res.json(personaje)
 })
 
 /*solicitudes de la web*/
