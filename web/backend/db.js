@@ -26,6 +26,16 @@ async function get_character(id) {
     }
 }
 
+async function create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice) {
+    const response = await dbClient.query(
+        "INSERT INTO lines (nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", 
+        [nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice]
+    )
+    return {
+        nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice
+    }
+}
+
 async function get_all_ethnicities() {
     const result = await pool.query('SELECT * FROM etnias')
     return result.rows

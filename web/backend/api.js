@@ -38,6 +38,49 @@ app.get("/api/personajes/:num", async (req, res) => {
   res.json(personaje)
 })
 
+app.post("/api/personajes/", async (req, res) => {
+  const nombre = req.body.nombre
+  const etnia = req.body.etnia
+  const edad = req.body.edad
+  const origen = req.body.origen
+  const apariencia = req.body.apariencia
+  const historia = req.body.historia
+  const clase = req.body.clase
+  const imagen = req.body.imagen
+  const imagen_indice = req.body.imagen_indice
+
+  if (nombre === undefined) {
+      return res.status(400).send("Falta agregar el nombre")
+  }
+  if (etnia === undefined) {
+      return res.status(400).send("Falta agregar la etnia")
+  }
+  if (edad === undefined) {
+      return res.status(400).send("Falta agregar la edad")
+  }
+  if (origen === undefined) {
+      return res.status(400).send("Falta agregar el origen")
+  }
+  if (apariencia === undefined) {
+      return res.status(400).send("Falta agregar la apariencia")
+  }
+  if (historia === undefined) {
+      return res.status(400).send("Falta agregar la historia")
+  }
+  if (clase === undefined) {
+      return res.status(400).send("Falta agregar la clase")
+  }
+  if (imagen === undefined) {
+      return res.status(400).send("Falta agregar la imagen")
+  }
+  if (imagen_indice === undefined) {
+      return res.status(400).send("Falta agregar el índice de la imagen")
+  }
+
+  const character = await create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice)
+  res.status(201).json(character)
+})
+
 app.get("/api/etnias", async (req, res) => {
   const etnias = await get_all_ethnicities()
   res.json(etnias)
