@@ -182,6 +182,7 @@ polygon {
     border-radius: 0px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
+    overflow: hidden;
 
     transform-style: preserve-3d;
 
@@ -215,6 +216,16 @@ polygon {
     animation:
         fade_in_down 2s ease-in forwards,
         move_up_index 0.5s ease-in forwards 3s;
+}
+
+#index.out {
+  animation: close_index 3s ease-in forwards;
+}
+
+#index_text.out {
+    animation:
+        fade_in_down 2s ease-in reverse forwards,
+        move_up_index 0.5s ease-in reverse forwards 3s;
 }
 
 #index p {

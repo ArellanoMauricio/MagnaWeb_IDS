@@ -42,6 +42,14 @@ async function toggleArrows() {
     typeWriter("ETNIAS", 0, 250, "item4")
 }
 
+async function redirect(sitio) {
+    const indice = document.getElementById("index")
+    indice.classList.remove("in");
+    indice.classList.add("out");
+    await new Promise(res => setTimeout(res, 3500))
+    window.location.href = "file:///C:/Users/lauta/Desktop/MagnaWeb_IDS/MagnaWeb_IDS/web/frontend/" + sitio + ".html";
+}
+
 document.addEventListener('mousedown', () => {
   document.querySelector('.mf-cursor')?.classList.add('-clicked');
 });

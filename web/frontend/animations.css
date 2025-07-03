@@ -69,6 +69,11 @@
 /*-------------------------------------------------------------------------------------------------*/
 
 @keyframes open_index {
+    0% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0rem;
+    }
     50% {
         width: 0rem;
         height: 0.125rem;
@@ -83,6 +88,31 @@
         width: 30.375rem;
         height: 40.5rem;
         border-radius: 0.9375rem;
+    }
+}
+
+/* Intentamos hacer esta animación de cierre con un reverse, pero no logramos hacerlo funcionar correctamente. */
+
+@keyframes close_index {
+    0% {
+        width: 30.375rem;
+        height: 40.5rem;
+        border-radius: 0.9375rem;
+    }
+    50% {
+        width: 30.375rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    75% {
+        width: 0rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    100% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0rem;
     }
 }
 
