@@ -10,6 +10,8 @@ const pool = new Pool({
 
 /*Funciones*/
 
+/*GET*/
+
 async function get_all_characters() {
     const result = await pool.query('SELECT * FROM personajes')
     return result.rows
@@ -19,20 +21,11 @@ async function get_character(id) {
     const result = await pool.query('SELECT * FROM personajes WHERE id = $1',
         [id]
     )
-    if (result.rowCount === 0) {
+    if(result.rowCount === 0){
         return undefined
-    } else {
-        return result.rows[0]
     }
-}
-
-async function create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice) {
-    const response = await dbClient.query(
-        "INSERT INTO lines (nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", 
-        [nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice]
-    )
-    return {
-        nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice
+    else{
+        return result.rows[0]
     }
 }
 
@@ -45,9 +38,10 @@ async function get_ethnicity(id) {
     const result = await pool.query('SELECT * FROM etnias WHERE id = $1',
         [id]
     )
-    if (result.rowCount === 0) {
+    if(result.rowCount === 0){
         return undefined
-    } else {
+    }
+    else{
         return result.rows[0]
     }
 }
@@ -61,10 +55,21 @@ async function get_place(id) {
     const result = await pool.query('SELECT * FROM lugares WHERE id = $1',
         [id]
     )
-    if (result.rowCount === 0) {
+    if(result.rowCount === 0){
         return undefined
-    } else {
+    }
+    else{
         return result.rows[0]
+    }
+}
+
+async function create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice) {
+    const response = await dbClient.query(
+        "INSERT INTO lines (nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", 
+        [nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice]
+    )
+    return {
+        nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice
     }
 }
 

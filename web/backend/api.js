@@ -8,7 +8,7 @@ const port = 3000
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
 const {
-  get_all_caracters,
+  get_all_characters,
   get_all_ethnicities,
   get_all_places,
   get_character,
@@ -28,15 +28,121 @@ el resto estara en ingles.
 
 /*Solicitudes de la api*/
 
+/*GET*/
+
 app.get("/api/personajes", async (req, res) => {
-  const personajes = await get_all_characters()
-  res.json(personajes)
+  try{
+    const personajes = await get_all_characters()
+    if(!personajes || (personajes.length === 0) ){
+      console.log('No se recibio ningun personaje')
+      return res.status(404).json({ error: 'No se encontraron personajes' })
+    }
+    else{
+      console.log('Personajes recibidos con exito')
+      return res.status(200).json(personajes)
+    }
+  }
+  catch(err){
+    console.error('Error al obtener personajes: ', err)
+    return res.status(500).json({ error: 'Error al obtener personajes' })
+  }
 })
 
 app.get("/api/personajes/:num", async (req, res) => {
-  const personaje = await get_character(req.params.num)
-  res.json(personaje)
+  try{
+    const personaje = await get_character(req.params.num)
+    if(!personaje){
+      console.log('No se recibio ningun personaje')
+      return res.status(404).json({ error: `no se encontro ningun personaje de id ${req.params.num}` })
+    }
+    else{
+      console.log('Personaje recibido con exito')
+      return res.status(200).json(personaje)
+    }
+  }
+  catch(err){
+    console.error('Error al obtener personaje: ', err)
+    return res.status(500).json({ error: 'Error al obtener personaje' })
+  }
 })
+
+
+
+app.get("/api/etnias", async (req, res) => {
+  try{
+    const etnias = await get_all_ethnicities()
+    if(!etnias || (etnias.length === 0) ){
+      console.log('No se recibio ninguna etnia')
+      return res.status(404).json({ error: 'No se encontraron etnias' })
+    }
+    else{
+      console.log('Etnias recibidas con exito')
+      return res.status(200).json(etnias)
+    }
+  }
+  catch(err){
+    console.error('Error al obtener etnias: ', err)
+    return res.status(500).json({ error: 'Error al obtener etnias' })
+  }
+})
+
+app.get("/api/etnias/:num", async (req, res) => {
+  try{
+    const etnia = await get_ethnicity(req.params.num)
+    if(!etnia){
+      console.log('No se recibio ninguna etnia')
+      return res.status(404).json({ error: `no se encontro ninguna etnia de id ${req.params.num}` })
+    }
+    else{
+      console.log('Etnia recibida con exito')
+      return res.status(200).json(etnia)
+    }
+  }
+  catch(err){
+    console.error('Error al obtener etnia: ', err)
+    return res.status(500).json({ error: 'Error al obtener etnia' })
+  }
+})
+
+
+
+app.get("/api/lugares", async (req, res) => {
+  try{
+    const lugares = await get_all_places()
+    if(!lugares || (lugares.length === 0) ){
+      console.log('No se recibio ningun lugar')
+      return res.status(404).json({ error: 'No se encontraron lugares' })
+    }
+    else{
+      console.log('Lugares recibidos con exito')
+      return res.status(200).json(lugares)
+    }
+  }
+  catch(err){
+    console.error('Error al obtener lugares: ', err)
+    return res.status(500).json({ error: 'Error al obtener lugares' })
+  }
+})
+
+app.get("/api/lugares/:num", async (req, res) => {
+  try{
+    const lugar = await get_place(req.params.num)
+    if(!lugar){
+      console.log('No se recibio ningun lugar')
+      return res.status(404).json({ error: `no se encontro ningun lugar de id ${req.params.num}` })
+    }
+    else{
+      console.log('Lugar recibido con exito')
+      return res.status(200).json(lugar)
+    }
+  }
+  catch(err){
+    console.error('Error al obtener lugar: ', err)
+    return res.status(500).json({ error: 'Error al obtener lugar' })
+  }
+})
+
+
 
 app.post("/api/personajes/", async (req, res) => {
   const nombre = req.body.nombre
@@ -79,26 +185,6 @@ app.post("/api/personajes/", async (req, res) => {
 
   const character = await create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice)
   res.status(201).json(character)
-})
-
-app.get("/api/etnias", async (req, res) => {
-  const etnias = await get_all_ethnicities()
-  res.json(etnias)
-})
-
-app.get("/api/etnias/:num", async (req, res) => {
-  const personaje = await get_ethnicity(req.params.num)
-  res.json(personaje)
-})
-
-app.get("/api/lugares", async (req, res) => {
-  const lugares = await get_all_places()
-  res.json(lugares)
-})
-
-app.get("/api/lugares/:num", async (req, res) => {
-  const personaje = await get_place(req.params.num)
-  res.json(personaje)
 })
 
 /*solicitudes de la web*/
