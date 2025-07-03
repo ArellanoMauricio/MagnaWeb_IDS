@@ -10,6 +10,18 @@ const pool = new Pool({
 
 /*Funciones*/
 
+/*AUXILIARES*/
+
+async function verify_ethnicity_name(name) {
+    const result = await pool.query('select * from etnias where etnias.nombre = $1', [name])
+    return result.rows.length > 0
+}
+
+async function verify_place_name(name) {
+    const result = await pool.query('select * from lugares where lugares.nombre = $1', [name])
+    return result.rows.length > 0
+}
+
 /*GET*/
 
 async function get_all_characters() {
@@ -63,23 +75,75 @@ async function get_place(id) {
     }
 }
 
-async function create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice) {
-    const response = await dbClient.query(
-        "INSERT INTO lines (nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", 
-        [nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice]
+async function create_character(
+    nombre,
+    etnia,
+    edad,
+    origen,
+    apariencia,
+    historia,
+    clase,
+    imagen,
+    imagen_indice,
+) {
+    const columns = ["nombre", "etnia", "edad", "origen"]
+    const values = [nombre, etnia, edad, origen]
+    const params = ["$1", "$2", "$3", "$4"]
+    let param_num = 5
+
+    if(apariencia != null){
+        columns.push("apariencia")
+        values.push(apariencia)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(historia != null){
+        columns.push("historia");
+        values.push(historia);
+        params.push(`$${param_num}`);
+        param_num=param_num+1
+    }
+    if(clase != null){
+        columns.push("clase");
+        values.push(clase);
+        params.push(`$${param_num}`);
+        param_num=param_num+1
+    }
+    if(imagen != null){
+        columns.push("imagen");
+        values.push(imagen);
+        params.push(`$${param_num}`);
+        param_num=param_num+1
+    }
+    if(imagen_indice != null){
+        columns.push("imagen_indice");
+        values.push(imagen_indice);
+        params.push(`$${param_num}`);
+        param_num=param_num+1
+    }
+
+    const result = await pool.query(
+        `insert into personajes (${columns.join(", ")}) values (${params.join(", ")}) RETURNING *`, values
     )
-    return {
-        nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice
+
+    if( !result || (result.rows.length === 0) ){
+        return undefined
+    }
+    else{
+        return result.rows[0]
     }
 }
 
 /*Funciones a exportar*/
 
 module.exports = {
+    verify_ethnicity_name,
+    verify_place_name,
     get_all_characters,
     get_all_ethnicities,
     get_all_places,
     get_character,
     get_ethnicity,
     get_place,
+    create_character,
 }

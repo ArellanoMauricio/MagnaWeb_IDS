@@ -8,13 +8,17 @@ const port = 3000
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
 const {
+  verify_ethnicity_name,
+  verify_place_name,
   get_all_characters,
   get_all_ethnicities,
   get_all_places,
   get_character,
   get_ethnicity,
   get_place,
+  create_character,
 } = require("./db.js")
+const { Console } = require("console")
 
 /*-------------------------------------------------------------------------------------*/
 /*
@@ -61,7 +65,7 @@ app.get("/api/personajes/:num", async (req, res) => {
     }
   }
   catch(err){
-    console.error('Error al obtener personaje: ', err)
+    console.error("Error al obtener personaje: ", err)
     return res.status(500).json({ error: 'Error al obtener personaje' })
   }
 })
@@ -142,49 +146,82 @@ app.get("/api/lugares/:num", async (req, res) => {
   }
 })
 
-
+/*POST*/
 
 app.post("/api/personajes/", async (req, res) => {
+  const errores = {}
+
   const nombre = req.body.nombre
   const etnia = req.body.etnia
   const edad = req.body.edad
   const origen = req.body.origen
-  const apariencia = req.body.apariencia
-  const historia = req.body.historia
-  const clase = req.body.clase
-  const imagen = req.body.imagen
-  const imagen_indice = req.body.imagen_indice
+  let apariencia = req.body.apariencia
+  let historia = req.body.historia
+  let clase = req.body.clase
+  let imagen = req.body.imagen
+  let imagen_indice = req.body.imagen_indice
 
-  if (nombre === undefined) {
-      return res.status(400).send("Falta agregar el nombre")
+  if( !nombre || (nombre.trim() === "") ){
+    errores.error_nombre = "El campo nombre no puede estar vacio"
   }
-  if (etnia === undefined) {
-      return res.status(400).send("Falta agregar la etnia")
+  if( !(await verify_ethnicity_name(etnia)) ){
+    errores.error_etnia = "La etnia ingresada debe figurar en las etnias registradas"
   }
-  if (edad === undefined) {
-      return res.status(400).send("Falta agregar la edad")
+  if( (typeof edad !== "number") || isNaN(edad) ){
+    errores.error_edad = "El valor ingresado no es valido"
   }
-  if (origen === undefined) {
-      return res.status(400).send("Falta agregar el origen")
+  else{
+    if(edad < 0){
+      errores.error_edad = "La campo edad no puede ser negativo"
+    }
   }
-  if (apariencia === undefined) {
-      return res.status(400).send("Falta agregar la apariencia")
+  if( !(await verify_place_name(origen)) ){
+    errores.error_origen = "El lugar de origen del personaje debe ser uno de los registrados"
   }
-  if (historia === undefined) {
-      return res.status(400).send("Falta agregar la historia")
+  if( !apariencia || (apariencia.trim() === "") ){
+    apariencia = null
   }
-  if (clase === undefined) {
-      return res.status(400).send("Falta agregar la clase")
+  if( !historia || (historia.trim() === "") ){
+    historia = null
   }
-  if (imagen === undefined) {
-      return res.status(400).send("Falta agregar la imagen")
+  if( !clase || (clase.trim() === "") ){
+    clase = null
   }
-  if (imagen_indice === undefined) {
-      return res.status(400).send("Falta agregar el índice de la imagen")
+  else{
+    if(clase.length > 25){
+      errores.error_clase = "La clase ingresada supera el limite de caracteres"
+    }
+  }
+  if( !imagen || (imagen.trim() === "") ){
+    imagen = null
+  }
+  if( !imagen_indice || (imagen_indice.trim() === "") ){
+    imagen_indice = null
   }
 
-  const character = await create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice)
-  res.status(201).json(character)
+  if (Object.keys(errores).length > 0) {
+    for(const [error_type, description] of Object.entries(errores)){
+      console.log(`${error_type}: ${description}`)
+    }
+    return res.status(400).json(errores)
+  }
+  else{
+    try{
+      const character = await create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice)
+      if(!character){
+        console.log('No se pudo crear el personaje')
+        res.status(500).json({ error: 'No se pudo crear el personaje' })
+      }
+      else{
+        console.log('Personaje creado con exito')
+        res.status(201).json(character)
+      }
+    }
+    catch(err){
+      console.log('Error al crear personaje')
+      res.status(500).json({ error: 'Error al crear personaje' })
+    }
+  }
 })
 
 /*solicitudes de la web*/

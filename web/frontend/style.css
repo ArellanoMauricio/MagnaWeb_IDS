@@ -39,7 +39,6 @@ body {
     opacity: 0;
     transform: translateY(1.25rem);
     max-width: 70%;
-    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
 
     /*animaciones*/
 
@@ -121,44 +120,19 @@ polygon {
     /*  indice */
 /*-------------------------------------------------------------------------------------------------*/
 
-/*  El wrapper del índice. Es necesario para centrarlo sin que las subsecuentes animaciones pisen dicha transformación.*/
-#index_wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.bluronselection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.bluronselection:hover > :not(:hover) {
-    filter:blur(2px);
-    opacity: 0.5;
-}
-
-.delaytilt {
-  transition: transform 0.5s ease-out !important;
-}
-
 #index {
     /*formatos*/
-    width: 0vw; /* Será 35 */
-    height: 0vh; /* Será 60 */
+    position: absolute; /* Lo saca del flujo normal */
+    width: 0vw; /* 35 */
+    height: 0vh; /* 60 */
     background: #FFFFFB;
     opacity: 0.75;
     border-radius: 0px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
 
-    transform-style: preserve-3d;
+    /*alineacion*/
+    top: 50%; /* Coloca el div a la mitad de la altura */
+    left: 50%; /* Coloca el div a la mitad del ancho */
+    transform: translate(-50%, -50%); /* Ajusta el div para que quede perfectamente centrado */
 
     /*fuente*/
     font-family: "Averia Serif Libre", serif;
@@ -171,23 +145,13 @@ polygon {
     align-items: center;
     flex-direction: column;
     justify-content: center;
-
-    & p {
-        transition: all 0.5s ease-out;
-    }
-
-    & a {
-        transition: all 0.5s ease-out;
-    }
 }
 
 #index_text {
     /*formatos*/
     position: absolute;
     opacity: 0;
-    font-size: 2.75rem;
-    letter-spacing: 0.3rem;
-    font-weight: 400;
+    font-size: 1.875rem;
 }
 
 #index.in {
@@ -200,13 +164,16 @@ polygon {
         move_up_index 0.5s ease-in forwards 3s;
 }
 
-.item:hover {
-    color: #770909;
-    font-size: 2rem;
+#index p {
+    transition: all 0.5s ease-out;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
+#item1:hover {
+    color: #770909;
+}
+#item2:hover {
+    color: #770909;
+}
+#item3:hover {
+    color: #770909;
 }
