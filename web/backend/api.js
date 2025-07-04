@@ -188,7 +188,7 @@ app.post("/api/personajes/", async (req, res) => {
   let imagen = req.body.imagen
   let imagen_indice = req.body.imagen_indice
 
-  if( !nombre || typeof nombre !== "string" || (nombre.trim() === "") ){
+  if( !nombre || (nombre.trim() === "") ){
     errores.error_nombre = "El campo nombre no puede estar vacio"
   }
   else{
@@ -220,13 +220,13 @@ app.post("/api/personajes/", async (req, res) => {
   catch(err){
     errores.error_origen = "Error al acceder a la base de datos para validar"
   }
-  if( !apariencia || typeof apariencia !== "string" || (apariencia.trim() === "") ){
+  if( !apariencia || (apariencia.trim() === "") ){
     apariencia = null
   }
-  if( !historia || typeof historia !== "string" || (historia.trim() === "") ){
+  if( !historia || (historia.trim() === "") ){
     historia = null
   }
-  if( !clase || typeof clase !== "string" || (clase.trim() === "") ){
+  if( !clase || (clase.trim() === "") ){
     clase = null
   }
   else{
@@ -234,10 +234,10 @@ app.post("/api/personajes/", async (req, res) => {
       errores.error_clase = "La clase ingresada supera el limite de caracteres"
     }
   }
-  if( !imagen || typeof imagen !== "string" || (imagen.trim() === "") ){
+  if( !imagen || (imagen.trim() === "") ){
     imagen = null
   }
-  if( !imagen_indice || typeof imagen_indice!== "string" || (imagen_indice.trim() === "") ){
+  if( !imagen_indice || (imagen_indice.trim() === "") ){
     imagen_indice = null
   }
 
