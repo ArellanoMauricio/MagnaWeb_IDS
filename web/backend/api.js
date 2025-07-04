@@ -10,13 +10,18 @@ app.listen(port, () => console.log(`Server running on port ${port}`));
 const {
   verify_ethnicity_name,
   verify_place_name,
+
   get_all_characters,
   get_all_ethnicities,
   get_all_places,
+
   get_character,
   get_ethnicity,
   get_place,
+
   create_character,
+  create_ethnicity,
+  create_place,
 } = require("./db.js")
 const { Console } = require("console")
 
@@ -265,7 +270,7 @@ app.post("/api/personajes/", async (req, res) => {
     }
   }
 })
-/*
+
 app.post("/api/etnias/", async (req, res) => {
   const errores = {}
 
@@ -293,6 +298,23 @@ app.post("/api/etnias/", async (req, res) => {
       }
     }
   }
+  if( !descripcion || (descripcion.trim() === "") ){
+    descripcion = null
+  }
+  if( !naturaleza || (naturaleza.trim() === "") ){
+    naturaleza = null
+  }
+  else{
+    if(naturaleza.length > 25){
+      errores.error_naturaleza = "La naturaleza ingresada para la etnia supera el limite de caracteres"
+    }
+  }
+  if( !imagen_indice || (imagen_indice.trim() === "") ){
+    imagen_indice = null
+  }
+  if( !moodboard || (moodboard.trim() === "") ){
+    moodboard = null
+  }
 
   if (Object.keys(errores).length > 0) {
     for(const [error_type, description] of Object.entries(errores)){
@@ -302,7 +324,7 @@ app.post("/api/etnias/", async (req, res) => {
   }
   else{
     try{
-      const etnia = await create_ethnicity()
+      const etnia = await create_ethnicity(nombre, descripcion, naturaleza, imagen_indice, moodboard)
       if(!etnia){
         console.log('No se pudo crear la etnia')
         return res.status(500).json({ error: 'No se pudo crear la etnia' })
@@ -313,7 +335,7 @@ app.post("/api/etnias/", async (req, res) => {
       }
     }
     catch(err){
-      console.log('Error al crear la etnia')
+      console.error('Error al crear la etnia: ', err)
       return res.status(500).json({ error: 'Error al crear la etnia' })
     }
   }
@@ -321,8 +343,79 @@ app.post("/api/etnias/", async (req, res) => {
 
 app.post("/api/lugares/", async (req, res) => {
   const errores = {}
+
+  const nombre = req.body.nombre
+  let descripcion = req.body.descripcion
+  let faccion = req.body.faccion
+  let clima = req.body.clima
+  let imagen = req.body.imagen
+
+  if( !nombre || (nombre.trim() === "") ){
+    errores.error_nombre = "El campo nombre no puede estar vacio"
+  }
+  else{
+    if(nombre.length > 50){
+      errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
+    }
+    else{
+      try{
+        if(await verify_place_name(nombre)){
+          errores.error_nombre = `El nombre ${nombre} ya se encuentra registrado`
+        }
+      }
+      catch(err){
+        errores.error_nombre = "Error al acceder a la base de datos para validar"
+      }
+    }
+  }
+  if( !descripcion || (descripcion.trim() === "") ){
+    descripcion = null
+  }
+  if( !faccion || (faccion.trim() === "") ){
+    faccion = null
+  }
+  else{
+    if(faccion.length > 25){
+      errores.error_faccion = "La faccion ingresada como amos del lugar supera el limite de caracteres"
+    }
+  }
+  if( !clima || (clima.trim() === "") ){
+    clima = null
+  }
+  else{
+    if(clima.length > 25){
+      errores.error_clima = "El clima ingresado para el lugar supera el limite de caracteres"
+    }
+  }
+  if( !imagen || (imagen.trim() === "") ){
+    imagen = null
+  }
+
+  if (Object.keys(errores).length > 0) {
+    for(const [error_type, description] of Object.entries(errores)){
+      console.log(`${error_type}: ${description}`)
+    }
+    return res.status(400).json(errores)
+  }
+  else{
+    try{
+      const lugar = await create_place(nombre, descripcion, faccion, clima, imagen)
+      if(!lugar){
+        console.log('No se pudo crear el lugar')
+        return res.status(500).json({ error: 'No se pudo crear el lugar' })
+      }
+      else{
+        console.log('Lugar creado con exito')
+        return res.status(201).json(lugar)
+      }
+    }
+    catch(err){
+      console.error('Error al crear el lugar: ', err)
+      return res.status(500).json({ error: 'Error al crear el lugar' })
+    }
+  }
 })
-*/
+
 /*solicitudes de la web*/
 
 app.get("/", (req, res) => {

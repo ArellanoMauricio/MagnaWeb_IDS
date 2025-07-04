@@ -75,6 +75,8 @@ async function get_place(id) {
     }
 }
 
+/*POST*/
+
 async function create_character(
     nombre,
     etnia,
@@ -85,7 +87,7 @@ async function create_character(
     clase,
     imagen,
     imagen_indice,
-) {
+){
     const columns = ["nombre", "etnia", "edad", "origen"]
     const values = [nombre, etnia, edad, origen]
     const params = ["$1", "$2", "$3", "$4"]
@@ -134,16 +136,119 @@ async function create_character(
     }
 }
 
+async function create_ethnicity(
+    nombre,
+    descripcion,
+    naturaleza,
+    imagen_indice,
+    moodboard,
+){
+    const columns = ["nombre"]
+    const values = [nombre]
+    const params = ["$1"]
+    let param_num = 2
+
+    if(descripcion != null){
+        columns.push("descripcion")
+        values.push(descripcion)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(naturaleza != null){
+        columns.push("naturaleza")
+        values.push(naturaleza)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(imagen_indice != null){
+        columns.push("imagen_indice")
+        values.push(imagen_indice)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(moodboard != null){
+        columns.push("moodboard")
+        values.push(moodboard)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+
+    const result = await pool.query(
+        `insert into etnias (${columns.join(", ")}) values (${params.join(", ")}) RETURNING *`, values
+    )
+
+    if( !result || (result.rows.length === 0) ){
+        return undefined
+    }
+    else{
+        return result.rows[0]
+    }
+}
+
+async function create_place(
+    nombre,
+    descripcion,
+    faccion,
+    clima,
+    imagen,
+){
+    const columns = ["nombre"]
+    const values = [nombre]
+    const params = ["$1"]
+    let param_num = 2
+
+    if(descripcion != null){
+        columns.push("descripcion")
+        values.push(descripcion)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(faccion != null){
+        columns.push("faccion")
+        values.push(faccion)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(clima != null){
+        columns.push("clima")
+        values.push(clima)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(imagen != null){
+        columns.push("imagen")
+        values.push(imagen)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+
+    const result = await pool.query(
+        `insert into lugares (${columns.join(", ")}) values (${params.join(", ")}) RETURNING *`, values
+    )
+
+    if( !result || (result.rows.length === 0) ){
+        return undefined
+    }
+    else{
+        return result.rows[0]
+    }
+}
+
 /*Funciones a exportar*/
 
 module.exports = {
     verify_ethnicity_name,
     verify_place_name,
+
     get_all_characters,
     get_all_ethnicities,
     get_all_places,
+
     get_character,
     get_ethnicity,
     get_place,
+
     create_character,
+    create_ethnicity,
+    create_place,
 }
