@@ -53,11 +53,20 @@ app.get("/api/personajes", async (req, res) => {
 })
 
 app.get("/api/personajes/:num", async (req, res) => {
+  const id = Number(req.params.num)
+
+  if( !Number.isInteger(id) || isNaN(id) ){
+    return res.status(400).json({ error: 'La id no es valida' })
+  }
+  if(id < 1){
+    return res.status(400).json({ error: "La id no puede ser negativa" })
+  }
+
   try{
-    const personaje = await get_character(req.params.num)
+    const personaje = await get_character(id)
     if(!personaje){
       console.log('No se recibio ningun personaje')
-      return res.status(404).json({ error: `no se encontro ningun personaje de id ${req.params.num}` })
+      return res.status(404).json({ error: `No se encontro ningun personaje de id ${id}` })
     }
     else{
       console.log('Personaje recibido con exito')
@@ -91,11 +100,20 @@ app.get("/api/etnias", async (req, res) => {
 })
 
 app.get("/api/etnias/:num", async (req, res) => {
+  const id = Number(req.params.num)
+
+  if( !Number.isInteger(id) || isNaN(id) ){
+    return res.status(400).json({ error: 'La id no es valida' })
+  }
+  if(id < 1){
+    return res.status(400).json({ error: "La id no puede ser negativa" })
+  }
+
   try{
-    const etnia = await get_ethnicity(req.params.num)
+    const etnia = await get_ethnicity(id)
     if(!etnia){
       console.log('No se recibio ninguna etnia')
-      return res.status(404).json({ error: `no se encontro ninguna etnia de id ${req.params.num}` })
+      return res.status(404).json({ error: `No se encontro ninguna etnia de id ${id}` })
     }
     else{
       console.log('Etnia recibida con exito')
@@ -129,11 +147,20 @@ app.get("/api/lugares", async (req, res) => {
 })
 
 app.get("/api/lugares/:num", async (req, res) => {
+  const id = Number(req.params.num)
+
+  if( !Number.isInteger(id) || isNaN(id) ){
+    return res.status(400).json({ error: 'La id no es valida' })
+  }
+  if(id < 1){
+    return res.status(400).json({ error: "La id no puede ser negativa" })
+  }
+
   try{
-    const lugar = await get_place(req.params.num)
+    const lugar = await get_place(id)
     if(!lugar){
       console.log('No se recibio ningun lugar')
-      return res.status(404).json({ error: `no se encontro ningun lugar de id ${req.params.num}` })
+      return res.status(404).json({ error: `No se encontro ningun lugar de id ${id}` })
     }
     else{
       console.log('Lugar recibido con exito')
