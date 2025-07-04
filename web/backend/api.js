@@ -11,6 +11,10 @@ const {
   verify_ethnicity_name,
   verify_place_name,
 
+  exist_character,
+  exist_ethnicity,
+  exist_place,
+
   get_all_characters,
   get_all_ethnicities,
   get_all_places,
@@ -22,6 +26,10 @@ const {
   create_character,
   create_ethnicity,
   create_place,
+
+  delete_character,
+  delete_ethnicity,
+  delete_place,
 } = require("./db.js")
 const { Console } = require("console")
 
@@ -61,9 +69,11 @@ app.get("/api/personajes/:num", async (req, res) => {
   const id = Number(req.params.num)
 
   if( !Number.isInteger(id) || isNaN(id) ){
+    console.log('La id no es valida')
     return res.status(400).json({ error: 'La id no es valida' })
   }
   if(id < 1){
+    console.log('La id no puede ser negativa')
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
 
@@ -108,9 +118,11 @@ app.get("/api/etnias/:num", async (req, res) => {
   const id = Number(req.params.num)
 
   if( !Number.isInteger(id) || isNaN(id) ){
+    console.log('La id no es valida')
     return res.status(400).json({ error: 'La id no es valida' })
   }
   if(id < 1){
+    console.log('La id no puede ser negativa')
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
 
@@ -155,9 +167,11 @@ app.get("/api/lugares/:num", async (req, res) => {
   const id = Number(req.params.num)
 
   if( !Number.isInteger(id) || isNaN(id) ){
+    console.log('La id no es valida')
     return res.status(400).json({ error: 'La id no es valida' })
   }
   if(id < 1){
+    console.log('La id no puede ser negativa')
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
 
@@ -413,6 +427,110 @@ app.post("/api/lugares/", async (req, res) => {
       console.error('Error al crear el lugar: ', err)
       return res.status(500).json({ error: 'Error al crear el lugar' })
     }
+  }
+})
+
+/*DELETE*/
+
+app.delete("/api/personajes/:num", async (req, res) => {
+  const id = Number(req.params.num)
+
+  if( !Number.isInteger(id) || isNaN(id) ){
+    console.log('La id no es valida')
+    return res.status(400).json({ error: 'La id no es valida' })
+  }
+  if(id < 1){
+    console.log('La id no puede ser negativa')
+    return res.status(400).json({ error: "La id no puede ser negativa" })
+  }
+  try{
+    if(await exist_character(id)){
+      const character = await delete_character(id)
+      if(!character){
+        console.log('No se pudo eliminar al personaje')
+        return res.status(500).json({ error: "No se pudo eliminar al personaje" })
+      }
+      else{
+        console.log('Se ha eliminado al personaje con exito')
+        return res.status(200).json(character)
+      }
+    }
+    else{
+      console.log('No se puede eliminar un personaje que no existe')
+      return res.status(404).json({ error: "No se puede eliminar un personaje que no existe" })
+    }
+  }
+  catch(err){
+    console.error('Error al eliminar el personaje: ', err)
+    return res.status(500).json({ error: 'Error al eliminar el personaje' })
+  }
+})
+
+app.delete("/api/etnias/:num", async (req, res) => {
+  const id = Number(req.params.num)
+
+  if( !Number.isInteger(id) || isNaN(id) ){
+    console.log('La id no es valida')
+    return res.status(400).json({ error: 'La id no es valida' })
+  }
+  if(id < 1){
+    console.log('La id no puede ser negativa')
+    return res.status(400).json({ error: "La id no puede ser negativa" })
+  }
+  try{
+    if(await exist_ethnicity(id)){
+      const ethnicity = await delete_ethnicity(id)
+      if(!ethnicity){
+        console.log('No se pudo eliminar la etnia')
+        return res.status(500).json({ error: "No se pudo eliminar la etnia" })
+      }
+      else{
+        console.log('Se ha eliminado la etnia con exito')
+        return res.status(200).json(ethnicity)
+      }
+    }
+    else{
+      console.log('No se puede eliminar una etnia que no existe')
+      return res.status(404).json({ error: "No se puede eliminar una etnia que no existe" })
+    }
+  }
+  catch(err){
+    console.error('Error al eliminar la etnia: ', err)
+    return res.status(500).json({ error: 'Error al eliminar la etnia' })
+  }
+})
+
+app.delete("/api/lugares/:num", async (req, res) => {
+  const id = Number(req.params.num)
+
+  if( !Number.isInteger(id) || isNaN(id) ){
+    console.log('La id no es valida')
+    return res.status(400).json({ error: 'La id no es valida' })
+  }
+  if(id < 1){
+    console.log('La id no puede ser negativa')
+    return res.status(400).json({ error: "La id no puede ser negativa" })
+  }
+  try{
+    if(await exist_place(id)){
+      const place= await delete_place(id)
+      if(!place){
+        console.log('No se pudo eliminar el lugar')
+        return res.status(500).json({ error: "No se pudo eliminar el lugar" })
+      }
+      else{
+        console.log('Se ha eliminado el lugar con exito')
+        return res.status(200).json(place)
+      }
+    }
+    else{
+      console.log('No se puede eliminar un lugar que no existe')
+      return res.status(404).json({ error: "No se puede eliminar un lugar que no existe" })
+    }
+  }
+  catch(err){
+    console.error('Error al eliminar el lugar: ', err)
+    return res.status(500).json({ error: 'Error al eliminar el lugar' })
   }
 })
 

@@ -13,12 +13,29 @@ const pool = new Pool({
 /*AUXILIARES*/
 
 async function verify_ethnicity_name(name) {
-    const result = await pool.query('select * from etnias where etnias.nombre = $1', [name])
+    const result = await pool.query('SELECT * FROM etnias WHERE etnias.nombre = $1', [name])
     return result.rows.length > 0
 }
 
 async function verify_place_name(name) {
-    const result = await pool.query('select * from lugares where lugares.nombre = $1', [name])
+    const result = await pool.query('SELECT * FROM lugares WHERE lugares.nombre = $1', [name])
+    return result.rows.length > 0
+}
+
+
+
+async function exist_character(id) {
+    const result = await pool.query('SELECT * FROM personajes WHERE personajes.id = $1', [id])
+    return result.rows.length > 0
+}
+
+async function exist_ethnicity(id) {
+    const result = await pool.query('SELECT * FROM etnias WHERE etnias.id = $1', [id])
+    return result.rows.length > 0
+}
+
+async function exist_place(id) {
+    const result = await pool.query('SELECT * FROM lugares WHERE lugares.id = $1', [id])
     return result.rows.length > 0
 }
 
@@ -234,11 +251,53 @@ async function create_place(
     }
 }
 
+/*DELETE*/
+
+async function delete_character(id){
+    const result = await pool.query(
+        'DELETE FROM personajes WHERE id = $1 RETURNING *', [id]
+    )
+    if(result.rowCount === 0){
+        return undefined
+    }
+    else{
+        return result.rows[0]
+    }
+}
+
+async function delete_ethnicity(id){
+    const result = await pool.query(
+        'DELETE FROM etnias WHERE id = $1 RETURNING *', [id]
+    )
+    if(result.rowCount === 0){
+        return undefined
+    }
+    else{
+        return result.rows[0]
+    }
+}
+
+async function delete_place(id){
+    const result = await pool.query(
+        'DELETE FROM lugares WHERE id = $1 RETURNING *', [id]
+    )
+    if(result.rowCount === 0){
+        return undefined
+    }
+    else{
+        return result.rows[0]
+    }
+}
+
 /*Funciones a exportar*/
 
 module.exports = {
     verify_ethnicity_name,
     verify_place_name,
+
+    exist_character,
+    exist_ethnicity,
+    exist_place,
 
     get_all_characters,
     get_all_ethnicities,
@@ -251,4 +310,8 @@ module.exports = {
     create_character,
     create_ethnicity,
     create_place,
+
+    delete_character,
+    delete_ethnicity,
+    delete_place,
 }
