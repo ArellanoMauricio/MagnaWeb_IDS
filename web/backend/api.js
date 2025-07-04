@@ -188,11 +188,21 @@ app.post("/api/personajes/", async (req, res) => {
   let imagen = req.body.imagen
   let imagen_indice = req.body.imagen_indice
 
-  if( !nombre || (nombre.trim() === "") ){
+  if( !nombre || typeof nombre !== "string" || (nombre.trim() === "") ){
     errores.error_nombre = "El campo nombre no puede estar vacio"
   }
-  if( !(await verify_ethnicity_name(etnia)) ){
-    errores.error_etnia = "La etnia ingresada debe figurar en las etnias registradas"
+  else{
+    if(nombre.length > 50){
+      errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
+    }
+  }
+  try{
+    if( !(await verify_ethnicity_name(etnia)) ){
+      errores.error_etnia = "La etnia ingresada debe figurar en las etnias registradas"
+    }
+  }
+  catch(err){
+    errores.error_etnia = "Error al acceder a la base de datos para validar"
   }
   if( (typeof edad !== "number") || isNaN(edad) ){
     errores.error_edad = "El valor ingresado no es valido"
@@ -202,16 +212,21 @@ app.post("/api/personajes/", async (req, res) => {
       errores.error_edad = "La campo edad no puede ser negativo"
     }
   }
-  if( !(await verify_place_name(origen)) ){
-    errores.error_origen = "El lugar de origen del personaje debe ser uno de los registrados"
+  try{
+    if( !(await verify_place_name(origen)) ){
+      errores.error_origen = "El lugar de origen del personaje debe ser uno de los registrados"
+    }
   }
-  if( !apariencia || (apariencia.trim() === "") ){
+  catch(err){
+    errores.error_origen = "Error al acceder a la base de datos para validar"
+  }
+  if( !apariencia || typeof apariencia !== "string" || (apariencia.trim() === "") ){
     apariencia = null
   }
-  if( !historia || (historia.trim() === "") ){
+  if( !historia || typeof historia !== "string" || (historia.trim() === "") ){
     historia = null
   }
-  if( !clase || (clase.trim() === "") ){
+  if( !clase || typeof clase !== "string" || (clase.trim() === "") ){
     clase = null
   }
   else{
@@ -219,14 +234,14 @@ app.post("/api/personajes/", async (req, res) => {
       errores.error_clase = "La clase ingresada supera el limite de caracteres"
     }
   }
-  if( !imagen || (imagen.trim() === "") ){
+  if( !imagen || typeof imagen !== "string" || (imagen.trim() === "") ){
     imagen = null
   }
-  if( !imagen_indice || (imagen_indice.trim() === "") ){
+  if( !imagen_indice || typeof imagen_indice!== "string" || (imagen_indice.trim() === "") ){
     imagen_indice = null
   }
 
-  if (Object.keys(errores).length > 0) {
+  if(Object.keys(errores).length > 0){
     for(const [error_type, description] of Object.entries(errores)){
       console.log(`${error_type}: ${description}`)
     }
@@ -237,20 +252,77 @@ app.post("/api/personajes/", async (req, res) => {
       const character = await create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice)
       if(!character){
         console.log('No se pudo crear el personaje')
-        res.status(500).json({ error: 'No se pudo crear el personaje' })
+        return res.status(500).json({ error: 'No se pudo crear el personaje' })
       }
       else{
         console.log('Personaje creado con exito')
-        res.status(201).json(character)
+        return res.status(201).json(character)
       }
     }
     catch(err){
-      console.log('Error al crear personaje')
-      res.status(500).json({ error: 'Error al crear personaje' })
+      console.error('Error al crear personaje: ', err)
+      return res.status(500).json({ error: 'Error al crear personaje' })
+    }
+  }
+})
+/*
+app.post("/api/etnias/", async (req, res) => {
+  const errores = {}
+
+  const nombre = req.body.nombre
+  let descripcion = req.body.descripcion
+  let naturaleza = req.body.naturaleza
+  let imagen_indice = req.body.imagen_indice
+  let moodboard = req.body.moodboard
+
+  if( !nombre || (nombre.trim() === "") ){
+    errores.error_nombre = "El campo nombre no puede estar vacio"
+  }
+  else{
+    if(nombre.length > 50){
+      errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
+    }
+    else{
+      try{
+        if(await verify_ethnicity_name(nombre)){
+          errores.error_nombre = `El nombre ${nombre} ya se encuentra registrado`
+        }
+      }
+      catch(err){
+        errores.error_nombre = "Error al acceder a la base de datos para validar"
+      }
+    }
+  }
+
+  if (Object.keys(errores).length > 0) {
+    for(const [error_type, description] of Object.entries(errores)){
+      console.log(`${error_type}: ${description}`)
+    }
+    return res.status(400).json(errores)
+  }
+  else{
+    try{
+      const etnia = await create_ethnicity()
+      if(!etnia){
+        console.log('No se pudo crear la etnia')
+        return res.status(500).json({ error: 'No se pudo crear la etnia' })
+      }
+      else{
+        console.log('Etnia creada con exito')
+        return res.status(201).json(etnia)
+      }
+    }
+    catch(err){
+      console.log('Error al crear la etnia')
+      return res.status(500).json({ error: 'Error al crear la etnia' })
     }
   }
 })
 
+app.post("/api/lugares/", async (req, res) => {
+  const errores = {}
+})
+*/
 /*solicitudes de la web*/
 
 app.get("/", (req, res) => {
