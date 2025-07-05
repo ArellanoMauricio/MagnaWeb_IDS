@@ -195,7 +195,7 @@ app.get("/api/lugares/:num", async (req, res) => {
 /*POST*/
 
 app.post("/api/personajes/", async (req, res) => {
-  const errores = {}
+  let errores = {}
 
   const nombre = req.body.nombre
   const etnia = req.body.etnia
@@ -286,7 +286,7 @@ app.post("/api/personajes/", async (req, res) => {
 })
 
 app.post("/api/etnias/", async (req, res) => {
-  const errores = {}
+  let errores = {}
 
   const nombre = req.body.nombre
   let descripcion = req.body.descripcion
@@ -356,7 +356,7 @@ app.post("/api/etnias/", async (req, res) => {
 })
 
 app.post("/api/lugares/", async (req, res) => {
-  const errores = {}
+  let errores = {}
 
   const nombre = req.body.nombre
   let descripcion = req.body.descripcion
@@ -534,6 +534,22 @@ app.delete("/api/lugares/:num", async (req, res) => {
   }
 })
 
+/*PUT*/
+/*
+app.put("/api/personajes/:num", async (req, res) => {
+  const id = req.params.num
+  const keyword = "default"
+  let 
+
+
+
+
+
+
+
+
+})
+*/
 /*solicitudes de la web*/
 
 app.get("/", (req, res) => {
