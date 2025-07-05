@@ -289,6 +289,185 @@ async function delete_place(id){
     }
 }
 
+/*PUT*/
+
+async function modify_character(
+    id,
+    nombre,
+    etnia,
+    edad,
+    origen,
+    apariencia,
+    historia,
+    clase,
+    imagen,
+    imagen_indice,
+){
+    const columns = []
+    const values = []
+    let param_num = 1
+
+    if(nombre != null){
+        columns.push(`nombre = $${param_num}`)
+        values.push(nombre)
+        param_num=param_num+1
+    }
+    if(etnia != null){
+        columns.push(`etnia = $${param_num}`)
+        values.push(etnia)
+        param_num=param_num+1
+    }
+    if(edad != null){
+        columns.push(`edad = $${param_num}`)
+        values.push(edad)
+        param_num=param_num+1
+    }
+    if(origen != null){
+        columns.push(`origen = $${param_num}`)
+        values.push(origen)
+        param_num=param_num+1
+    }
+    if(apariencia != null){
+        columns.push(`apariencia = $${param_num}`)
+        values.push(apariencia)
+        param_num=param_num+1
+    }
+    if(historia != null){
+        columns.push(`historia = $${param_num}`);
+        values.push(historia);
+        param_num=param_num+1
+    }
+    if(clase != null){
+        columns.push(`clase = $${param_num}`);
+        values.push(clase);
+        param_num=param_num+1
+    }
+    if(imagen != null){
+        columns.push(`imagen = $${param_num}`);
+        values.push(imagen);
+        param_num=param_num+1
+    }
+    if(imagen_indice != null){
+        columns.push(`imagen_indice = $${param_num}`);
+        values.push(imagen_indice);
+        param_num=param_num+1
+    }
+    values.push(id)
+
+    const result = await pool.query(
+        `update personajes set ${columns.join(", ")} where id = $${param_num} RETURNING *`, values
+    )
+
+    if( !result || (result.rows.length === 0) ){
+        return undefined
+    }
+    else{
+        return result.rows[0]
+    }
+}
+
+async function modify_ethnicity(
+    id,
+    nombre,
+    descripcion,
+    naturaleza,
+    imagen_indice,
+    moodboard,
+){
+    const columns = []
+    const values = []
+    let param_num = 1
+
+    if(nombre != null){
+        columns.push(`nombre = $${param_num}`)
+        values.push(nombre)
+        param_num=param_num+1
+    }
+    if(descripcion != null){
+        columns.push(`descripcion = $${param_num}`)
+        values.push(descripcion)
+        param_num=param_num+1
+    }
+    if(naturaleza != null){
+        columns.push(`naturaleza = $${param_num}`)
+        values.push(naturaleza)
+        param_num=param_num+1
+    }
+    if(imagen_indice != null){
+        columns.push(`imagen_indice = $${param_num}`)
+        values.push(imagen_indice)
+        param_num=param_num+1
+    }
+    if(moodboard != null){
+        columns.push(`moodboard = $${param_num}`)
+        values.push(moodboard)
+        param_num=param_num+1
+    }
+    values.push(id)
+
+    const result = await pool.query(
+        `update etnias set ${columns.join(", ")} where id = $${param_num} RETURNING *`, values
+    )
+
+    if( !result || (result.rows.length === 0) ){
+        return undefined
+    }
+    else{
+        return result.rows[0]
+    }
+}
+
+async function modify_place(
+    id,
+    nombre,
+    descripcion,
+    faccion,
+    clima,
+    imagen,
+){
+    const columns = []
+    const values = []
+    let param_num = 1
+
+    if(nombre != null){
+        columns.push(`nombre = $${param_num}`)
+        values.push(nombre)
+        param_num=param_num+1
+    }
+    if(descripcion != null){
+        columns.push(`descripcion = $${param_num}`)
+        values.push(descripcion)
+        param_num=param_num+1
+    }
+    if(faccion != null){
+        columns.push(`faccion = $${param_num}`)
+        values.push(faccion)
+        param_num=param_num+1
+    }
+    if(clima != null){
+        columns.push(`clima = $${param_num}`)
+        values.push(clima)
+        param_num=param_num+1
+    }
+    if(imagen != null){
+        columns.push(`imagen = $${param_num}`)
+        values.push(imagen)
+        param_num=param_num+1
+    }
+    values.push(id)
+
+    const result = await pool.query(
+        `update lugares set ${columns.join(", ")} where id = $${param_num} RETURNING *`, values
+    )
+
+    if( !result || (result.rows.length === 0) ){
+        return undefined
+    }
+    else{
+        return result.rows[0]
+    }
+}
+
 /*Funciones a exportar*/
 
 module.exports = {
@@ -314,4 +493,8 @@ module.exports = {
     delete_character,
     delete_ethnicity,
     delete_place,
+
+    modify_character,
+    modify_ethnicity,
+    modify_place,
 }
