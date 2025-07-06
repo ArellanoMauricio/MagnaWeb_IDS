@@ -1,14 +1,9 @@
 /*efecto de tipeado lento*/
 function typeWriter(txt, i, speed, id) {
-
     if (i < txt.length) {
-
         document.getElementById(id).innerHTML += txt.charAt(i);
-
         i++;
-
         setTimeout(() => typeWriter(txt, i, speed, id), speed);
-
     }
 }
 
@@ -44,10 +39,35 @@ async function toggleArrows() {
 
 async function redirect(sitio) {
     const indice = document.getElementById("index")
-    indice.classList.remove("in");
-    indice.classList.add("out");
+    indice.classList.remove("in")
+    indice.classList.add("out")
     await new Promise(res => setTimeout(res, 3500))
-    window.location.href = "file:///C:/Users/lauta/Desktop/MagnaWeb_IDS/MagnaWeb_IDS/web/frontend/" + sitio + ".html";
+    window.location.href = "file:///C:/Users/lauta/Desktop/MagnaWeb_IDS/MagnaWeb_IDS/web/frontend/" + sitio + ".html"
+}
+
+async function getElementoApi(link) {
+    try {
+        const response = await fetch(link)
+        if (!response.ok) {
+            throw new Error(`Error HTTP! Código: ${response.status}`)
+        }
+        const data = await response.json()
+        console.log('Data obtenida:', data)
+        return data
+    } catch (error) {
+        console.error('Hubo un problema con la operación fetch:', error)
+        return null
+    }
+}
+
+
+
+async function rellenarPersonajes(){
+    const apiData = await getElementoApi('http://localhost:3000/api/personajes/')
+    if (apiData) {
+
+    }
+    await new Promise(res => setTimeout(res, 2000))
 }
 
 document.addEventListener('mousedown', () => {
