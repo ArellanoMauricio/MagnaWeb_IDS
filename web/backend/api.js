@@ -11,10 +11,6 @@ const {
   verify_ethnicity_name,
   verify_place_name,
 
-  exist_character,
-  exist_ethnicity,
-  exist_place,
-
   get_all_characters,
   get_all_ethnicities,
   get_all_places,
@@ -54,6 +50,7 @@ el resto estara en ingles.
 app.get("/api/personajes", async (req, res) => {
   try{
     const personajes = await get_all_characters()
+
     if(!personajes || (personajes.length === 0) ){
       console.log('No se recibio ningun personaje')
       return res.status(404).json({ error: 'No se encontraron personajes' })
@@ -83,6 +80,7 @@ app.get("/api/personajes/:num", async (req, res) => {
 
   try{
     const personaje = await get_character(id)
+
     if(!personaje){
       console.log('No se recibio ningun personaje')
       return res.status(404).json({ error: `No se encontro ningun personaje de id ${id}` })
@@ -103,6 +101,7 @@ app.get("/api/personajes/:num", async (req, res) => {
 app.get("/api/etnias", async (req, res) => {
   try{
     const etnias = await get_all_ethnicities()
+
     if(!etnias || (etnias.length === 0) ){
       console.log('No se recibio ninguna etnia')
       return res.status(404).json({ error: 'No se encontraron etnias' })
@@ -132,6 +131,7 @@ app.get("/api/etnias/:num", async (req, res) => {
 
   try{
     const etnia = await get_ethnicity(id)
+
     if(!etnia){
       console.log('No se recibio ninguna etnia')
       return res.status(404).json({ error: `No se encontro ninguna etnia de id ${id}` })
@@ -152,6 +152,7 @@ app.get("/api/etnias/:num", async (req, res) => {
 app.get("/api/lugares", async (req, res) => {
   try{
     const lugares = await get_all_places()
+
     if(!lugares || (lugares.length === 0) ){
       console.log('No se recibio ningun lugar')
       return res.status(404).json({ error: 'No se encontraron lugares' })
@@ -181,6 +182,7 @@ app.get("/api/lugares/:num", async (req, res) => {
 
   try{
     const lugar = await get_place(id)
+    
     if(!lugar){
       console.log('No se recibio ningun lugar')
       return res.status(404).json({ error: `No se encontro ningun lugar de id ${id}` })
@@ -448,7 +450,7 @@ app.delete("/api/personajes/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
-    if(await exist_character(id)){
+    if( (await get_character(id)) !== undefined ){
       const character = await delete_character(id)
       if(!character){
         console.log('No se pudo eliminar al personaje')
@@ -482,7 +484,7 @@ app.delete("/api/etnias/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
-    if(await exist_ethnicity(id)){
+    if( (await get_ethnicity(id)) !== undefined ){
       const ethnicity = await delete_ethnicity(id)
       if(!ethnicity){
         console.log('No se pudo eliminar la etnia')
@@ -516,7 +518,7 @@ app.delete("/api/lugares/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
-    if(await exist_place(id)){
+    if( (await get_place(id)) !== undefined ){
       const place= await delete_place(id)
       if(!place){
         console.log('No se pudo eliminar el lugar')
@@ -551,9 +553,15 @@ app.put("/api/personajes/:num", async (req, res) => {
     console.log('La id no puede ser negativa')
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
-  if( !(await exist_character(id)) ){
-    console.log('No se puede modificar un personaje que no existe')
-    return res.status(404).json({ error: "No se puede modificar un personaje que no existe" })
+  try{
+    if( (await get_character(id)) === undefined ){
+      console.log('No se puede modificar un personaje que no existe')
+      return res.status(404).json({ error: "No se puede modificar un personaje que no existe" })
+    }
+  }
+  catch(err){
+    console.error('Error al acceder a la base de datos para validar')
+    return res.status(500).json({ error: "Error al acceder a la base de datos para validar"})
   }
 
   let errores = {}
@@ -687,9 +695,15 @@ app.put("/api/etnias/:num", async (req, res) => {
     console.log('La id no puede ser negativa')
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
-  if( !(await exist_ethnicity(id)) ){
-    console.log('No se puede modificar una etnia que no existe')
-    return res.status(404).json({ error: "No se puede modificar una etnia que no existe" })
+  try{
+    if( (await get_ethnicity(id)) === undefined ){
+      console.log('No se puede modificar una etnia que no existe')
+      return res.status(404).json({ error: "No se puede modificar una etnia que no existe" })
+    }
+  }
+  catch(err){
+    console.error('Error al acceder a la base de datos para validar')
+    return res.status(500).json({ error: "Error al acceder a la base de datos para validar"})
   }
 
   let errores = {}
@@ -783,7 +797,7 @@ app.put("/api/lugares/:num", async (req, res) => {
     console.log('La id no puede ser negativa')
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
-  if( !(await exist_place(id)) ){
+  if( (await get_place(id)) === undefined ){
     console.log('No se puede modificar un lugar que no existe')
     return res.status(404).json({ error: "No se puede modificar un lugar que no existe" })
   }

@@ -22,23 +22,6 @@ async function verify_place_name(name) {
     return result.rows.length > 0
 }
 
-
-
-async function exist_character(id) {
-    const result = await pool.query('SELECT * FROM personajes WHERE personajes.id = $1', [id])
-    return result.rows.length > 0
-}
-
-async function exist_ethnicity(id) {
-    const result = await pool.query('SELECT * FROM etnias WHERE etnias.id = $1', [id])
-    return result.rows.length > 0
-}
-
-async function exist_place(id) {
-    const result = await pool.query('SELECT * FROM lugares WHERE lugares.id = $1', [id])
-    return result.rows.length > 0
-}
-
 /*GET*/
 
 async function get_all_characters() {
@@ -473,10 +456,6 @@ async function modify_place(
 module.exports = {
     verify_ethnicity_name,
     verify_place_name,
-
-    exist_character,
-    exist_ethnicity,
-    exist_place,
 
     get_all_characters,
     get_all_ethnicities,
