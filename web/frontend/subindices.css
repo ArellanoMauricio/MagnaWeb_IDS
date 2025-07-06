@@ -1,4 +1,4 @@
-#containerpersonajes {
+#container {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -29,7 +29,7 @@
     animation: open_character_index 2s ease-in forwards;
 }
 
-#personajestitulo {
+#titulo {
     font-family: "Averia Serif Libre", serif;
     text-shadow: -0rem 0rem 0.125rem #000000;
     font-weight: 400;

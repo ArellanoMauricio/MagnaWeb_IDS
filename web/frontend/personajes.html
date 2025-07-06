@@ -14,10 +14,10 @@
     <script src="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.js"></script>
   </head>
   <body>
-    <div id="containerpersonajes">
+    <div id="container">
       <div id="personajes" class="delaytilt" data-tilt data-tilt-max="1" data-tilt-reverse="true" data-tilt-full-page-listening data-tilt-transition="true">
         <div id="cuadro1">
-          <h1 id="personajestitulo">⌞ PERSONAJES ⌝</h1>
+          <h1 id="titulo">⌞ PERSONAJES ⌝</h1>
         </div>
         <div id="cuadro2">
           <div class="personaje">
@@ -70,8 +70,9 @@
     </div>
     <script>
       window.onload = () => {
-        const indice = document.getElementById("personajes");
-        indice.classList.add("clicked");
+        const indice = document.getElementById("personajes")
+        indice.classList.add("clicked")
+        rellenarPersonajes()
       };
     </script>
     <script src="script.js"></script> <!--funciones propias-->
