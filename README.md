@@ -45,6 +45,7 @@ Este trabajo nos permite afianzar nuestras habilidades técnicas, promover el tr
 - **Framework:** 'Node'
 - **Base de datos:** 'PostgreSQL'
 - **Herramientas:** 'Git', 'Docker' y 'VSCode'
+- **Librerías:** 'Vanilla-tilt.js' 
 
 ## Autores
 - **Mauricio Arellano**

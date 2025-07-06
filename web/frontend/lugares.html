@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--pestaña-->
+    <title>𝗠𝗔𝗚𝗡𝗔𝗢𝗡𝗜𝗥𝗜𝗖𝗔​</title>
+    <link rel="icon" type="image/x-icon" href="source/favicon.ico">
+    <!--fuente-->
+    <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <!--hojas de estilo-->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="subindices.css">
+    <link rel="stylesheet" href="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.js"></script>
+  </head>
+  <body>
+    <div id="personajes">
+      <div id="cuadro1">
+        <h1 id="personajestitulo">— LUGARES —</h1>
+        <div class="divisorpeq"></div>
+        <div class="divisorvac"></div>
+        <div class="divisor"></div>
+      </div>
+      <div id="cuadro2">
+        <div class="personaje">
+          <div class="nombrepers">
+            <p><span>-</span><br> <span><a>PASEUS</a></span><br> <span>-</span></p>
+          </div>
+          <div class="imgcontainer">
+            <img src="source/paseus.jpg" class="imgpers">
+          </div>
+        </div>
+        <div class="personaje">
+          <div class="imgcontainer">
+            <img src="source/heras.jpg" class="imgpers">
+          </div>
+          <div class="divisorpers"></div>
+          <div class="nombrepers">
+            <p><span>-</span><br> <span><a>HERAS</a></span><br> <span>-</span></p>
+          </div>
+        </div>
+      </div>
+      <div id="cuadro3">
+        <p id="personajesvolver">— VOLVER —</p>
+      </div>
+    </div>
+    <script>
+      window.onload = () => {
+        const indice = document.getElementById("personajes");
+        indice.classList.add("clicked");
+      };
+    </script>
+    <script src="script.js"></script> <!--funciones propias-->
+    <script src="vanillatilt.js"></script> <!--librería vanilla tilt -->
+  </body>
+</html>

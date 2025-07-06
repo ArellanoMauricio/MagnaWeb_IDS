@@ -1,0 +1,125 @@
+#containerpersonajes {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#personajes {
+    background: #FFFFFB;
+    opacity: 0.6;
+    border-radius: 0rem;
+    width: 0rem;
+    height: 0rem;
+    display: flex;
+    transition: transform 0.25s ease-out !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    mix-blend-mode: add;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+#personajes.clicked {
+    animation: open_character_index 2s ease-in forwards;
+}
+
+#personajestitulo {
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 400;
+    letter-spacing: 0.6rem;
+    font-size: 2.75rem;
+}
+
+#personajesvolver {
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 400;
+    letter-spacing: 0.3rem;
+    font-size: 1.75rem;
+}
+
+.personaje {
+    width: 100%;
+    height: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 1rem;
+
+    /* Fuente */
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 200;
+    letter-spacing: 1rem;
+    font-size: 1.8rem;
+}
+
+.nombrepers {
+    width: 100%;
+}
+
+.imgcontainer {
+    width: 100%;
+    transform: translateX(-0.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imgpers {
+    width: 18rem;
+    height: 7rem;
+    border-radius: 1rem;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Orden de Aparición: Cuadro 1, Cuadro 3, Cuadro 2.*/
+
+#cuadro1 {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+#cuadro2 {
+    width: 100%;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    scrollbar-gutter: overlay;
+    -webkit-mask-image: linear-gradient(to bottom,
+    black 0%,
+    black 75%,
+    transparent 100%
+    );
+    mask-image: linear-gradient(to bottom,
+    black 0%,
+    black 75%,
+    transparent 100%
+    );
+}
+#cuadro3 {
+    width: 100%;
+    height: 11%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
