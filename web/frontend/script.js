@@ -42,7 +42,7 @@ async function redirect(sitio) {
     indice.classList.remove("in")
     indice.classList.add("out")
     await new Promise(res => setTimeout(res, 3500))
-    window.location.href = "file:///C:/Users/lauta/Desktop/MagnaWeb_IDS/MagnaWeb_IDS/web/frontend/" + sitio + ".html"
+    window.location.href = "/" + sitio + ".html"
 }
 
 async function getElementoApi(link) {
@@ -60,12 +60,10 @@ async function getElementoApi(link) {
     }
 }
 
-
-
 async function rellenarPersonajes(){
     const apiData = await getElementoApi('http://localhost:3000/api/personajes/')
     if (apiData) {
-
+        console.log('test')
     }
     await new Promise(res => setTimeout(res, 2000))
 }
