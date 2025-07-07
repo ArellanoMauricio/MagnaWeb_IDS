@@ -897,6 +897,10 @@ app.get("/style.css", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "style.css"));
 })
 
+app.get("/lugares.css", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "lugares.css"));
+})
+
 app.get("/subindices.css", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "subindices.css"));
 })
@@ -931,4 +935,8 @@ app.get("/personajes", (req, res) => {
 
 app.get("/lugares", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "lugares.html"));
+})
+
+app.get("/etnias", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "etnias.html"));
 })

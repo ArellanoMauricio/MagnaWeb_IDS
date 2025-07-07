@@ -67,6 +67,52 @@ async function getElementoApi(link) {
     }
 }
 
+async function rellenarEtnias(){
+    const apiData = await getElementoApi('http://localhost:3000/api/etnias/')
+    const contenedor = document.getElementById('cuadro2')
+    if (apiData) {
+        apiData.forEach((lugar, i) => {
+            const tarjeta = document.createElement('div')
+            tarjeta.classList.add('lugar')
+            const nombre = lugar.nombre;
+            const imagen = lugar.imagen_indice;
+            tarjeta.innerHTML = `
+            <div class="imgcontainer">
+              <img src="${imagen}" onerror="this.src='https://i.imgur.com/c1tlvB9.jpeg'" class="imglug">
+              <div class="nombrelug">
+                <p><span>-</span><br> <span><a>${nombre}</a></span><br> <span>-</span></p>
+              </div>
+            </div>
+            `
+            contenedor.appendChild(tarjeta)
+        } )
+    }
+    await new Promise(res => setTimeout(res, 2000))
+}
+
+async function rellenarLugares(){
+    const apiData = await getElementoApi('http://localhost:3000/api/lugares/')
+    const contenedor = document.getElementById('cuadro2')
+    if (apiData) {
+        apiData.forEach((lugar, i) => {
+            const tarjeta = document.createElement('div')
+            tarjeta.classList.add('lugar')
+            const nombre = lugar.nombre;
+            const imagen = lugar.imagen;
+            tarjeta.innerHTML = `
+            <div class="imgcontainer">
+              <img src="${imagen}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" class="imglug">
+              <div class="nombrelug">
+                <p><span>-</span><br> <span><a>${nombre}</a></span><br> <span>-</span></p>
+              </div>
+            </div>
+            `
+            contenedor.appendChild(tarjeta)
+        } )
+    }
+    await new Promise(res => setTimeout(res, 2000))
+}
+
 async function rellenarPersonajes(){
     const apiData = await getElementoApi('http://localhost:3000/api/personajes/')
     const contenedor = document.getElementById('cuadro2')
