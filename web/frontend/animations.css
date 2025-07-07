@@ -145,4 +145,27 @@
     }
 }
 
+@keyframes close_character_index {
+    0% {
+        width: 60.375rem;
+        height: 50.5rem;
+        border-radius: 0.9375rem; 
+    }
+    50% {
+        width: 60.375rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    75% {
+        width: 0rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    100% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0rem;
+    }
+}
+
 /*-------------------------------------------------------------------------------------------------*/

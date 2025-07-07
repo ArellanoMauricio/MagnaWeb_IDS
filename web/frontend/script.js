@@ -37,13 +37,20 @@ async function toggleArrows() {
     typeWriter("ETNIAS", 0, 250, "item4")
 }
 
-async function redirect(sitio) {
-    const indice = document.getElementById("index")
-    indice.classList.remove("in")
-    indice.classList.add("out")
-    await new Promise(res => setTimeout(res, 3500))
-    window.location.href = "/" + sitio + ".html"
+async function redirect(sitio, id, t) {
+    const elemento = id ? document.getElementById(id) : null
+    if (elemento) {
+        elemento.classList.remove("in")
+        elemento.classList.add("out")
+        await new Promise(res => setTimeout(res, t))
+    }
+    if (sitio) {
+        window.location.href = "/" + sitio
+    } else {
+        window.location.href = window.location.origin + window.location.pathname.replace(/\/[^\/]*\/?$/, '/')
+    }
 }
+
 
 async function getElementoApi(link) {
     try {
@@ -62,8 +69,35 @@ async function getElementoApi(link) {
 
 async function rellenarPersonajes(){
     const apiData = await getElementoApi('http://localhost:3000/api/personajes/')
+    const contenedor = document.getElementById('cuadro2')
     if (apiData) {
-        console.log('test')
+        apiData.forEach((personaje, i) => {
+            const tarjeta = document.createElement('div')
+            tarjeta.classList.add('personaje')
+            const nombre = personaje.nombre;
+            const imagen = personaje.imagen_indice;
+            if (i % 2 === 0) {
+                tarjeta.innerHTML = `
+                <div class="nombrepers">
+                    <p><span>-</span><br> <span><a>${nombre}</a></span><br> <span>-</span></p>
+                </div>
+                <div class="imgcontainer">
+                    <img src="${imagen}" class="imgpers">
+                </div>
+                `
+            } else {
+                tarjeta.innerHTML = `
+                <div class="imgcontainer">
+                    <img src="${imagen}" class="imgpers">
+                </div>
+                <div class="divisorpers"></div>
+                <div class="nombrepers">
+                    <p><span>-</span><br> <span><a>${nombre}</a></span><br> <span>-</span></p>
+                </div>
+                `
+            }
+            contenedor.appendChild(tarjeta)
+        } )
     }
     await new Promise(res => setTimeout(res, 2000))
 }

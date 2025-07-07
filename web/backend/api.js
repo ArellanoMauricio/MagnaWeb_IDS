@@ -897,6 +897,10 @@ app.get("/style.css", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "style.css"));
 })
 
+app.get("/subindices.css", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "subindices.css"));
+})
+
 app.get("/animations.css", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "animations.css"));
 })
