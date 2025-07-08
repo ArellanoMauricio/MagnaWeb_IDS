@@ -143,7 +143,18 @@ async function rellenarPersonajes(){
                 `
             }
             contenedor.appendChild(tarjeta)
-        } )
+        })
+        const tarjeta = document.createElement('div')
+        tarjeta.classList.add('lugar')
+        tarjeta.innerHTML = `
+        <div class="imgcontainer">
+            <div class="sumar"></div>
+            <div class="nombresum">
+                <p><span><a>+</a></span></p>
+            </div>
+        </div>
+        `
+        contenedor.appendChild(tarjeta)
     }
 }
 
