@@ -87,7 +87,17 @@ async function rellenarEtnias(){
             contenedor.appendChild(tarjeta)
         } )
     }
-    await new Promise(res => setTimeout(res, 2000))
+    const tarjeta = document.createElement('div')
+        tarjeta.classList.add('lugar')
+        tarjeta.innerHTML = `
+        <div class="imgcontainer">
+            <div class="sumar"></div>
+            <div class="nombresum">
+                <p><span><a>+</a></span></p>
+            </div>
+        </div>
+        `
+        contenedor.appendChild(tarjeta)
 }
 
 async function rellenarLugares(){
@@ -110,7 +120,17 @@ async function rellenarLugares(){
             contenedor.appendChild(tarjeta)
         } )
     }
-    await new Promise(res => setTimeout(res, 2000))
+    const tarjeta = document.createElement('div')
+        tarjeta.classList.add('lugar')
+        tarjeta.innerHTML = `
+        <div class="imgcontainer">
+            <div class="sumar"></div>
+            <div class="nombresum">
+                <p><span><a>+</a></span></p>
+            </div>
+        </div>
+        `
+        contenedor.appendChild(tarjeta)
 }
 
 async function rellenarPersonajes(){
