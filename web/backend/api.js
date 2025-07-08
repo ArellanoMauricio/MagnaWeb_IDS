@@ -8,42 +8,32 @@ const port = 3000
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
 const {
-  verify_ethnicity_name,
-  verify_place_name,
-  verify_default_ethnicity,
-  verify_default_place,
+  verificar_nombre_de_etnia,
+  verificar_nombre_de_lugar,
+  es_etnia_default,
+  es_lugar_default,
 
-  get_all_characters,
-  get_all_ethnicities,
-  get_all_places,
+  obtener_todos_los_personajes,
+  obtener_todas_las_etnias,
+  obtener_todos_los_lugares,
 
-  get_character,
-  get_ethnicity,
-  get_place,
+  obtener_personaje,
+  obtener_etnia,
+  obtener_lugar,
 
-  create_character,
-  create_ethnicity,
-  create_place,
+  crear_personaje,
+  crear_etnia,
+  crear_lugar,
 
-  delete_character,
-  delete_ethnicity,
-  delete_place,
+  eliminar_personaje,
+  eliminar_etnia,
+  eliminar_lugar,
 
-  modify_character,
-  modify_ethnicity,
-  modify_place,
+  modificar_personaje,
+  modificar_etnia,
+  modificar_lugar,
 } = require("./db.js")
 const { Console } = require("console")
-
-/*-------------------------------------------------------------------------------------*/
-/*
-ACLARACION IMPORTANTE (Mauricio)
-
-En clase se dejo claro que no hay que mezclar ingles y español,
-pero opte por usar español unicamente para las variables de retorno,
-el resto estarán' en ingles.
-*/
-/*-------------------------------------------------------------------------------------*/
 
 /*Solicitudes de la api*/
 
@@ -51,7 +41,7 @@ el resto estarán' en ingles.
 
 app.get("/api/personajes", async (req, res) => {
   try{
-    const personajes = await get_all_characters()
+    const personajes = await obtener_todos_los_personajes()
 
     if(!personajes || (personajes.length === 0) ){
       console.log('No se recibio ningun personaje')
@@ -81,7 +71,7 @@ app.get("/api/personajes/:num", async (req, res) => {
   }
 
   try{
-    const personaje = await get_character(id)
+    const personaje = await obtener_personaje(id)
 
     if(!personaje){
       console.log('No se recibio ningun personaje')
@@ -102,7 +92,7 @@ app.get("/api/personajes/:num", async (req, res) => {
 
 app.get("/api/etnias", async (req, res) => {
   try{
-    const etnias = await get_all_ethnicities()
+    const etnias = await obtener_todas_las_etnias()
 
     if(!etnias || (etnias.length === 0) ){
       console.log('No se recibio ninguna etnia')
@@ -132,7 +122,7 @@ app.get("/api/etnias/:num", async (req, res) => {
   }
 
   try{
-    const etnia = await get_ethnicity(id)
+    const etnia = await obtener_etnia(id)
 
     if(!etnia){
       console.log('No se recibio ninguna etnia')
@@ -153,7 +143,7 @@ app.get("/api/etnias/:num", async (req, res) => {
 
 app.get("/api/lugares", async (req, res) => {
   try{
-    const lugares = await get_all_places()
+    const lugares = await obtener_todos_los_lugares()
 
     if(!lugares || (lugares.length === 0) ){
       console.log('No se recibio ningun lugar')
@@ -183,7 +173,7 @@ app.get("/api/lugares/:num", async (req, res) => {
   }
 
   try{
-    const lugar = await get_place(id)
+    const lugar = await obtener_lugar(id)
     
     if(!lugar){
       console.log('No se recibio ningun lugar')
@@ -228,7 +218,7 @@ app.post("/api/personajes/", async (req, res) => {
   }
   else {
     try{
-      if( !(await verify_ethnicity_name(etnia)) ){
+      if( !(await verificar_nombre_de_etnia(etnia)) ){
         errores.error_etnia = "La etnia del personaje debe ser uns de las registradas"
       }
     }
@@ -249,7 +239,7 @@ app.post("/api/personajes/", async (req, res) => {
   }
   else {
     try{
-      if( !(await verify_place_name(origen)) ){
+      if( !(await verificar_nombre_de_lugar(origen)) ){
         errores.error_origen = "El lugar de origen del personaje debe ser uno de los registrados"
       }
     }
@@ -279,21 +269,21 @@ app.post("/api/personajes/", async (req, res) => {
   }
 
   if(Object.keys(errores).length > 0){
-    for(const [error_type, description] of Object.entries(errores)){
-      console.log(`${error_type}: ${description}`)
+    for(let [tipo_de_error, description] of Object.entries(errores)){
+      console.log(`${tipo_de_error}: ${description}`)
     }
     return res.status(400).json(errores)
   }
   else{
     try{
-      const character = await create_character(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice)
-      if(!character){
+      const personaje = await crear_personaje(nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice)
+      if(!personaje){
         console.log('No se pudo crear el personaje')
         return res.status(500).json({ error: 'No se pudo crear el personaje' })
       }
       else{
         console.log('Personaje creado con exito')
-        return res.status(201).json(character)
+        return res.status(201).json(personaje)
       }
     }
     catch(err){
@@ -322,7 +312,7 @@ app.post("/api/etnias/", async (req, res) => {
     }
     else{
       try{
-        if( await verify_ethnicity_name(nombre) ){
+        if( await verificar_nombre_de_etnia(nombre) ){
           errores.error_nombre = `El nombre ${nombre} ya se encuentra registrado`
         }
       }
@@ -353,7 +343,7 @@ app.post("/api/etnias/", async (req, res) => {
   }
   else {
     try{
-      if( !(await verify_place_name(origen)) ){
+      if( !(await verificar_nombre_de_lugar(origen)) ){
         errores.error_origen = "El lugar de origen de la etnia debe ser uno de los registrados"
       }
     }
@@ -363,14 +353,14 @@ app.post("/api/etnias/", async (req, res) => {
   }
   
   if (Object.keys(errores).length > 0) {
-    for(const [error_type, description] of Object.entries(errores)){
-      console.log(`${error_type}: ${description}`)
+    for(let [tipo_de_error, description] of Object.entries(errores)){
+      console.log(`${tipo_de_error}: ${description}`)
     }
     return res.status(400).json(errores)
   }
   else{
     try{
-      const etnia = await create_ethnicity(nombre, descripcion, naturaleza, imagen_indice, moodboard, origen)
+      const etnia = await crear_etnia(nombre, descripcion, naturaleza, imagen_indice, moodboard, origen)
       if(!etnia){
         console.log('No se pudo crear la etnia')
         return res.status(500).json({ error: 'No se pudo crear la etnia' })
@@ -406,7 +396,7 @@ app.post("/api/lugares/", async (req, res) => {
     }
     else{
       try{
-        if(await verify_place_name(nombre)){
+        if(await verificar_nombre_de_lugar(nombre)){
           errores.error_nombre = `El nombre ${nombre} ya se encuentra registrado`
         }
       }
@@ -431,7 +421,7 @@ app.post("/api/lugares/", async (req, res) => {
   }
   else {
     try{
-      if( !(await verify_ethnicity_name(etnia_dominante)) ){
+      if( !(await verificar_nombre_de_etnia(etnia_dominante)) ){
         errores.error_etnia_dominante = "La etnia dominante debe ser una de las registradas"
       }
     }
@@ -452,14 +442,14 @@ app.post("/api/lugares/", async (req, res) => {
   }
 
   if (Object.keys(errores).length > 0) {
-    for(const [error_type, description] of Object.entries(errores)){
-      console.log(`${error_type}: ${description}`)
+    for(let [tipo_de_error, description] of Object.entries(errores)){
+      console.log(`${tipo_de_error}: ${description}`)
     }
     return res.status(400).json(errores)
   }
   else{
     try{
-      const lugar = await create_place(nombre, descripcion, faccion, etnia_dominante, clima, imagen)
+      const lugar = await crear_lugar(nombre, descripcion, faccion, etnia_dominante, clima, imagen)
       if(!lugar){
         console.log('No se pudo crear el lugar')
         return res.status(500).json({ error: 'No se pudo crear el lugar' })
@@ -490,15 +480,15 @@ app.delete("/api/personajes/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
-    if( (await get_character(id)) !== undefined ){
-      const character = await delete_character(id)
-      if(!character){
+    if( (await obtener_personaje(id)) !== undefined ){
+      const personaje = await eliminar_personaje(id)
+      if(!personaje){
         console.log('No se pudo eliminar al personaje')
         return res.status(500).json({ error: "No se pudo eliminar al personaje" })
       }
       else{
         console.log('Se ha eliminado al personaje con exito')
-        return res.status(200).json(character)
+        return res.status(200).json(personaje)
       }
     }
     else{
@@ -524,19 +514,19 @@ app.delete("/api/etnias/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
-    if( await verify_default_ethnicity(id) ){
+    if( await es_etnia_default(id) ){
       console.log('No se puede eliminar la etnia desconocida')
       return res.status(400).json({ error: "No se puede eliminar la etnia desconocida"})
     }
-    if( (await get_ethnicity(id)) !== undefined ){
-      const ethnicity = await delete_ethnicity(id)
-      if(!ethnicity){
+    if( (await obtener_etnia(id)) !== undefined ){
+      const etnia = await eliminar_etnia(id)
+      if(!etnia){
         console.log('No se pudo eliminar la etnia')
         return res.status(500).json({ error: "No se pudo eliminar la etnia" })
       }
       else{
         console.log('Se ha eliminado la etnia con exito')
-        return res.status(200).json(ethnicity)
+        return res.status(200).json(etnia)
       }
     }
     else{
@@ -562,19 +552,19 @@ app.delete("/api/lugares/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
-    if( await verify_default_place(id) ){
+    if( await es_lugar_default(id) ){
       console.log('No se puede eliminar el lugar desconocido')
       return res.status(400).json({ error: "No se puede eliminar el lugar desconocido"})
     }
-    if( (await get_place(id)) !== undefined ){
-      const place= await delete_place(id)
-      if(!place){
+    if( (await obtener_lugar(id)) !== undefined ){
+      const lugar = await eliminar_lugar(id)
+      if(!lugar){
         console.log('No se pudo eliminar el lugar')
         return res.status(500).json({ error: "No se pudo eliminar el lugar" })
       }
       else{
         console.log('Se ha eliminado el lugar con exito')
-        return res.status(200).json(place)
+        return res.status(200).json(lugar)
       }
     }
     else{
@@ -602,7 +592,7 @@ app.put("/api/personajes/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
-    if( (await get_character(id)) === undefined ){
+    if( (await obtener_personaje(id)) === undefined ){
       console.log('No se puede modificar un personaje que no existe')
       return res.status(404).json({ error: "No se puede modificar un personaje que no existe" })
     }
@@ -637,7 +627,7 @@ app.put("/api/personajes/:num", async (req, res) => {
   }
   else{
     try{
-      if( !(await verify_ethnicity_name(etnia)) ){
+      if( !(await verificar_nombre_de_etnia(etnia)) ){
         errores.error_etnia = "La etnia ingresada debe figurar en las etnias registradas"
       }
     }
@@ -663,7 +653,7 @@ app.put("/api/personajes/:num", async (req, res) => {
   }
   else{
     try{
-      if( !(await verify_place_name(origen)) ){
+      if( !(await verificar_nombre_de_lugar(origen)) ){
         errores.error_origen = "El lugar de origen del personaje debe ser uno de los registrados"
       }
     }
@@ -708,21 +698,21 @@ app.put("/api/personajes/:num", async (req, res) => {
   }
 
   if(Object.keys(errores).length > 0){
-    for(const [error_type, description] of Object.entries(errores)){
-      console.log(`${error_type}: ${description}`)
+    for(let [tipo_de_error, description] of Object.entries(errores)){
+      console.log(`${tipo_de_error}: ${description}`)
     }
     return res.status(400).json(errores)
   }
   else{
     try{
-      const character = await modify_character(id, nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice)
-      if(!character){
+      const personaje = await modificar_personaje(id, nombre, etnia, edad, origen, apariencia, historia, clase, imagen, imagen_indice)
+      if(!personaje){
         console.log('No se pudo modificar el personaje')
         return res.status(500).json({ error: 'No se pudo modificar el personaje' })
       }
       else{
         console.log('Personaje modificado con exito')
-        return res.status(200).json(character)
+        return res.status(200).json(personaje)
       }
     }
     catch(err){
@@ -744,11 +734,11 @@ app.put("/api/etnias/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
-    if( (await get_ethnicity(id)) === undefined ){
+    if( (await obtener_etnia(id)) === undefined ){
       console.log('No se puede modificar una etnia que no existe')
       return res.status(404).json({ error: "No se puede modificar una etnia que no existe" })
     }
-    if( await verify_default_ethnicity(id) ){
+    if( await es_etnia_default(id) ){
       console.log('No se puede modificar la etnia desconocida')
       return res.status(400).json({ error: "No se puede modificar la etnia desconocida"})
     }
@@ -776,7 +766,7 @@ app.put("/api/etnias/:num", async (req, res) => {
     }
     else{
       try{
-        if(await verify_ethnicity_name(nombre)){
+        if(await verificar_nombre_de_etnia(nombre)){
           errores.error_nombre = `El nombre ${nombre} ya se encuentra registrado`
         }
       }
@@ -807,7 +797,7 @@ app.put("/api/etnias/:num", async (req, res) => {
   }
   else {
     try{
-        if(await verify_place_name(origen)){
+        if(await verificar_nombre_de_lugar(origen)){
           errores.error_origen = "Esa lugar no se encuentra registrado"
         }
     }
@@ -829,21 +819,21 @@ app.put("/api/etnias/:num", async (req, res) => {
   }
 
   if(Object.keys(errores).length > 0){
-    for(const [error_type, description] of Object.entries(errores)){
-      console.log(`${error_type}: ${description}`)
+    for(let [tipo_de_error, description] of Object.entries(errores)){
+      console.log(`${tipo_de_error}: ${description}`)
     }
     return res.status(400).json(errores)
   }
   else{
     try{
-      const ethnicity = await modify_ethnicity(id, nombre, descripcion, naturaleza, imagen_indice, moodboard, origen)
-      if(!ethnicity){
+      const etnia = await modificar_etnia(id, nombre, descripcion, naturaleza, imagen_indice, moodboard, origen)
+      if(!etnia){
         console.log('No se pudo modificar la etnia')
         return res.status(500).json({ error: 'No se pudo modificar la etnia' })
       }
       else{
         console.log('Etnia modificada con exito')
-        return res.status(200).json(ethnicity)
+        return res.status(200).json(etnia)
       }
     }
     catch(err){
@@ -865,11 +855,11 @@ app.put("/api/lugares/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
-    if( (await get_place(id)) === undefined ){
+    if( (await obtener_lugar(id)) === undefined ){
       console.log('No se puede modificar un lugar que no existe')
       return res.status(404).json({ error: "No se puede modificar un lugar que no existe" })
     }
-    if( await verify_default_place(id) ){
+    if( await es_lugar_default(id) ){
       console.log('No se puede modificar el lugar desconocido')
       return res.status(400).json({ error: "No se puede modificar el lugar desconocido"})
     }
@@ -884,7 +874,7 @@ app.put("/api/lugares/:num", async (req, res) => {
   let nombre = req.body.nombre
   let descripcion = req.body.descripcion
   let faccion = req.body.faccion
-  etnia_dominante = req.body.etnia_dominante
+  let etnia_dominante = req.body.etnia_dominante
   let clima = req.body.clima
   let imagen = req.body.imagen
 
@@ -897,7 +887,7 @@ app.put("/api/lugares/:num", async (req, res) => {
     }
     else{
       try{
-        if(await verify_place_name(nombre)){
+        if(await verificar_nombre_de_lugar(nombre)){
           errores.error_nombre = `El nombre ${nombre} ya se encuentra registrado`
         }
       }
@@ -924,7 +914,7 @@ app.put("/api/lugares/:num", async (req, res) => {
   }
   else {
     try{
-        if(await verify_ethnicity_name(etnia_dominante)){
+        if(await verificar_nombre_de_etnia(etnia_dominante)){
           errores.error_etnia_dominante = "Esa etnia no se encuentra registrada"
         }
     }
@@ -959,21 +949,21 @@ app.put("/api/lugares/:num", async (req, res) => {
   }
 
   if(Object.keys(errores).length > 0){
-    for(const [error_type, description] of Object.entries(errores)){
-      console.log(`${error_type}: ${description}`)
+    for(let [tipo_de_error, description] of Object.entries(errores)){
+      console.log(`${tipo_de_error}: ${description}`)
     }
     return res.status(400).json(errores)
   }
   else{
     try{
-      const place = await modify_place(id, nombre, descripcion, faccion, etnia_dominante, clima, imagen)
-      if(!place){
+      const lugar = await modificar_lugar(id, nombre, descripcion, faccion, etnia_dominante, clima, imagen)
+      if(!lugar){
         console.log('No se pudo modificar el lugar')
         return res.status(500).json({ error: 'No se pudo modificar el lugar' })
       }
       else{
         console.log('Lugar modificado con exito')
-        return res.status(200).json(place)
+        return res.status(200).json(lugar)
       }
     }
     catch(err){
