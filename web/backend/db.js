@@ -164,7 +164,6 @@ async function crear_etnia(
     naturaleza,
     imagen_indice,
     moodboard,
-    origen,
 ){
     let columnas = ["nombre"]
     let valores = [nombre]
@@ -195,12 +194,6 @@ async function crear_etnia(
         parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
-    if(origen != null){
-        columnas.push("origen")
-        valores.push(origen)
-        parametros.push(`$${param_num}`)
-        param_num=param_num+1
-    }
 
     const resultado = await pool.query(
         `insert into etnias (${columnas.join(", ")}) values (${parametros.join(", ")}) RETURNING *`, valores
@@ -218,7 +211,6 @@ async function crear_lugar(
     nombre,
     descripcion,
     faccion,
-    etnia_dominante,
     clima,
     imagen,
 ){
@@ -248,12 +240,6 @@ async function crear_lugar(
     if(imagen != null){
         columnas.push("imagen")
         valores.push(imagen)
-        parametros.push(`$${param_num}`)
-        param_num=param_num+1
-    }
-    if(etnia_dominante != null){
-        columnas.push("etnia_dominante")
-        valores.push(etnia_dominante)
         parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
@@ -392,7 +378,6 @@ async function modificar_etnia(
     naturaleza,
     imagen_indice,
     moodboard,
-    origen,
 ){
     let columnas = []
     let valores = []
@@ -423,11 +408,6 @@ async function modificar_etnia(
         valores.push(moodboard)
         param_num=param_num+1
     }
-    if(origen != null){
-        columnas.push(`origen = $${param_num}`)
-        valores.push(origen)
-        param_num=param_num+1
-    }
     valores.push(id)
 
     const resultado = await pool.query(
@@ -447,7 +427,6 @@ async function modificar_lugar(
     nombre,
     descripcion,
     faccion,
-    etnia_dominante,
     clima,
     imagen,
 ){
@@ -468,11 +447,6 @@ async function modificar_lugar(
     if(faccion != null){
         columnas.push(`faccion = $${param_num}`)
         valores.push(faccion)
-        param_num=param_num+1
-    }
-    if(etnia_dominante != null){
-        columnas.push(`etnia_dominante = $${param_num}`)
-        valores.push(etnia_dominante)
         param_num=param_num+1
     }
     if(clima != null){
