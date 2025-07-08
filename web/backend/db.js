@@ -22,6 +22,16 @@ async function verify_place_name(name) {
     return result.rows.length > 0
 }
 
+async function verify_default_ethnicity(id) {
+    const result = await pool.query('SELECT nombre FROM etnias WHERE etnias.id = $1', [id])
+    return result.rows[0].nombre === 'Desconocida'
+}
+
+async function verify_default_place(id) {
+    const result = await pool.query('SELECT nombre FROM lugares WHERE lugares.id = $1', [id])
+    return result.rows[0].nombre === 'Desconocido'
+}
+
 /*GET*/
 
 async function get_all_characters() {
@@ -88,11 +98,23 @@ async function create_character(
     imagen,
     imagen_indice,
 ){
-    const columns = ["nombre", "etnia", "edad", "origen"]
-    const values = [nombre, etnia, edad, origen]
-    const params = ["$1", "$2", "$3", "$4"]
-    let param_num = 5
+    let columns = ["nombre", "edad"]
+    let values = [nombre, edad]
+    let params = ["$1", "$2"]
+    let param_num = 3
 
+    if(etnia != null){
+        columns.push("etnia")
+        values.push(etnia)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(origen != null){
+        columns.push("origen")
+        values.push(origen)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
     if(apariencia != null){
         columns.push("apariencia")
         values.push(apariencia)
@@ -142,10 +164,11 @@ async function create_ethnicity(
     naturaleza,
     imagen_indice,
     moodboard,
+    origen,
 ){
-    const columns = ["nombre"]
-    const values = [nombre]
-    const params = ["$1"]
+    let columns = ["nombre"]
+    let values = [nombre]
+    let params = ["$1"]
     let param_num = 2
 
     if(descripcion != null){
@@ -172,6 +195,12 @@ async function create_ethnicity(
         params.push(`$${param_num}`)
         param_num=param_num+1
     }
+    if(origen != null){
+        columns.push("origen")
+        values.push(origen)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
 
     const result = await pool.query(
         `insert into etnias (${columns.join(", ")}) values (${params.join(", ")}) RETURNING *`, values
@@ -189,12 +218,13 @@ async function create_place(
     nombre,
     descripcion,
     faccion,
+    etnia_dominante,
     clima,
     imagen,
 ){
-    const columns = ["nombre"]
-    const values = [nombre]
-    const params = ["$1"]
+    let columns = ["nombre"]
+    let values = [nombre]
+    let params = ["$1"]
     let param_num = 2
 
     if(descripcion != null){
@@ -218,6 +248,12 @@ async function create_place(
     if(imagen != null){
         columns.push("imagen")
         values.push(imagen)
+        params.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(etnia_dominante != null){
+        columns.push("etnia_dominante")
+        values.push(etnia_dominante)
         params.push(`$${param_num}`)
         param_num=param_num+1
     }
@@ -356,6 +392,7 @@ async function modify_ethnicity(
     naturaleza,
     imagen_indice,
     moodboard,
+    origen,
 ){
     const columns = []
     const values = []
@@ -386,6 +423,11 @@ async function modify_ethnicity(
         values.push(moodboard)
         param_num=param_num+1
     }
+    if(origen != null){
+        columns.push(`origen = $${param_num}`)
+        values.push(origen)
+        param_num=param_num+1
+    }
     values.push(id)
 
     const result = await pool.query(
@@ -405,6 +447,7 @@ async function modify_place(
     nombre,
     descripcion,
     faccion,
+    etnia_dominante,
     clima,
     imagen,
 ){
@@ -425,6 +468,11 @@ async function modify_place(
     if(faccion != null){
         columns.push(`faccion = $${param_num}`)
         values.push(faccion)
+        param_num=param_num+1
+    }
+    if(etnia_dominante != null){
+        columns.push(`etnia_dominante = $${param_num}`)
+        values.push(etnia_dominante)
         param_num=param_num+1
     }
     if(clima != null){
@@ -456,6 +504,8 @@ async function modify_place(
 module.exports = {
     verify_ethnicity_name,
     verify_place_name,
+    verify_default_ethnicity,
+    verify_default_place,
 
     get_all_characters,
     get_all_ethnicities,

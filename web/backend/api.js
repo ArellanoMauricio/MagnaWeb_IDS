@@ -10,6 +10,8 @@ app.listen(port, () => console.log(`Server running on port ${port}`));
 const {
   verify_ethnicity_name,
   verify_place_name,
+  verify_default_ethnicity,
+  verify_default_place,
 
   get_all_characters,
   get_all_ethnicities,
@@ -204,9 +206,9 @@ app.post("/api/personajes/", async (req, res) => {
   let errores = {}
 
   const nombre = req.body.nombre
-  const etnia = req.body.etnia
+  let etnia = req.body.etnia
   const edad = req.body.edad
-  const origen = req.body.origen
+  let origen = req.body.origen
   let apariencia = req.body.apariencia
   let historia = req.body.historia
   let clase = req.body.clase
@@ -221,13 +223,18 @@ app.post("/api/personajes/", async (req, res) => {
       errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
     }
   }
-  try{
-    if( !(await verify_ethnicity_name(etnia)) ){
-      errores.error_etnia = "La etnia ingresada debe figurar en las etnias registradas"
-    }
+  if ( !etnia || (etnia.trim() === "") ){
+    etnia = null
   }
-  catch(err){
-    errores.error_etnia = "Error al acceder a la base de datos para validar"
+  else {
+    try{
+      if( !(await verify_ethnicity_name(etnia)) ){
+        errores.error_etnia = "La etnia del personaje debe ser uns de las registradas"
+      }
+    }
+    catch(err){
+      errores.error_etnia = "Error al acceder a la base de datos para validar"
+    }
   }
   if( (typeof edad !== "number") || isNaN(edad) ){
     errores.error_edad = "El valor ingresado no es valido"
@@ -237,13 +244,18 @@ app.post("/api/personajes/", async (req, res) => {
       errores.error_edad = "La campo edad no puede ser negativo"
     }
   }
-  try{
-    if( !(await verify_place_name(origen)) ){
-      errores.error_origen = "El lugar de origen del personaje debe ser uno de los registrados"
-    }
+  if ( !origen || (origen.trim() === "") ){
+    origen = null
   }
-  catch(err){
-    errores.error_origen = "Error al acceder a la base de datos para validar"
+  else {
+    try{
+      if( !(await verify_place_name(origen)) ){
+        errores.error_origen = "El lugar de origen del personaje debe ser uno de los registrados"
+      }
+    }
+    catch(err){
+      errores.error_origen = "Error al acceder a la base de datos para validar"
+    }
   }
   if( !apariencia || (apariencia.trim() === "") ){
     apariencia = null
@@ -299,6 +311,7 @@ app.post("/api/etnias/", async (req, res) => {
   let naturaleza = req.body.naturaleza
   let imagen_indice = req.body.imagen_indice
   let moodboard = req.body.moodboard
+  let origen = req.body.origen
 
   if( !nombre || (nombre.trim() === "") ){
     errores.error_nombre = "El campo nombre no puede estar vacio"
@@ -309,7 +322,7 @@ app.post("/api/etnias/", async (req, res) => {
     }
     else{
       try{
-        if(await verify_ethnicity_name(nombre)){
+        if( await verify_ethnicity_name(nombre) ){
           errores.error_nombre = `El nombre ${nombre} ya se encuentra registrado`
         }
       }
@@ -335,7 +348,20 @@ app.post("/api/etnias/", async (req, res) => {
   if( !moodboard || (moodboard.trim() === "") ){
     moodboard = null
   }
-
+  if ( !origen || (origen.trim() === "") ){
+    origen = null
+  }
+  else {
+    try{
+      if( !(await verify_place_name(origen)) ){
+        errores.error_origen = "El lugar de origen de la etnia debe ser uno de los registrados"
+      }
+    }
+    catch(err){
+      errores.error_origen = "Error al acceder a la base de datos para validar"
+    }
+  }
+  
   if (Object.keys(errores).length > 0) {
     for(const [error_type, description] of Object.entries(errores)){
       console.log(`${error_type}: ${description}`)
@@ -344,7 +370,7 @@ app.post("/api/etnias/", async (req, res) => {
   }
   else{
     try{
-      const etnia = await create_ethnicity(nombre, descripcion, naturaleza, imagen_indice, moodboard)
+      const etnia = await create_ethnicity(nombre, descripcion, naturaleza, imagen_indice, moodboard, origen)
       if(!etnia){
         console.log('No se pudo crear la etnia')
         return res.status(500).json({ error: 'No se pudo crear la etnia' })
@@ -367,6 +393,7 @@ app.post("/api/lugares/", async (req, res) => {
   const nombre = req.body.nombre
   let descripcion = req.body.descripcion
   let faccion = req.body.faccion
+  let etnia_dominante = req.body.etnia_dominante
   let clima = req.body.clima
   let imagen = req.body.imagen
 
@@ -399,6 +426,19 @@ app.post("/api/lugares/", async (req, res) => {
       errores.error_faccion = "La faccion ingresada como amos del lugar supera el limite de caracteres"
     }
   }
+  if ( !etnia_dominante || (etnia_dominante.trim() === "") ){
+    etnia_dominante = null
+  }
+  else {
+    try{
+      if( !(await verify_ethnicity_name(etnia_dominante)) ){
+        errores.error_etnia_dominante = "La etnia dominante debe ser una de las registradas"
+      }
+    }
+    catch(err){
+      errores.error_etnia_dominante = "Error al acceder a la base de datos para validar"
+    }
+  }
   if( !clima || (clima.trim() === "") ){
     clima = null
   }
@@ -419,7 +459,7 @@ app.post("/api/lugares/", async (req, res) => {
   }
   else{
     try{
-      const lugar = await create_place(nombre, descripcion, faccion, clima, imagen)
+      const lugar = await create_place(nombre, descripcion, faccion, etnia_dominante, clima, imagen)
       if(!lugar){
         console.log('No se pudo crear el lugar')
         return res.status(500).json({ error: 'No se pudo crear el lugar' })
@@ -484,6 +524,10 @@ app.delete("/api/etnias/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
+    if( await verify_default_ethnicity(id) ){
+      console.log('No se puede eliminar la etnia desconocida')
+      return res.status(400).json({ error: "No se puede eliminar la etnia desconocida"})
+    }
     if( (await get_ethnicity(id)) !== undefined ){
       const ethnicity = await delete_ethnicity(id)
       if(!ethnicity){
@@ -518,6 +562,10 @@ app.delete("/api/lugares/:num", async (req, res) => {
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
   try{
+    if( await verify_default_place(id) ){
+      console.log('No se puede eliminar el lugar desconocido')
+      return res.status(400).json({ error: "No se puede eliminar el lugar desconocido"})
+    }
     if( (await get_place(id)) !== undefined ){
       const place= await delete_place(id)
       if(!place){
@@ -700,6 +748,10 @@ app.put("/api/etnias/:num", async (req, res) => {
       console.log('No se puede modificar una etnia que no existe')
       return res.status(404).json({ error: "No se puede modificar una etnia que no existe" })
     }
+    if( await verify_default_ethnicity(id) ){
+      console.log('No se puede modificar la etnia desconocida')
+      return res.status(400).json({ error: "No se puede modificar la etnia desconocida"})
+    }
   }
   catch(err){
     console.error('Error al acceder a la base de datos para validar')
@@ -713,6 +765,7 @@ app.put("/api/etnias/:num", async (req, res) => {
   let naturaleza = req.body.naturaleza
   let imagen_indice = req.body.imagen_indice
   let moodboard = req.body.moodboard
+  let origen = req.body.origen
 
   if( !nombre || (nombre.trim() === "") ){
     nombre = null
@@ -749,13 +802,27 @@ app.put("/api/etnias/:num", async (req, res) => {
   if( !moodboard || (moodboard.trim() === "") ){
     moodboard = null
   }
+  if( !origen || (origen.trim() === "") ){
+    origen = null
+  }
+  else {
+    try{
+        if(await verify_place_name(origen)){
+          errores.error_origen = "Esa lugar no se encuentra registrado"
+        }
+    }
+    catch(err){
+      errores.error_origen = "Error al acceder a la base de datos para validar"
+    }
+  }
 
   if(
     nombre === null &&
     descripcion === null &&
     naturaleza === null &&
     imagen_indice === null &&
-    moodboard === null
+    moodboard === null &&
+    origen === null
   ){
     console.log('No se ingreso ningun campo a modificar')
     return res.status(400).json({ error: "Se debe modificar al menos un campo" })
@@ -769,7 +836,7 @@ app.put("/api/etnias/:num", async (req, res) => {
   }
   else{
     try{
-      const ethnicity = await modify_ethnicity(id, nombre, descripcion, naturaleza, imagen_indice, moodboard)
+      const ethnicity = await modify_ethnicity(id, nombre, descripcion, naturaleza, imagen_indice, moodboard, origen)
       if(!ethnicity){
         console.log('No se pudo modificar la etnia')
         return res.status(500).json({ error: 'No se pudo modificar la etnia' })
@@ -797,9 +864,19 @@ app.put("/api/lugares/:num", async (req, res) => {
     console.log('La id no puede ser negativa')
     return res.status(400).json({ error: "La id no puede ser negativa" })
   }
-  if( (await get_place(id)) === undefined ){
-    console.log('No se puede modificar un lugar que no existe')
-    return res.status(404).json({ error: "No se puede modificar un lugar que no existe" })
+  try{
+    if( (await get_place(id)) === undefined ){
+      console.log('No se puede modificar un lugar que no existe')
+      return res.status(404).json({ error: "No se puede modificar un lugar que no existe" })
+    }
+    if( await verify_default_place(id) ){
+      console.log('No se puede modificar el lugar desconocido')
+      return res.status(400).json({ error: "No se puede modificar el lugar desconocido"})
+    }
+  }
+  catch(err){
+    console.error('Error al acceder a la base de datos para validar')
+    return res.status(500).json({ error: "Error al acceder a la base de datos para validar"})
   }
 
   let errores = {}
@@ -807,6 +884,7 @@ app.put("/api/lugares/:num", async (req, res) => {
   let nombre = req.body.nombre
   let descripcion = req.body.descripcion
   let faccion = req.body.faccion
+  etnia_dominante = req.body.etnia_dominante
   let clima = req.body.clima
   let imagen = req.body.imagen
 
@@ -831,6 +909,7 @@ app.put("/api/lugares/:num", async (req, res) => {
   if( !descripcion || (descripcion.trim() === "") ){
     descripcion = null
   }
+
   if( !faccion || (faccion.trim() === "") ){
     faccion = null
   }
@@ -839,6 +918,21 @@ app.put("/api/lugares/:num", async (req, res) => {
       errores.error_faccion = "La faccion ingresada como amos del lugar supera el limite de caracteres"
     }
   }
+
+  if( !etnia_dominante || (etnia_dominante.trim() === "") ){
+    etnia_dominante = null
+  }
+  else {
+    try{
+        if(await verify_ethnicity_name(etnia_dominante)){
+          errores.error_etnia_dominante = "Esa etnia no se encuentra registrada"
+        }
+    }
+    catch(err){
+      errores.error_etnia_dominante = "Error al acceder a la base de datos para validar"
+    }
+  }
+
   if( !clima || (clima.trim() === "") ){
     clima = null
   }
@@ -847,6 +941,7 @@ app.put("/api/lugares/:num", async (req, res) => {
       errores.error_clima = "El clima ingresado para el lugar supera el limite de caracteres"
     }
   }
+
   if( !imagen || (imagen.trim() === "") ){
     imagen = null
   }
@@ -855,6 +950,7 @@ app.put("/api/lugares/:num", async (req, res) => {
     nombre === null &&
     descripcion === null &&
     faccion === null &&
+    etnia_dominante === null &&
     clima === null &&
     imagen === null
   ){
@@ -870,7 +966,7 @@ app.put("/api/lugares/:num", async (req, res) => {
   }
   else{
     try{
-      const place = await modify_place(id, nombre, descripcion, faccion, clima, imagen)
+      const place = await modify_place(id, nombre, descripcion, faccion, etnia_dominante, clima, imagen)
       if(!place){
         console.log('No se pudo modificar el lugar')
         return res.status(500).json({ error: 'No se pudo modificar el lugar' })
