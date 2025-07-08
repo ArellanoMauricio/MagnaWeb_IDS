@@ -12,72 +12,82 @@ const pool = new Pool({
 
 /*AUXILIARES*/
 
-async function verify_ethnicity_name(name) {
-    const result = await pool.query('SELECT * FROM etnias WHERE etnias.nombre = $1', [name])
-    return result.rows.length > 0
+async function verificar_nombre_de_etnia(name) {
+    const resultado = await pool.query('SELECT * FROM etnias WHERE etnias.nombre = $1', [name])
+    return resultado.rows.length > 0
 }
 
-async function verify_place_name(name) {
-    const result = await pool.query('SELECT * FROM lugares WHERE lugares.nombre = $1', [name])
-    return result.rows.length > 0
+async function verificar_nombre_de_lugar(name) {
+    const resultado = await pool.query('SELECT * FROM lugares WHERE lugares.nombre = $1', [name])
+    return resultado.rows.length > 0
+}
+
+async function es_etnia_default(id) {
+    const resultado = await pool.query('SELECT nombre FROM etnias WHERE etnias.id = $1', [id])
+    return resultado.rows[0].nombre === 'Desconocida'
+}
+
+async function es_lugar_default(id) {
+    const resultado = await pool.query('SELECT nombre FROM lugares WHERE lugares.id = $1', [id])
+    return resultado.rows[0].nombre === 'Desconocido'
 }
 
 /*GET*/
 
-async function get_all_characters() {
-    const result = await pool.query('SELECT * FROM personajes')
-    return result.rows
+async function obtener_todos_los_personajes() {
+    const resultado = await pool.query('SELECT * FROM personajes')
+    return resultado.rows
 }
 
-async function get_character(id) {
-    const result = await pool.query('SELECT * FROM personajes WHERE id = $1',
+async function obtener_personaje(id) {
+    const resultado = await pool.query('SELECT * FROM personajes WHERE id = $1',
         [id]
     )
-    if(result.rowCount === 0){
+    if( !resultado || (resultado.rowCount === 0) ){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
-async function get_all_ethnicities() {
-    const result = await pool.query('SELECT * FROM etnias')
-    return result.rows
+async function obtener_todas_las_etnias() {
+    const resultado = await pool.query('SELECT * FROM etnias')
+    return resultado.rows
 }
 
-async function get_ethnicity(id) {
-    const result = await pool.query('SELECT * FROM etnias WHERE id = $1',
+async function obtener_etnia(id) {
+    const resultado = await pool.query('SELECT * FROM etnias WHERE id = $1',
         [id]
     )
-    if(result.rowCount === 0){
+    if( !resultado || (resultado.rowCount === 0) ){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
-async function get_all_places() {
-    const result = await pool.query('SELECT * FROM lugares')
-    return result.rows
+async function obtener_todos_los_lugares() {
+    const resultado = await pool.query('SELECT * FROM lugares')
+    return resultado.rows
 }
 
-async function get_place(id) {
-    const result = await pool.query('SELECT * FROM lugares WHERE id = $1',
+async function obtener_lugar(id) {
+    const resultado = await pool.query('SELECT * FROM lugares WHERE id = $1',
         [id]
     )
-    if(result.rowCount === 0){
+    if( !resultado || (resultado.rowCount === 0) ){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
 /*POST*/
 
-async function create_character(
+async function crear_personaje(
     nombre,
     etnia,
     edad,
@@ -88,193 +98,219 @@ async function create_character(
     imagen,
     imagen_indice,
 ){
-    const columns = ["nombre", "etnia", "edad", "origen"]
-    const values = [nombre, etnia, edad, origen]
-    const params = ["$1", "$2", "$3", "$4"]
-    let param_num = 5
+    let columnas = ["nombre", "edad"]
+    let valores = [nombre, edad]
+    let parametros = ["$1", "$2"]
+    let param_num = 3
 
+    if(etnia != null){
+        columnas.push("etnia")
+        valores.push(etnia)
+        parametros.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(origen != null){
+        columnas.push("origen")
+        valores.push(origen)
+        parametros.push(`$${param_num}`)
+        param_num=param_num+1
+    }
     if(apariencia != null){
-        columns.push("apariencia")
-        values.push(apariencia)
-        params.push(`$${param_num}`)
+        columnas.push("apariencia")
+        valores.push(apariencia)
+        parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
     if(historia != null){
-        columns.push("historia");
-        values.push(historia);
-        params.push(`$${param_num}`);
+        columnas.push("historia");
+        valores.push(historia);
+        parametros.push(`$${param_num}`);
         param_num=param_num+1
     }
     if(clase != null){
-        columns.push("clase");
-        values.push(clase);
-        params.push(`$${param_num}`);
+        columnas.push("clase");
+        valores.push(clase);
+        parametros.push(`$${param_num}`);
         param_num=param_num+1
     }
     if(imagen != null){
-        columns.push("imagen");
-        values.push(imagen);
-        params.push(`$${param_num}`);
+        columnas.push("imagen");
+        valores.push(imagen);
+        parametros.push(`$${param_num}`);
         param_num=param_num+1
     }
     if(imagen_indice != null){
-        columns.push("imagen_indice");
-        values.push(imagen_indice);
-        params.push(`$${param_num}`);
+        columnas.push("imagen_indice");
+        valores.push(imagen_indice);
+        parametros.push(`$${param_num}`);
         param_num=param_num+1
     }
 
-    const result = await pool.query(
-        `insert into personajes (${columns.join(", ")}) values (${params.join(", ")}) RETURNING *`, values
+    const resultado = await pool.query(
+        `insert into personajes (${columnas.join(", ")}) values (${parametros.join(", ")}) RETURNING *`, valores
     )
 
-    if( !result || (result.rows.length === 0) ){
+    if( !resultado || (resultado.rows.length === 0) ){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
-async function create_ethnicity(
+async function crear_etnia(
     nombre,
     descripcion,
     naturaleza,
     imagen_indice,
     moodboard,
+    origen,
 ){
-    const columns = ["nombre"]
-    const values = [nombre]
-    const params = ["$1"]
+    let columnas = ["nombre"]
+    let valores = [nombre]
+    let parametros = ["$1"]
     let param_num = 2
 
     if(descripcion != null){
-        columns.push("descripcion")
-        values.push(descripcion)
-        params.push(`$${param_num}`)
+        columnas.push("descripcion")
+        valores.push(descripcion)
+        parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
     if(naturaleza != null){
-        columns.push("naturaleza")
-        values.push(naturaleza)
-        params.push(`$${param_num}`)
+        columnas.push("naturaleza")
+        valores.push(naturaleza)
+        parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
     if(imagen_indice != null){
-        columns.push("imagen_indice")
-        values.push(imagen_indice)
-        params.push(`$${param_num}`)
+        columnas.push("imagen_indice")
+        valores.push(imagen_indice)
+        parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
     if(moodboard != null){
-        columns.push("moodboard")
-        values.push(moodboard)
-        params.push(`$${param_num}`)
+        columnas.push("moodboard")
+        valores.push(moodboard)
+        parametros.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(origen != null){
+        columnas.push("origen")
+        valores.push(origen)
+        parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
 
-    const result = await pool.query(
-        `insert into etnias (${columns.join(", ")}) values (${params.join(", ")}) RETURNING *`, values
+    const resultado = await pool.query(
+        `insert into etnias (${columnas.join(", ")}) values (${parametros.join(", ")}) RETURNING *`, valores
     )
 
-    if( !result || (result.rows.length === 0) ){
+    if( !resultado || (resultado.rows.length === 0) ){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
-async function create_place(
+async function crear_lugar(
     nombre,
     descripcion,
     faccion,
+    etnia_dominante,
     clima,
     imagen,
 ){
-    const columns = ["nombre"]
-    const values = [nombre]
-    const params = ["$1"]
+    let columnas = ["nombre"]
+    let valores = [nombre]
+    let parametros = ["$1"]
     let param_num = 2
 
     if(descripcion != null){
-        columns.push("descripcion")
-        values.push(descripcion)
-        params.push(`$${param_num}`)
+        columnas.push("descripcion")
+        valores.push(descripcion)
+        parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
     if(faccion != null){
-        columns.push("faccion")
-        values.push(faccion)
-        params.push(`$${param_num}`)
+        columnas.push("faccion")
+        valores.push(faccion)
+        parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
     if(clima != null){
-        columns.push("clima")
-        values.push(clima)
-        params.push(`$${param_num}`)
+        columnas.push("clima")
+        valores.push(clima)
+        parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
     if(imagen != null){
-        columns.push("imagen")
-        values.push(imagen)
-        params.push(`$${param_num}`)
+        columnas.push("imagen")
+        valores.push(imagen)
+        parametros.push(`$${param_num}`)
+        param_num=param_num+1
+    }
+    if(etnia_dominante != null){
+        columnas.push("etnia_dominante")
+        valores.push(etnia_dominante)
+        parametros.push(`$${param_num}`)
         param_num=param_num+1
     }
 
-    const result = await pool.query(
-        `insert into lugares (${columns.join(", ")}) values (${params.join(", ")}) RETURNING *`, values
+    const resultado = await pool.query(
+        `insert into lugares (${columnas.join(", ")}) values (${parametros.join(", ")}) RETURNING *`, valores
     )
 
-    if( !result || (result.rows.length === 0) ){
+    if( !resultado || (resultado.rows.length === 0) ){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
 /*DELETE*/
 
-async function delete_character(id){
-    const result = await pool.query(
+async function eliminar_personaje(id){
+    const resultado = await pool.query(
         'DELETE FROM personajes WHERE id = $1 RETURNING *', [id]
     )
-    if(result.rowCount === 0){
+    if(resultado.rowCount === 0){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
-async function delete_ethnicity(id){
-    const result = await pool.query(
+async function eliminar_etnia(id){
+    const resultado = await pool.query(
         'DELETE FROM etnias WHERE id = $1 RETURNING *', [id]
     )
-    if(result.rowCount === 0){
+    if(resultado.rowCount === 0){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
-async function delete_place(id){
-    const result = await pool.query(
+async function eliminar_lugar(id){
+    const resultado = await pool.query(
         'DELETE FROM lugares WHERE id = $1 RETURNING *', [id]
     )
-    if(result.rowCount === 0){
+    if(resultado.rowCount === 0){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
 /*PUT*/
 
-async function modify_character(
+async function modificar_personaje(
     id,
     nombre,
     etnia,
@@ -286,194 +322,208 @@ async function modify_character(
     imagen,
     imagen_indice,
 ){
-    const columns = []
-    const values = []
+    let columnas = []
+    let valores = []
     let param_num = 1
 
     if(nombre != null){
-        columns.push(`nombre = $${param_num}`)
-        values.push(nombre)
+        columnas.push(`nombre = $${param_num}`)
+        valores.push(nombre)
         param_num=param_num+1
     }
     if(etnia != null){
-        columns.push(`etnia = $${param_num}`)
-        values.push(etnia)
+        columnas.push(`etnia = $${param_num}`)
+        valores.push(etnia)
         param_num=param_num+1
     }
     if(edad != null){
-        columns.push(`edad = $${param_num}`)
-        values.push(edad)
+        columnas.push(`edad = $${param_num}`)
+        valores.push(edad)
         param_num=param_num+1
     }
     if(origen != null){
-        columns.push(`origen = $${param_num}`)
-        values.push(origen)
+        columnas.push(`origen = $${param_num}`)
+        valores.push(origen)
         param_num=param_num+1
     }
     if(apariencia != null){
-        columns.push(`apariencia = $${param_num}`)
-        values.push(apariencia)
+        columnas.push(`apariencia = $${param_num}`)
+        valores.push(apariencia)
         param_num=param_num+1
     }
     if(historia != null){
-        columns.push(`historia = $${param_num}`);
-        values.push(historia);
+        columnas.push(`historia = $${param_num}`);
+        valores.push(historia);
         param_num=param_num+1
     }
     if(clase != null){
-        columns.push(`clase = $${param_num}`);
-        values.push(clase);
+        columnas.push(`clase = $${param_num}`);
+        valores.push(clase);
         param_num=param_num+1
     }
     if(imagen != null){
-        columns.push(`imagen = $${param_num}`);
-        values.push(imagen);
+        columnas.push(`imagen = $${param_num}`);
+        valores.push(imagen);
         param_num=param_num+1
     }
     if(imagen_indice != null){
-        columns.push(`imagen_indice = $${param_num}`);
-        values.push(imagen_indice);
+        columnas.push(`imagen_indice = $${param_num}`);
+        valores.push(imagen_indice);
         param_num=param_num+1
     }
-    values.push(id)
+    valores.push(id)
 
-    const result = await pool.query(
-        `update personajes set ${columns.join(", ")} where id = $${param_num} RETURNING *`, values
+    const resultado = await pool.query(
+        `update personajes set ${columnas.join(", ")} where id = $${param_num} RETURNING *`, valores
     )
 
-    if( !result || (result.rows.length === 0) ){
+    if( !resultado || (resultado.rows.length === 0) ){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
-async function modify_ethnicity(
+async function modificar_etnia(
     id,
     nombre,
     descripcion,
     naturaleza,
     imagen_indice,
     moodboard,
+    origen,
 ){
-    const columns = []
-    const values = []
+    let columnas = []
+    let valores = []
     let param_num = 1
 
     if(nombre != null){
-        columns.push(`nombre = $${param_num}`)
-        values.push(nombre)
+        columnas.push(`nombre = $${param_num}`)
+        valores.push(nombre)
         param_num=param_num+1
     }
     if(descripcion != null){
-        columns.push(`descripcion = $${param_num}`)
-        values.push(descripcion)
+        columnas.push(`descripcion = $${param_num}`)
+        valores.push(descripcion)
         param_num=param_num+1
     }
     if(naturaleza != null){
-        columns.push(`naturaleza = $${param_num}`)
-        values.push(naturaleza)
+        columnas.push(`naturaleza = $${param_num}`)
+        valores.push(naturaleza)
         param_num=param_num+1
     }
     if(imagen_indice != null){
-        columns.push(`imagen_indice = $${param_num}`)
-        values.push(imagen_indice)
+        columnas.push(`imagen_indice = $${param_num}`)
+        valores.push(imagen_indice)
         param_num=param_num+1
     }
     if(moodboard != null){
-        columns.push(`moodboard = $${param_num}`)
-        values.push(moodboard)
+        columnas.push(`moodboard = $${param_num}`)
+        valores.push(moodboard)
         param_num=param_num+1
     }
-    values.push(id)
+    if(origen != null){
+        columnas.push(`origen = $${param_num}`)
+        valores.push(origen)
+        param_num=param_num+1
+    }
+    valores.push(id)
 
-    const result = await pool.query(
-        `update etnias set ${columns.join(", ")} where id = $${param_num} RETURNING *`, values
+    const resultado = await pool.query(
+        `update etnias set ${columnas.join(", ")} where id = $${param_num} RETURNING *`, valores
     )
 
-    if( !result || (result.rows.length === 0) ){
+    if( !resultado || (resultado.rows.length === 0) ){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
-async function modify_place(
+async function modificar_lugar(
     id,
     nombre,
     descripcion,
     faccion,
+    etnia_dominante,
     clima,
     imagen,
 ){
-    const columns = []
-    const values = []
+    let columnas = []
+    let valores = []
     let param_num = 1
 
     if(nombre != null){
-        columns.push(`nombre = $${param_num}`)
-        values.push(nombre)
+        columnas.push(`nombre = $${param_num}`)
+        valores.push(nombre)
         param_num=param_num+1
     }
     if(descripcion != null){
-        columns.push(`descripcion = $${param_num}`)
-        values.push(descripcion)
+        columnas.push(`descripcion = $${param_num}`)
+        valores.push(descripcion)
         param_num=param_num+1
     }
     if(faccion != null){
-        columns.push(`faccion = $${param_num}`)
-        values.push(faccion)
+        columnas.push(`faccion = $${param_num}`)
+        valores.push(faccion)
+        param_num=param_num+1
+    }
+    if(etnia_dominante != null){
+        columnas.push(`etnia_dominante = $${param_num}`)
+        valores.push(etnia_dominante)
         param_num=param_num+1
     }
     if(clima != null){
-        columns.push(`clima = $${param_num}`)
-        values.push(clima)
+        columnas.push(`clima = $${param_num}`)
+        valores.push(clima)
         param_num=param_num+1
     }
     if(imagen != null){
-        columns.push(`imagen = $${param_num}`)
-        values.push(imagen)
+        columnas.push(`imagen = $${param_num}`)
+        valores.push(imagen)
         param_num=param_num+1
     }
-    values.push(id)
+    valores.push(id)
 
-    const result = await pool.query(
-        `update lugares set ${columns.join(", ")} where id = $${param_num} RETURNING *`, values
+    const resultado = await pool.query(
+        `update lugares set ${columnas.join(", ")} where id = $${param_num} RETURNING *`, valores
     )
 
-    if( !result || (result.rows.length === 0) ){
+    if( !resultado || (resultado.rows.length === 0) ){
         return undefined
     }
     else{
-        return result.rows[0]
+        return resultado.rows[0]
     }
 }
 
 /*Funciones a exportar*/
 
 module.exports = {
-    verify_ethnicity_name,
-    verify_place_name,
+    verificar_nombre_de_etnia,
+    verificar_nombre_de_lugar,
+    es_etnia_default,
+    es_lugar_default,
 
-    get_all_characters,
-    get_all_ethnicities,
-    get_all_places,
+    obtener_todos_los_personajes,
+    obtener_todas_las_etnias,
+    obtener_todos_los_lugares,
 
-    get_character,
-    get_ethnicity,
-    get_place,
+    obtener_personaje,
+    obtener_etnia,
+    obtener_lugar,
 
-    create_character,
-    create_ethnicity,
-    create_place,
+    crear_personaje,
+    crear_etnia,
+    crear_lugar,
 
-    delete_character,
-    delete_ethnicity,
-    delete_place,
+    eliminar_personaje,
+    eliminar_etnia,
+    eliminar_lugar,
 
-    modify_character,
-    modify_ethnicity,
-    modify_place,
+    modificar_personaje,
+    modificar_etnia,
+    modificar_lugar,
 }
