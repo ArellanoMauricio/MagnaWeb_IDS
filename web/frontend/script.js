@@ -145,8 +145,17 @@ async function rellenarPersonajes(){
             contenedor.appendChild(tarjeta)
         } )
     }
-    await new Promise(res => setTimeout(res, 2000))
 }
+
+async function mostrarTarjeta(){
+    const indiceamover = document.getElementById("container")
+    indiceamover.classList.add("moverderecha")
+    await new Promise(res => setTimeout(res, 2000))
+    const tarjetapersonaje = document.getElementById("tarjetapersonaje")
+    tarjetapersonaje.classList.add("abrirtarjeta")
+}
+
+
 
 document.addEventListener('mousedown', () => {
   document.querySelector('.mf-cursor')?.classList.add('-clicked');
