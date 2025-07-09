@@ -104,6 +104,15 @@ async function armarTarjetaPersonaje(id){
     }
 }
 
+async function mostrarTarjetaEtnias(id){
+    const indiceamover = document.getElementById("container")
+    indiceamover.classList.add("moverderecha")
+    armarTarjetaEtnia(id)
+    await new Promise(res => setTimeout(res, 2000))
+    const tarjeta = document.getElementById("tarjeta")
+    tarjeta.classList.add("abrirtarjeta")
+}
+
 async function armarTarjetaEtnia(id){
     const tarjeta = document.getElementById('tarjeta')
     const apiData = await getElementoApi(`http://localhost:3000/api/etnias/${id}`)
@@ -111,14 +120,36 @@ async function armarTarjetaEtnia(id){
         const informacion = document.createElement('div')
         const nombre = apiData.nombre;
         const descripcion = apiData.descripcion;
-        const origen = apiData.origen;
         const moodboard = apiData.moodboard;
         const imagen_indice = apiData.imagen_indice;
         const naturaleza = apiData.naturaleza;
         informacion.innerHTML = `
-        
+            <div id="contenido">
+                <div class="data_imagen">
+                    <h3 class="imagen_de">Moodboard:</h3>
+                    <input disabled id="campo_imagen" class="fuente_imagen" type="text" placeholder="${moodboard}">
+                </div>
+                <div class="data_imagen">
+                    <h3 class="imagen_de">Imagen_indice:</h3>
+                    <input disabled id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="${imagen_indice}">
+                </div>
+                <img src="${moodboard}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_targeta">
+                <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
+                <input disabled class="dato_secundario" type="text" placeholder="${naturaleza}">
+                <textarea disabled id="descripcion_lugar" placeholder="${descripcion}"></textarea>
+                <button id="editar_aceptar">
+                    <span class="material-symbols-outlined">
+                    edit
+                    </span>
+                </button>
+                <button id="borrar_cancelar">
+                    <span class="material-symbols-outlined">
+                    delete
+                    </span>
+                </button>
+            </div>
         `
-        tarjeta.appendChild(informacion)
+        tarjeta.replaceChildren(informacion)
     }
 }
 
@@ -126,13 +157,14 @@ async function rellenarEtnias(){
     const apiData = await getElementoApi('http://localhost:3000/api/etnias/')
     const contenedor = document.getElementById('cuadro2')
     if (apiData) {
-        apiData.forEach((lugar, i) => {
+        apiData.forEach((etnia, i) => {
             const tarjeta = document.createElement('div')
             tarjeta.classList.add('lugar')
-            const nombre = lugar.nombre;
-            const imagen = lugar.imagen_indice;
+            const id = etnia.id;
+            const nombre = etnia.nombre;
+            const imagen = etnia.imagen_indice;
             tarjeta.innerHTML = `
-            <div class="imgcontainer">
+            <div class="imgcontainer" onclick="mostrarTarjetaEtnias(${id})">
               <img src="${imagen}" onerror="this.src='https://i.imgur.com/c1tlvB9.jpeg'" class="imglug">
               <div class="nombrelug">
                 <p><span>-</span><br> <span><a>${nombre}</a></span><br> <span>-</span></p>
@@ -240,8 +272,6 @@ async function mostrarTarjeta(){
     const tarjeta = document.getElementById("tarjeta")
     tarjeta.classList.add("abrirtarjeta")
 }
-
-
 
 document.addEventListener('mousedown', () => {
   document.querySelector('.mf-cursor')?.classList.add('-clicked');
