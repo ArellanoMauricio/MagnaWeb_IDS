@@ -182,8 +182,8 @@ async function mostrarTarjeta(){
     const indiceamover = document.getElementById("container")
     indiceamover.classList.add("moverderecha")
     await new Promise(res => setTimeout(res, 2000))
-    const tarjetapersonaje = document.getElementById("tarjetapersonaje")
-    tarjetapersonaje.classList.add("abrirtarjeta")
+    const tarjeta = document.getElementById("tarjeta")
+    tarjeta.classList.add("abrirtarjeta")
 }
 
 
