@@ -922,8 +922,8 @@ app.get("/style.css", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "style.css"));
 })
 
-app.get("/lugares.css", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "frontend", "lugares.css"));
+app.get("/tarjetas.css", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "tarjetas.css"));
 })
 
 app.get("/subindices.css", (req, res) => {
