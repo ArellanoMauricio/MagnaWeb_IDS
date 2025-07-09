@@ -263,6 +263,15 @@
     border: none;
     border-radius: 0.5rem;
     padding: 0rem;
+    cursor: none;
+}
+
+#tarjeta button {
+    cursor: none;
+}
+
+#tarjeta textarea {
+    cursor: none;
 }
 
 .dato_secundario {
@@ -275,7 +284,51 @@
     margin-top: 0;
     margin-bottom: 0.5rem;
     
-    width: 38.125rem;
+    width: 18.8125rem;
+    height: 1.89rem;
+
+    border-radius: 0.2187rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.561rem;
+    font-weight: normal;
+}
+
+.dato_foraneo_etnia {
+    display: inline-block;
+    position: absolute;
+
+    top: 21.4375rem;
+    left: 20.25rem;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 18.8125rem;
+    height: 1.89rem;
+
+    border-radius: 0.2187rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.561rem;
+    font-weight: normal;
+}
+
+.dato_foraneo_lugar {
+    display: inline-block;
+    position: absolute;
+
+    top: 23.8275rem;
+    left: 20.25rem;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 18.8125rem;
     height: 1.89rem;
 
     border-radius: 0.2187rem;
@@ -373,4 +426,63 @@
     
     font-size: 1.16rem;
     text-indent: 2rem;
+    padding: 0rem;
+    resize: none;
+    text-align: justify;
+    border: none;
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
+}
+
+#apariencia_personaje {
+    display: inline-block;
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 38.125rem;
+    height: 6.867rem;
+
+    border-radius: 0.2187rem;
+    
+    font-size: 1.16rem;
+    text-indent: 2rem;
+    padding: 0rem;
+    resize: none;
+    text-align: justify;
+    border: none;
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
+}
+
+#descripcion_personaje {
+    display: inline-block;
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 38.125rem;
+    height: 14.023rem;
+
+    border-radius: 0.2187rem;
+    
+    font-size: 1.16rem;
+    text-indent: 2rem;
+    padding: 0rem;
+    resize: none;
+    text-align: justify;
+    border: none;
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
 }

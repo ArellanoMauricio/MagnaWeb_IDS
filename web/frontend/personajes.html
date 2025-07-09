@@ -40,15 +40,24 @@
             <h3 class="imagen_de">Imágen:</h3>
             <input disabled id="campo_imagen" class="fuente_imagen" type="text" placeholder="Ingrese un link directo a la imagen">
           </div>
+
           <div class="data_imagen">
             <h3 class="imagen_de">Imágen del índice:</h3>
             <input disabled id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="Ingrese un link directo a la imagen">
           </div>
+
           <img src="source/defaultmap.jpg" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_targeta">
+          
           <input disabled id="nombre_tarjeta" type="text" placeholder="Nombre">
-          <input disabled class="dato_secundario" type="text" placeholder="Clima">
-          <input disabled class="dato_secundario" type="text" placeholder="Facción">
-          <textarea disabled id="descripcion_lugar" placeholder="Ingrese una descripción"></textarea>
+
+          <input disabled class="dato_foraneo_etnia" list="etnias" placeholder="Etnia">
+          <input disabled class="dato_foraneo_lugar" list="lugares" placeholder="Origen">
+          <input disabled class="dato_secundario" type="number" placeholder="Edad">
+          <input disabled class="dato_secundario" type="text" placeholder="Clase">
+
+          <textarea disabled id="apariencia_personaje" placeholder="Ingrese la apariencia del personaje"></textarea>
+          <textarea disabled id="descripcion_personaje" placeholder="Ingrese una descripción"></textarea>
+
           <button id="editar_aceptar">
             <span class="material-symbols-outlined">
               edit
@@ -63,6 +72,10 @@
         </div>
       </div>
     </div>
+
+    <datalist id="etnias"></datalist>
+    <datalist id="lugares"></datalist>
+
     <script>
       window.onload = () => {
         const indice = document.getElementById("elementos")
