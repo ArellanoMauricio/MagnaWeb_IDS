@@ -18,6 +18,4 @@ services:
       - POSTGRES_DB=magnabase
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - pgdata:/var/lib/postgresql/data
-volumes:
-  pgdata:
+      - ./db/.volumes/postgres/data/pgdata:/var/lib/postgresql/data/pgdata
