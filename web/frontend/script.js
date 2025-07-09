@@ -51,7 +51,6 @@ async function redirect(sitio, id, t) {
     }
 }
 
-
 async function getElementoApi(link) {
     try {
         const response = await fetch(link)
@@ -64,6 +63,62 @@ async function getElementoApi(link) {
     } catch (error) {
         console.error('Hubo un problema con la operación fetch:', error)
         return null
+    }
+}
+
+async function armarTarjetaLugar(id){
+    const tarjeta = document.getElementById('tarjeta')
+    const apiData = await getElementoApi(`http://localhost:3000/api/lugares/${id}`)
+    if (apiData) {
+        const informacion = document.createElement('div')
+        const nombre = apiData.nombre;
+        const imagen = apiData.imagen;
+        const faccion = apiData.faccion;
+        const clima = apiData.clima;
+        const descripcion = apiData.descripcion;
+        informacion.innerHTML = `
+        
+        `
+        tarjeta.appendChild(informacion)
+    }
+}
+
+async function armarTarjetaPersonaje(id){
+    const tarjeta = document.getElementById('tarjeta')
+    const apiData = await getElementoApi(`http://localhost:3000/api/personajes/${id}`)
+    if (apiData) {
+        const informacion = document.createElement('div')
+        const nombre = apiData.nombre;
+        const edad = apiData.edad;
+        const etnia = apiData.etnia;
+        const origen = apiData.origen;
+        const imagen = apiData.imagen;
+        const imagen_indice = apiData.imagen_indice;
+        const clase = apiData.clase;
+        const historia = apiData.historia;
+        const apariencia = apiData.apariencia;
+        informacion.innerHTML = `
+        
+        `
+        tarjeta.appendChild(informacion)
+    }
+}
+
+async function armarTarjetaEtnia(id){
+    const tarjeta = document.getElementById('tarjeta')
+    const apiData = await getElementoApi(`http://localhost:3000/api/etnias/${id}`)
+    if (apiData) {
+        const informacion = document.createElement('div')
+        const nombre = apiData.nombre;
+        const descripcion = apiData.descripcion;
+        const origen = apiData.origen;
+        const moodboard = apiData.moodboard;
+        const imagen_indice = apiData.imagen_indice;
+        const naturaleza = apiData.naturaleza;
+        informacion.innerHTML = `
+        
+        `
+        tarjeta.appendChild(informacion)
     }
 }
 
