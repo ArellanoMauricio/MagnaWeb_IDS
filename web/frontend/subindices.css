@@ -151,11 +151,9 @@
     border-radius: 0.9375rem;
     width: 0rem;
     height: 0rem;
-    display: flex;
+
     transition: transform 0.25s ease-out !important;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
     mix-blend-mode: add;
     overflow: hidden;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
@@ -163,5 +161,201 @@
 }
 
 .abrirtarjeta {
-    animation: open_character_card 2s ease-in forwards;
+    animation: open_card 2s ease-in forwards;
+}
+
+#contenido {
+    width: 40rem;
+    height: 50.5rem;
+    padding: 0.9375rem;
+}
+
+.data_imagen {
+    box-sizing: border-box;
+    position: relative;
+
+    background: #bdbdbd;
+    width: 38.125rem;
+
+    height: 8.15rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    border-radius: 0.9375rem;
+    padding: 0.9375rem;
+}
+
+.imagen_de {
+    box-sizing: border-box;
+    position: relative;
+
+    background: #dbdbdb;
+
+    width: 36.25rem;
+    height: 2rem;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+
+    border-radius: 0.46875rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.7318rem;
+    font-weight: normal;
+}
+
+.fuente_imagen{
+    box-sizing: border-box;
+    position: relative;
+
+    background: #dbdbdb;
+
+    width: 36.25rem;
+    height: 3.7rem;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+
+    border-radius: 0.46875rem;
+
+    font-size: 1.237rem;
+    font-weight: normal;
+
+    border: none;
+}
+
+#imagen_targeta {
+    position: absolute;
+    background: #bdbdbd;
+
+    top: 0.9375rem;
+
+    width: 38.125rem;
+    height: 16.8rem;
+
+    border-radius: 0.9375rem;
+
+    opacity: 50%;
+}
+
+#nombre_targeta {
+    display: inline-block;
+    position: relative;
+    background: #bdbdbd;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+
+    width: 38.125rem;
+    height: 2.7rem;
+
+    border-radius: 0.3125rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 2.23rem;
+}
+
+.dato_secundario {
+    display: inline-block;
+    position: relative;
+    background: #bdbdbd;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 38.125rem;
+    height: 1.89rem;
+
+    border-radius: 0.2187rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.561rem;
+    font-weight: normal;
+}
+
+#editar_aceptar {
+    display: inline-block;
+    position: absolute;
+    background: #ccc;
+
+    bottom: 0.9375rem;
+    right: calc(0.9375rem + 0.9375rem + 1.4rem);
+
+    width: 2rem;
+    height: 2rem;
+
+    border: none;
+    border-radius: 0.25rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#borrar_cancelar {
+    display: inline-block;
+    position: absolute;
+    background: #ccc;
+
+    bottom: 0.9375rem;
+    right: 0.9375rem;
+
+    width: 2rem;
+    height: 2rem;
+
+    border: none;
+    border-radius: 0.25rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#descripcion_lugar {
+    display: inline-block;
+    position: relative;
+    background: #bdbdbd;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 38.125rem;
+    height: 21rem;
+
+    border-radius: 0.2187rem;
+    
+    font-size: 1.16rem;
+}
+
+#descripcion_etnia {
+    display: inline-block;
+    position: relative;
+    background: #bdbdbd;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 38.125rem;
+    height: 23.39rem;
+
+    border-radius: 0.2187rem;
+    
+    font-size: 1.16rem;
 }
