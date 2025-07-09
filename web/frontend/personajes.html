@@ -36,29 +36,18 @@
       <div id="tarjeta">
         <div id="contenido">
           <div class="data_imagen">
-            <h3 class="imagen_de">Imagen:</h3>
-            <input id="campo_imagen" class="fuente_imagen" type="text">
+            <h3 class="imagen_de">Imágen:</h3>
+            <input id="campo_imagen" class="fuente_imagen" type="text" placeholder="Ingrese un link directo a la imagen">
           </div>
           <div class="data_imagen">
-            <h3 class="imagen_de">Imagen_indice:</h3>
-            <input id="campo_imagen_indice" class="fuente_imagen" type="text">
+            <h3 class="imagen_de">Imágen del índice:</h3>
+            <input id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="Ingrese un link directo a la imagen">
           </div>
-          <img src="source/defaultmap.jpg" alt="imagen" id="imagen_targeta">
-          <h1 id="nombre_targeta">NOMBRE_DE_25_CARACTERES__</h1>
-          <h2 class="dato_secundario">Clima: NATURALEZA_25_CARACTERES_</h2>
-          <h2 class="dato_secundario">Faccion: NATURALEZA_25_CARACTERES_</h2>
-          <p id="descripcion_lugar">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Quisque sodales lorem sed augue porttitor, at convallis nulla cursus.
-            Integer placerat, orci nec gravida tincidunt, nunc sem blandit risus, ut pulvinar tortor sapien nec justo.
-            Donec at ligula euismod.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Quisque sodales lorem sed augue porttitor, at convallis nulla cursus.
-            Integer placerat, orci nec gravida tincidunt, nunc sem blandit risus, ut pulvinar tortor sapien nec justo.
-            Donec at ligula euismod.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Quisque sodales lorem sed augue porttitor, at convallis nulla cursus.
-            Integer placerat, orci nec gravida tincidunt, nunc sem blandit risus, ut pulvinar tortor sapien nec justo.
-            Donec at ligula euismod.
-          </p>
+          <img src="source/defaultmap.jpg" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_targeta">
+          <input id="nombre_tarjeta" type="text" placeholder="Nombre">
+          <input class="dato_secundario" type="text" placeholder="Clima">
+          <input class="dato_secundario" type="text" placeholder="Facción">
+          <textarea id="descripcion_lugar" placeholder="Ingrese una descripción"></textarea>
           <button id="editar_aceptar">
             <span class="material-symbols-outlined">
               edit

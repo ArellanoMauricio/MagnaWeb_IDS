@@ -143,6 +143,10 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 200;
 }
 
 #tarjeta {
@@ -173,8 +177,6 @@
 .data_imagen {
     box-sizing: border-box;
     position: relative;
-
-    background: #bdbdbd;
     width: 38.125rem;
 
     height: 8.15rem;
@@ -187,8 +189,6 @@
 .imagen_de {
     box-sizing: border-box;
     position: relative;
-
-    background: #dbdbdb;
 
     width: 36.25rem;
     height: 2rem;
@@ -209,8 +209,6 @@
     box-sizing: border-box;
     position: relative;
 
-    background: #dbdbdb;
-
     width: 36.25rem;
     height: 3.7rem;
 
@@ -227,22 +225,18 @@
 
 #imagen_targeta {
     position: absolute;
-    background: #bdbdbd;
 
     top: 0.9375rem;
 
     width: 38.125rem;
     height: 16.8rem;
-
+    background-color: #A9A9AC;
     border-radius: 0.9375rem;
-
-    opacity: 50%;
 }
 
-#nombre_targeta {
+#nombre_tarjeta {
     display: inline-block;
     position: relative;
-    background: #bdbdbd;
 
     top: 0;
     left: 0;
@@ -253,18 +247,27 @@
     width: 38.125rem;
     height: 2.7rem;
 
-    border-radius: 0.3125rem;
-
     display: flex;
     align-items: center;
 
     font-size: 2.23rem;
 }
 
+#tarjeta input::placeholder {
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
+}
+
+#tarjeta input {
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0rem;
+}
+
 .dato_secundario {
     display: inline-block;
     position: relative;
-    background: #bdbdbd;
 
     top: 0;
     left: 0;
@@ -287,7 +290,6 @@
 #editar_aceptar {
     display: inline-block;
     position: absolute;
-    background: #ccc;
 
     bottom: 0.9375rem;
     right: calc(0.9375rem + 0.9375rem + 1.4rem);
@@ -325,7 +327,6 @@
 #descripcion_lugar {
     display: inline-block;
     position: relative;
-    background: #bdbdbd;
 
     top: 0;
     left: 0;
@@ -340,12 +341,24 @@
     
     font-size: 1.16rem;
     text-indent: 2rem;
+    padding: 0rem;
+    resize: none;
+    text-align: justify;
+    border: none;
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
+    
 }
+
+#descripcion_lugar input::placeholder {
+    text-justify: auto;
+}
+
 
 #descripcion_etnia {
     display: inline-block;
     position: relative;
-    background: #bdbdbd;
 
     top: 0;
     left: 0;
