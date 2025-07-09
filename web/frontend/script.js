@@ -175,16 +175,16 @@ async function rellenarEtnias(){
         } )
     }
     const tarjeta = document.createElement('div')
-        tarjeta.classList.add('lugar')
-        tarjeta.innerHTML = `
-        <div class="imgcontainer">
-            <div class="sumar"></div>
-            <div class="nombresum">
-                <p><span><a>+</a></span></p>
-            </div>
+    tarjeta.classList.add('lugar')
+    tarjeta.innerHTML = `
+    <div class="imgcontainer">
+        <div class="sumar"></div>
+        <div class="nombresum">
+            <p><span><a>+</a></span></p>
         </div>
-        `
-        contenedor.appendChild(tarjeta)
+    </div>
+    `
+    contenedor.appendChild(tarjeta)
 }
 
 async function rellenarLugares(){
