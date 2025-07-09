@@ -209,7 +209,7 @@ app.post("/api/personajes/", async (req, res) => {
     errores.error_nombre = "El campo nombre no puede estar vacio"
   }
   else{
-    if(nombre.length > 50){
+    if(nombre.length > 25){
       errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
     }
   }
@@ -250,8 +250,18 @@ app.post("/api/personajes/", async (req, res) => {
   if( !apariencia || (apariencia.trim() === "") ){
     apariencia = null
   }
+  else{
+    if(apariencia.length > 80){
+      errores.error_apariencia = "La apariencia ingresada supera el limite de caracteres"
+    }
+  }
   if( !historia || (historia.trim() === "") ){
     historia = null
+  }
+  else{
+    if(historia.length > 200){
+      errores.error_historia = "La historia ingresada supera el limite de caracteres"
+    }
   }
   if( !clase || (clase.trim() === "") ){
     clase = null
@@ -306,7 +316,7 @@ app.post("/api/etnias/", async (req, res) => {
     errores.error_nombre = "El campo nombre no puede estar vacio"
   }
   else{
-    if(nombre.length > 50){
+    if(nombre.length > 25){
       errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
     }
     else{
@@ -322,6 +332,11 @@ app.post("/api/etnias/", async (req, res) => {
   }
   if( !descripcion || (descripcion.trim() === "") ){
     descripcion = null
+  }
+  else{
+    if(descripcion.length > 280){
+      errores.error_descripcion = "La descripcion ingresada para la etnia supera el limite de caracteres"
+    }
   }
   if( !naturaleza || (naturaleza.trim() === "") ){
     naturaleza = null
@@ -376,7 +391,7 @@ app.post("/api/lugares/", async (req, res) => {
     errores.error_nombre = "El campo nombre no puede estar vacio"
   }
   else{
-    if(nombre.length > 50){
+    if(nombre.length > 25){
       errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
     }
     else{
@@ -392,6 +407,11 @@ app.post("/api/lugares/", async (req, res) => {
   }
   if( !descripcion || (descripcion.trim() === "") ){
     descripcion = null
+  }
+  else{
+    if(descripcion.length > 280){
+      errores.error_descripcion = "La descripcion ingresada para el lugar supera el limite de caracteres"
+    }
   }
   if( !faccion || (faccion.trim() === "") ){
     faccion = null
@@ -590,7 +610,7 @@ app.put("/api/personajes/:num", async (req, res) => {
     nombre = null
   }
   else{
-    if(nombre.length > 50){
+    if(nombre.length > 25){
       errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
     }
   }
@@ -636,8 +656,18 @@ app.put("/api/personajes/:num", async (req, res) => {
   if( !apariencia || (apariencia.trim() === "") ){
     apariencia = null
   }
+  else{
+    if(apariencia.length > 25){
+      errores.error_apariencia = "La apariencia ingresada supera el limite de caracteres"
+    }
+  }
   if( !historia || (historia.trim() === "") ){
     historia = null
+  }
+  else{
+    if(historia.length > 200){
+      errores.error_historia = "La historia ingresada supera el limite de caracteres"
+    }
   }
   if( !clase || (clase.trim() === "") ){
     clase = null
@@ -732,7 +762,7 @@ app.put("/api/etnias/:num", async (req, res) => {
     nombre = null
   }
   else{
-    if(nombre.length > 50){
+    if(nombre.length > 25){
       errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
     }
     else{
@@ -748,6 +778,11 @@ app.put("/api/etnias/:num", async (req, res) => {
   }
   if( !descripcion || (descripcion.trim() === "") ){
     descripcion = null
+  }
+  else{
+    if(descripcion.length > 280){
+      errores.error_descripcion = "La descripcion ingresada supera el limite de caracteres"
+    }
   }
   if( !naturaleza || (naturaleza.trim() === "") ){
     naturaleza = null
@@ -838,7 +873,7 @@ app.put("/api/lugares/:num", async (req, res) => {
     nombre = null
   }
   else{
-    if(nombre.length > 50){
+    if(nombre.length > 25){
       errores.error_nombre = "El nombre ingresado supera el limite de caracteres"
     }
     else{
@@ -855,7 +890,11 @@ app.put("/api/lugares/:num", async (req, res) => {
   if( !descripcion || (descripcion.trim() === "") ){
     descripcion = null
   }
-
+  else{
+    if(descripcion.length > 280){
+      errores.error_descripcion = "La descripcion ingresada para lugar supera el limite de caracteres"
+    }
+  }
   if( !faccion || (faccion.trim() === "") ){
     faccion = null
   }
