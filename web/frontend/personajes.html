@@ -16,15 +16,18 @@
   </head>
   <body>
     <div id="container" onclick="mostrarTarjeta()">
-      <div id="personajes" class="delaytilt" data-tilt data-tilt-max="1" data-tilt-reverse="true" data-tilt-full-page-listening data-tilt-transition="true">
+      <div id="elementos" class="delaytilt" data-tilt data-tilt-max="1" data-tilt-reverse="true" data-tilt-full-page-listening data-tilt-transition="true">
+        
         <div id="cuadro1">
           <h1 id="titulo">⌞ PERSONAJES ⌝</h1>
         </div>
-        <div id="cuadro2">
-        </div>
+        
+        <div id="cuadro2"></div>
+
         <div id="cuadro3">
-          <p id="personajesvolver" onclick="redirect(null, 'personajes', 2000)">— VOLVER —</p>
+          <p id="volver" onclick="redirect(null, 'elementos', 2000)">— VOLVER —</p>
         </div>
+        
       </div>
     </div>
     <div id="container2">
@@ -32,7 +35,7 @@
     </div>
     <script>
       window.onload = () => {
-        const indice = document.getElementById("personajes")
+        const indice = document.getElementById("elementos")
         indice.classList.add("clicked")
         rellenarPersonajes()
       }

@@ -9,7 +9,7 @@
     justify-content: center;
 }
 
-#personajes {
+#elementos {
     background: #FFFFFB;
     opacity: 0.6;
     border-radius: 0rem;
@@ -25,11 +25,11 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
 }
-#personajes.clicked {
+#elementos.clicked {
     animation: open_character_index 2s ease-in forwards;
 }
 
-#personajes.out {
+#elementos.out {
     animation: close_character_index 2s ease-in forwards;
 }
 
@@ -41,7 +41,7 @@
     font-size: 2.75rem;
 }
 
-#personajesvolver {
+#volver {
     font-family: "Averia Serif Libre", serif;
     text-shadow: -0rem 0rem 0.125rem #000000;
     font-weight: 400;
