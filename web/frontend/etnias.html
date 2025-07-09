@@ -15,7 +15,7 @@
     <script src="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.js"></script>
   </head>
   <body>
-    <div id="container">
+    <div id="container" onclick="mostrarTarjeta()">
       <div id="elementos" class="delaytilt" data-tilt data-tilt-max="1" data-tilt-reverse="true" data-tilt-full-page-listening data-tilt-transition="true">
         
         <div id="cuadro1">
@@ -27,9 +27,14 @@
         <div id="cuadro3">
           <p id="volver" onclick="redirect(null, 'elementos', 2000)">— VOLVER —</p>
         </div>
-        
+
       </div>
     </div>
+
+    <div id="container2">
+      <div id="tarjeta"></div>
+    </div>
+    
     <script>
       window.onload = () => {
         const indice = document.getElementById("elementos")
