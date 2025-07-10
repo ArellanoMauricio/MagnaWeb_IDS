@@ -102,7 +102,7 @@ async function armarTarjetaLugar(id){
                 <input disabled class="dato_secundario" type="text" placeholder="${clima}">
                 <input disabled class="dato_secundario" type="text" placeholder="${faccion}">
                 <textarea disabled id="descripcion_lugar" placeholder="${descripcion}"></textarea>
-                <button id="editar_aceptar">
+                <button id="editar_aceptar" onclick="habilitarEdicionEtnia(${id})">
                     <span class="material-symbols-outlined">
                     edit
                     </span>
@@ -269,9 +269,9 @@ async function armarTarjetaEtnia(id){
                 </div>
                 <img src="${moodboard}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_tarjeta">
                 <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
-                <input disabled class="dato_secundario" type="text" placeholder="${naturaleza}">
-                <textarea disabled id="descripcion_lugar" placeholder="${descripcion}"></textarea>
-                <button id="editar_aceptar">
+                <input disabled id="naturaleza_tarjeta" class="dato_secundario" type="text" placeholder="${naturaleza}">
+                <textarea disabled id="descripcion_etnia" placeholder="${descripcion}"></textarea>
+                <button id="editar_aceptar" onclick="habilitarEdicionEtnia(${id})">
                     <span class="material-symbols-outlined">
                     edit
                     </span>
@@ -285,6 +285,38 @@ async function armarTarjetaEtnia(id){
         `
         tarjeta.replaceChildren(informacion)
     }
+}
+
+async function armarTarjetaEtniaVacia(){
+    const tarjeta = document.getElementById('tarjeta')
+    const informacion = document.createElement('div')
+    informacion.innerHTML = `
+        <div id="contenido">
+            <div class="data_imagen">
+                <h3 class="imagen_de">Moodboard:</h3>
+                <input disabled id="campo_imagen" class="fuente_imagen" type="text" placeholder="">
+            </div>
+            <div class="data_imagen">
+                <h3 class="imagen_de">Imagen_indice:</h3>
+                <input disabled id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="">
+            </div>
+            <img src="" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_tarjeta">
+            <input disabled id="nombre_tarjeta" type="text" placeholder="">
+            <input disabled id="naturaleza_tarjeta" class="dato_secundario" type="text" placeholder="">
+            <textarea disabled id="descripcion_etnia" placeholder=""></textarea>
+            <button id="editar_aceptar">
+                <span class="material-symbols-outlined">
+                edit
+                </span>
+            </button>
+            <button id="borrar_cancelar" onclick="eliminarEtnia()">
+                <span class="material-symbols-outlined">
+                delete
+                </span>
+            </button>
+        </div>
+    `
+    tarjeta.replaceChildren(informacion)
 }
 
 async function rellenarEtnias(){
@@ -318,6 +350,7 @@ async function rellenarEtnias(){
         </div>
     </div>
     `
+    tarjeta.setAttribute('onclick', `crearEtnia()`)
     contenedor.appendChild(tarjeta)
 }
 
@@ -566,6 +599,46 @@ async function validarDatosPersonaje(nombre, edad, etnia, origen, clase, aparien
     }
 }
 
+async function validarDatosEtnia(nombre, descripcion, naturaleza, imagen_indice, moodboard){
+    const apiDataEtnias = await getElementoApi('http://localhost:3000/api/etnias/')
+    let listaEtnias = []
+    if (apiDataEtnias) {
+        apiDataEtnias.forEach(etnia => {
+            listaEtnias.push(etnia.nombre)
+        })
+    } else {
+        return false
+    }
+    if (nombre && nombre.length > 25) {
+        alert("El nombre ingresado supera el límite de 25 caracteres")
+        return false
+    } else {
+        if (listaEtnias.includes(nombre) && nombre !== "") {
+            alert("La etnia ingresada ya existe")
+            return false
+        } else {
+            if (descripcion && descripcion.length > 280) {
+                    alert("La apariencia ingresada supera el límite de 80 caracteres")
+                    return false
+            } else {
+                if (naturaleza && naturaleza.length > 25) {
+                    alert("La historia ingresada supera el límite de 200 caracteres")
+                    return false
+                } else {
+                    if (!nombre && !descripcion && !naturaleza && !imagen_indice && !moodboard) {
+                        alert("Nada ha sido modificado.")
+                        return false
+                    } else {
+                        return true // Pasamos!!
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
 async function validarDatosCreacionPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice){
     const apiDataLugares = await getElementoApi('http://localhost:3000/api/lugares/')
     let listaLugares = []
@@ -636,6 +709,49 @@ async function validarDatosCreacionPersonaje(nombre, edad, etnia, origen, clase,
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+async function validarDatosCreacionEtnia(nombre, descripcion, naturaleza, imagen_indice, moodboard){
+    const apiDataEtnias = await getElementoApi('http://localhost:3000/api/etnias/')
+    let listaEtnias = []
+    if (apiDataEtnias) {
+        apiDataEtnias.forEach(etnia => {
+            listaEtnias.push(etnia.nombre)
+        })
+    } else {
+        return false
+    }
+    if (nombre === null || nombre === undefined || nombre === "") {
+        alert("La edad es un dato obligatorio")
+        return false
+    } else {
+        if (nombre && nombre.length > 25) {
+            alert("El nombre ingresado supera el límite de 25 caracteres")
+            return false
+        } else {
+            if (nombre && listaEtnias.includes(nombre)) {
+                alert("La etnia ingresada ya existe")
+                return false
+            } else {
+                if (descripcion && descripcion.length > 280) {
+                        alert("La apariencia ingresada supera el límite de 80 caracteres")
+                        return false
+                } else {
+                    if (naturaleza && naturaleza.length > 25) {
+                        alert("La historia ingresada supera el límite de 200 caracteres")
+                        return false
+                    } else {
+                        if (!nombre && !descripcion && !naturaleza && !imagen_indice && !moodboard) {
+                            alert("Nada ha sido modificado.")
+                            return false
+                        } else {
+                            return true // Pasamos!!
                         }
                     }
                 }
@@ -906,6 +1022,220 @@ async function habilitarEdicionPersonaje(id) {
     const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar')
     borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">close</span>'
     borrar_cancelar.setAttribute("onclick", "cancelarEdicionPersonaje()")
+}
+
+async function crearEtnia() {
+    armarTarjetaEtniaVacia()
+    mostrarTarjetaEtnias()
+    const tarjeta = document.getElementById('tarjeta')
+    const campo_moodboard = tarjeta.querySelector('#campo_imagen') // Renamed from campo_imagen to reflect moodboard
+    campo_moodboard.removeAttribute("disabled")
+
+    const imagen_tarjeta = tarjeta.querySelector('#imagen_tarjeta')
+    imagen_tarjeta.classList.add("transparentar")
+    
+    campo_moodboard.classList.add("adelantar")
+
+    const campo_imagen_indice = tarjeta.querySelector('#campo_imagen_indice')
+    campo_imagen_indice.removeAttribute("disabled")
+    campo_imagen_indice.classList.add("adelantar")
+
+    const campo_nombre = tarjeta.querySelector('#nombre_tarjeta')
+    campo_nombre.removeAttribute("disabled")
+    const campo_naturaleza = tarjeta.querySelector('#naturaleza_tarjeta') // New attribute for etnia
+    campo_naturaleza.removeAttribute("disabled")
+    const campo_descripcion = tarjeta.querySelector('#descripcion_etnia') // New attribute for etnia
+    campo_descripcion.removeAttribute("disabled")
+
+    campo_nombre.setAttribute("placeholder", "Nombre");
+    campo_naturaleza.setAttribute("placeholder", "Naturaleza");
+    campo_descripcion.setAttribute("placeholder", "Descripción");
+    campo_moodboard.setAttribute("placeholder", "URL Moodboard");
+    campo_imagen_indice.setAttribute("placeholder", "URL Imagen Índice");
+
+
+    const editar_aceptar = tarjeta.querySelector('#editar_aceptar')
+    editar_aceptar.innerHTML = '<span class="material-symbols-outlined">check</span>'
+    editar_aceptar.setAttribute("onclick", `agregarEtnia()`)
+
+    const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar')
+    borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">close</span>'
+    borrar_cancelar.setAttribute("onclick", "cancelarEdicionEtnia()") // Assuming a cancel function for etnia
+}
+
+async function agregarEtnia() {
+    const tarjeta = document.getElementById('tarjeta')
+    const campo = (selector) => tarjeta.querySelector(selector);
+    const valor = (selector) => campo(selector)?.value?.trim() || ""
+    
+    const moodboard = valor('#campo_imagen')
+    const imagen_indice = valor('#campo_imagen_indice')
+    const nombre = valor('#nombre_tarjeta')
+    const naturaleza = valor('#naturaleza_tarjeta')
+    const descripcion = valor('#descripcion_etnia')
+
+    if (await validarDatosCreacionEtnia(nombre, descripcion, naturaleza, imagen_indice, moodboard)) {
+        const datosActualizados = { nombre, descripcion, naturaleza, imagen_indice, moodboard };
+        const response = await fetch(`http://localhost:3000/api/etnias/`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(datosActualizados)});
+        if (response.ok) {
+            console.log("Etnia creada")
+        } else {
+            console.error("Error al crear etnia:", await response.text())
+        }
+
+        const deshabilitarYLimpiar = (selector) => {
+            const el = campo(selector)
+            if (el) {
+                el.disabled = true
+                el.value = ""
+                el.classList.remove("adelantar")
+            }
+        }
+        deshabilitarYLimpiar('#campo_imagen') // moodboard
+        deshabilitarYLimpiar('#campo_imagen_indice')
+        deshabilitarYLimpiar('#nombre_tarjeta')
+        deshabilitarYLimpiar('#naturaleza_tarjeta')
+        deshabilitarYLimpiar('#descripcion_etnia')
+
+        const imagen_tarjeta = campo('#imagen_tarjeta')
+        if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar")
+
+        refrescarTabla('etnia')
+        cerrarTarjeta()
+    }
+}
+
+async function habilitarEdicionEtnia(id) {
+    const tarjeta = document.getElementById('tarjeta');
+    const campo_imagen = tarjeta.querySelector('#campo_imagen');
+    campo_imagen.removeAttribute("disabled");
+    campo_imagen.classList.add("adelantar");
+
+    const campo_imagen_indice = tarjeta.querySelector('#campo_imagen_indice');
+    campo_imagen.removeAttribute("disabled");
+    campo_imagen.classList.add("adelantar");
+
+    const imagen_tarjeta = tarjeta.querySelector('#imagen_tarjeta');
+    imagen_tarjeta.classList.add("transparentar");
+
+    const campo_nombre = tarjeta.querySelector('#nombre_tarjeta');
+    campo_nombre.removeAttribute("disabled");
+    const campo_naturaleza = tarjeta.querySelector('#naturaleza_tarjeta');
+    campo_naturaleza.removeAttribute("disabled");
+    const campo_descripcion = tarjeta.querySelector('#descripcion_etnia');
+    campo_descripcion.removeAttribute("disabled");
+
+    const editar_aceptar = tarjeta.querySelector('#editar_aceptar');
+    editar_aceptar.innerHTML = '<span class="material-symbols-outlined">check</span>';
+    editar_aceptar.setAttribute("onclick", `aceptarEdicionEtnia(${id})`);
+
+    const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar');
+    borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">close</span>';
+    borrar_cancelar.setAttribute("onclick", `cancelarEdicionEtnia(${id})`);
+}
+
+async function aceptarEdicionEtnia(id) {
+    const tarjeta = document.getElementById('tarjeta');
+    const campo = (selector) => tarjeta.querySelector(selector);
+    const valor = (selector) => campo(selector)?.value?.trim() || campo(selector)?.placeholder?.trim() || "";
+    
+    const moodboard = valor('#campo_imagen');
+    const imagen_indice = valor('#campo_imagen_indice');
+    let nombre = valor('#nombre_tarjeta');
+    const naturaleza = valor('#naturaleza_tarjeta');
+    const descripcion = valor('#descripcion_etnia');
+    
+    if (nombre === "") {
+        nombre = null
+    }
+
+    if (await validarDatosEtnia(nombre, descripcion, naturaleza, imagen_indice, moodboard)) {
+        const datosActualizados = { nombre, descripcion, naturaleza, imagen_indice, moodboard };
+        try {
+            const response = await fetch(`http://localhost:3000/api/etnias/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datosActualizados)
+            });
+            if (response.ok) {
+                console.log("Etnia actualizada");
+            } else {
+                console.error("Error al actualizar etnia:", await response.text());
+            }
+        } catch (error) {
+            console.error('Hubo un problema al actualizar la etnia:', error);
+        }
+
+        const deshabilitarYLimpiar = (selector) => {
+            const el = campo(selector);
+            if (el) {
+                el.disabled = true;
+                el.value = "";
+                el.classList.remove("adelantar");
+            }
+        };
+
+        deshabilitarYLimpiar('#campo_imagen');
+        deshabilitarYLimpiar('#campo_imagen_indice');
+        deshabilitarYLimpiar('#nombre_tarjeta');
+        deshabilitarYLimpiar('#descripcion_etnia');
+        deshabilitarYLimpiar('#naturaleza_etnia');
+
+        const imagen_tarjeta = campo('#imagen_tarjeta');
+        if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar");
+
+        const editar_aceptar = campo('#editar_aceptar');
+        if (editar_aceptar) {
+            editar_aceptar.innerHTML = '<span class="material-symbols-outlined">edit</span>';
+            editar_aceptar.setAttribute("onclick", `habilitarEdicionEtnia(${id})`);
+        }
+
+        const borrar_cancelar = campo('#borrar_cancelar');
+        if (borrar_cancelar) {
+            borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>';
+            borrar_cancelar.setAttribute("onclick", `eliminarEtnia(${id})`);
+        }
+        refrescarTabla('etnia');
+        armarTarjetaEtnia(id); // Recargar la tarjeta con los datos actualizados
+        cerrarTarjeta()
+    }
+}
+
+async function cancelarEdicionEtnia(id) {
+    const tarjeta = document.getElementById('tarjeta');
+    const campo_imagen = tarjeta.querySelector('#campo_imagen');
+    campo_imagen.setAttribute("disabled", true);
+    campo_imagen.value = "";
+
+    const imagen_tarjeta = tarjeta.querySelector('#imagen_tarjeta');
+    imagen_tarjeta.classList.remove("transparentar");
+
+    campo_imagen.classList.remove("adelantar");
+
+    const campo_imagen_indice = tarjeta.querySelector('#campo_imagen_indice');
+    campo_imagen_indice.setAttribute("disabled", true);
+    campo_imagen_indice.classList.remove("adelantar");
+    campo_imagen_indice.value = "";
+
+    const campo_nombre = tarjeta.querySelector('#nombre_tarjeta');
+    campo_nombre.setAttribute("disabled", true);
+    campo_nombre.value = "";
+    const campo_naturaleza = tarjeta.querySelector('#naturaleza_etnia');
+    campo_naturaleza.setAttribute("disabled", true);
+    campo_naturaleza.value = "";
+    const campo_descripcion = tarjeta.querySelector('#descripcion_etnia');
+    campo_descripcion.setAttribute("disabled", true);
+    campo_descripcion.value = "";
+
+    const editar_aceptar = tarjeta.querySelector('#editar_aceptar');
+    editar_aceptar.innerHTML = '<span class="material-symbols-outlined">edit</span>';
+    editar_aceptar.setAttribute("onclick", `habilitarEdicionEtnia(${id})`);
+
+    const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar');
+    borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>';
+    borrar_cancelar.setAttribute("onclick", `eliminarEtnia(${id})`);
+
+    armarTarjetaEtnia(id); // Recargar la tarjeta con los datos originales
 }
 
 document.addEventListener('mousedown', () => {
