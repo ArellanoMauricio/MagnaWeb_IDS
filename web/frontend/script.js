@@ -120,7 +120,40 @@ async function armarTarjetaPersonaje(id){
         const historia = apiData.historia;
         const apariencia = apiData.apariencia;
         informacion.innerHTML = `
+            <div id="contenido">
+                <div class="data_imagen">
+                    <h3 class="imagen_de">Imágen:</h3>
+                    <input disabled id="campo_imagen" class="fuente_imagen" type="text" placeholder="${imagen}">
+                </div>
 
+                <div class="data_imagen">
+                    <h3 class="imagen_de">Imágen del índice:</h3>
+                    <input disabled id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="${imagen_indice}">
+                </div>
+
+                <img src="${imagen}" onerror="this.src='https://i.imgur.com/oIw7byw.png'" alt="imagen" id="imagen_targeta">
+                
+                <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
+
+                <input disabled class="dato_foraneo_etnia" list="etnias" placeholder="${etnia}">
+                <input disabled class="dato_foraneo_lugar" list="lugares" placeholder="${origen}">
+                <input disabled class="dato_secundario" type="number" placeholder="${edad}">
+                <input disabled class="dato_secundario" type="text" placeholder="${clase}">
+
+                <textarea disabled id="apariencia_personaje" placeholder="${apariencia}"></textarea>
+                <textarea disabled id="descripcion_personaje" placeholder="${historia}"></textarea>
+
+                <button id="editar_aceptar">
+                    <span class="material-symbols-outlined">
+                    edit
+                    </span>
+                </button>
+                <button id="borrar_cancelar">
+                    <span class="material-symbols-outlined">
+                    delete
+                    </span>
+                </button>
+            </div>
         `
         tarjeta.replaceChildren(informacion)
     }
@@ -139,6 +172,15 @@ async function mostrarTarjetaLugares(id){
     const indiceamover = document.getElementById("container")
     indiceamover.classList.add("moverderecha")
     armarTarjetaLugar(id)
+    await new Promise(res => setTimeout(res, 2000))
+    const tarjeta = document.getElementById("tarjeta")
+    tarjeta.classList.add("abrirtarjeta")
+}
+
+async function mostrarTarjetaPersonajes(id){
+    const indiceamover = document.getElementById("container")
+    indiceamover.classList.add("moverderecha")
+    armarTarjetaPersonaje(id)
     await new Promise(res => setTimeout(res, 2000))
     const tarjeta = document.getElementById("tarjeta")
     tarjeta.classList.add("abrirtarjeta")
@@ -261,6 +303,8 @@ async function rellenarPersonajes(){
             tarjeta.classList.add('personaje')
             const nombre = personaje.nombre;
             const imagen = personaje.imagen_indice;
+            const id = personaje.id;
+            tarjeta.setAttribute('onclick', `mostrarTarjetaPersonajes(${id})`);
             if (i % 2 === 0) {
                 tarjeta.innerHTML = `
                 <div class="nombrepers">
