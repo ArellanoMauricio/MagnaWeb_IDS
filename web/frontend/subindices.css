@@ -129,6 +129,7 @@
     justify-content: center;
     overflow: hidden;
 }
+
 .moverderecha {
     transform: translate(-85%, -50%) !important;
     transition: 2s;
@@ -487,6 +488,11 @@
     font-weight: 200;
 }
 
-.cerrarTajeta {
+.cerrarTarjeta {
     animation: close_card 2s ease-in forwards;
+}
+
+.moverizquierda {
+    transform: translate(-50%, -50%) !important;
+    transition: 2s;
 }

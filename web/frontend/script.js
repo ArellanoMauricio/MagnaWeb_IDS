@@ -40,6 +40,10 @@ async function toggleArrows() {
 async function redirect(sitio, id, t) {
     const elemento = id ? document.getElementById(id) : null
     if (elemento) {
+        if(false){
+            cerrarTarjeta()
+            await new Promise(res => setTimeout(res, 2500))
+        }
         elemento.classList.remove("in")
         elemento.classList.add("out")
         await new Promise(res => setTimeout(res, t))
@@ -372,6 +376,7 @@ async function eliminarPersonaje(id) {
     console.error('Hubo un problema al eliminar el personaje:', error)
   }
   refrescarTabla('personaje')
+  cerrarTarjeta()
 }
 
 async function eliminarEtnia(id) {
@@ -385,6 +390,7 @@ async function eliminarEtnia(id) {
     console.error('Hubo un problema al eliminar la etnia:', error)
   }
   refrescarTabla('etnia')
+  cerrarTarjeta()
 }
 
 async function eliminarLugar(id) {
@@ -398,11 +404,15 @@ async function eliminarLugar(id) {
     console.error('Hubo un problema al eliminar el lugar:', error)
   }
   refrescarTabla('lugar')
+  cerrarTarjeta()
 }
 
 async function cerrarTarjeta() {
-    const contenedor = document.getElementById('tarjeta')
-    contenedor.classList.add('cerrarTarjeta')
+    const tarjeta = document.getElementById('tarjeta')
+    tarjeta.classList.add('cerrarTarjeta')
+    await new Promise(res => setTimeout(res, 2000))
+    const contenedor = document.getElementById('container')
+    contenedor.classList.add('moverizquierda')
 } 
 
 document.addEventListener('mousedown', () => {
