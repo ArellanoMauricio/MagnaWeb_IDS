@@ -118,6 +118,48 @@ async function armarTarjetaLugar(id){
     }
 }
 
+async function armarTarjetaPersonajeVacia(){
+    const tarjeta = document.getElementById('tarjeta')
+    const informacion = document.createElement('div')
+    informacion.innerHTML = `
+        <div id="contenido">
+            <div class="data_imagen">
+                <h3 class="imagen_de">Imágen:</h3>
+                <input disabled id="campo_imagen" class="fuente_imagen" type="text" placeholder="">
+            </div>
+
+            <div class="data_imagen">
+                <h3 class="imagen_de">Imágen del índice:</h3>
+                <input disabled id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="">
+            </div>
+
+            <img src="" onerror="this.src='https://i.imgur.com/oIw7byw.png'" alt="imagen" id="imagen_tarjeta">
+            
+            <input disabled id="nombre_tarjeta" type="text" placeholder="">
+
+            <input disabled id="campo_etnia" class="dato_foraneo_etnia" list="etnias" placeholder="">
+            <input disabled id="campo_origen" class="dato_foraneo_lugar" list="lugares" placeholder="">
+            <input disabled id="campo_edad" class="dato_secundario" type="number" placeholder="">
+            <input disabled id="campo_clase" class="dato_secundario" type="text" placeholder="">
+
+            <textarea disabled id="apariencia_personaje" placeholder=""></textarea>
+            <textarea disabled id="historia_personaje" placeholder=""></textarea>
+
+            <button id="editar_aceptar" onclick="habilitarEdicionPersonaje()">
+                <span class="material-symbols-outlined">
+                edit
+                </span>
+            </button>
+            <button id="borrar_cancelar" onclick="eliminarPersonaje()">
+                <span class="material-symbols-outlined">
+                delete
+                </span>
+            </button>
+        </div>
+    `
+    tarjeta.replaceChildren(informacion)
+}
+
 async function armarTarjetaPersonaje(id){
     const tarjeta = document.getElementById('tarjeta')
     const apiData = await getElementoApi(`http://localhost:3000/api/personajes/${id}`)
@@ -351,6 +393,7 @@ async function rellenarPersonajes(){
             </div>
         </div>
         `
+        tarjeta.setAttribute('onclick', `crearPersonaje()`)
         contenedor.appendChild(tarjeta)
 }
 
@@ -514,6 +557,190 @@ async function validarDatosPersonaje(nombre, edad, etnia, origen, clase, aparien
                 }
             }
         }
+    }
+}
+
+async function validarDatosCreacionPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice){
+    const apiDataLugares = await getElementoApi('http://localhost:3000/api/lugares/')
+    let listaLugares = []
+    if (apiDataLugares) {
+        apiDataLugares.forEach(lugar => {
+            listaLugares.push(lugar.nombre)
+        })
+    } else {
+        return false
+    }
+    const apiDataEtnias = await getElementoApi('http://localhost:3000/api/etnias/')
+    let listaEtnias = []
+    if (apiDataEtnias) {
+        apiDataEtnias.forEach(etnia => {
+            listaEtnias.push(etnia.nombre)
+        })
+    } else {
+        return false
+    }
+    if (!nombre || nombre.length > 25) {
+        alert("El nombre ingresado supera el límite de 25 caracteres o no existe")
+        return false
+    } else {
+        if (etnia && !listaEtnias.includes(etnia)) {
+            alert("La etnia ingresada no existe")
+            return false
+        } else {
+            if (isNaN(Number(edad))) {
+                alert("El valor ingresado para edad no es un número válido")
+                return false
+            } else if (Number(edad) < 0) {
+                alert("La edad no puede ser negativa")
+                return false
+            } else if (edad === null || edad === undefined || edad === "") {
+                alert("La edad es un dato obligatorio")
+                return false
+            } else {
+                if (origen && !listaLugares.includes(origen)) {
+                    alert("El lugar de origen no existe")
+                    return false
+                } else {
+                    if (apariencia && apariencia.length > 80) {
+                        alert("La apariencia ingresada supera el límite de 80 caracteres")
+                        return false
+                    } else {
+                        if (historia && historia.length > 200) {
+                            alert("La historia ingresada supera el límite de 200 caracteres")
+                            return false
+                        } else {
+                            if (clase && clase.length > 25) {
+                                alert("La clase ingresada supera el límite de 25 caracteres")
+                                return false
+                            } else {
+                                if (imagen && imagen.length > 255) {
+                                    alert("La URL de la imagen es demasiado larga (máx. 255 caracteres)")
+                                    return false
+                                } else {
+                                    if (imagen_indice && imagen_indice.length > 255) {
+                                        alert("La URL de la imagen de índice es demasiado larga (máx. 255 caracteres)")
+                                        return false
+                                    } else {
+                                        if (!nombre && (!edad && edad !== 0) && !etnia && !origen && !apariencia && !historia && !clase && !imagen && !imagen_indice) {
+                                            alert("Nada ha sido modificado.")
+                                            return false
+                                        } else {
+                                            return true // Pasamos!!
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+async function crearPersonaje(id) {
+    armarTarjetaPersonajeVacia()
+    mostrarTarjetaPersonajes()
+    const tarjeta = document.getElementById('tarjeta')
+    const campo_imagen = tarjeta.querySelector('#campo_imagen')
+    campo_imagen.removeAttribute("disabled")
+
+    const imagen_tarjeta = tarjeta.querySelector('#imagen_tarjeta')
+    imagen_tarjeta.classList.add("transparentar")
+    
+    const data_imagen = tarjeta.querySelector('#data_imagen')
+    campo_imagen.classList.add("adelantar")
+
+    const campo_imagen_indice = tarjeta.querySelector('#campo_imagen_indice')
+    campo_imagen_indice.removeAttribute("disabled")
+    campo_imagen_indice.classList.add("adelantar")
+
+    const campo_nombre = tarjeta.querySelector('#nombre_tarjeta')
+    campo_nombre.removeAttribute("disabled")
+    const campo_etnia = tarjeta.querySelector('#campo_etnia')
+    campo_etnia.removeAttribute("disabled")
+    const campo_origen = tarjeta.querySelector('#campo_origen')
+    campo_origen.removeAttribute("disabled")
+    const campo_edad = tarjeta.querySelector('#campo_edad')
+    campo_edad.removeAttribute("disabled")
+    const campo_clase = tarjeta.querySelector('#campo_clase')
+    campo_clase.removeAttribute("disabled")
+    const campo_apariencia = tarjeta.querySelector('#apariencia_personaje')
+    campo_apariencia.removeAttribute("disabled")
+    const campo_historia = tarjeta.querySelector('#historia_personaje')
+    campo_historia.removeAttribute("disabled")
+
+    campo_nombre.setAttribute("placeholder", "Nombre");
+    campo_etnia.setAttribute("placeholder", "Etnia");
+    campo_origen.setAttribute("placeholder", "Orígen");
+    campo_edad.setAttribute("placeholder", "Edad");
+    campo_clase.setAttribute("placeholder", "Clase");
+    campo_apariencia.setAttribute("placeholder", "Apariencia");
+    campo_historia.setAttribute("placeholder", "Historia");
+
+    const editar_aceptar = tarjeta.querySelector('#editar_aceptar')
+    editar_aceptar.innerHTML = '<span class="material-symbols-outlined">check</span>'
+    editar_aceptar.setAttribute("onclick", `agregarPersonaje()`)
+
+    const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar')
+    borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">close</span>'
+    borrar_cancelar.setAttribute("onclick", "cancelarEdicionPersonaje()")
+}
+
+async function agregarPersonaje() {
+    const tarjeta = document.getElementById('tarjeta')
+    const campo = (selector) => tarjeta.querySelector(selector);
+    const valor = (selector) => campo(selector)?.value?.trim() || ""
+    const imagen = valor('#campo_imagen')
+    const imagen_indice = valor('#campo_imagen_indice')
+    const nombre = valor('#nombre_tarjeta')
+    const etnia = valor('#campo_etnia')
+    const origen = valor('#campo_origen')
+    let edad = valor('#campo_edad')
+    if (edad === "" || edad === null || edad === undefined) {
+        edad = null;
+    } else if (isNaN(Number(edad))) {
+        edad = null;
+    } else {
+        edad = Number(edad);
+    }
+    const clase = valor('#campo_clase')
+    const apariencia = valor('#apariencia_personaje')
+    const historia = valor('#historia_personaje')
+    if (await validarDatosCreacionPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice)) {
+        const datosActualizados = { nombre, edad: edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice };
+        const response = await fetch(`http://localhost:3000/api/personajes/`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(datosActualizados)});
+        if (response) {
+            console.log("Personaje creado")
+        } else {
+            console.log("Error al crear personaje")
+        }
+
+        // Después de aplicar cambios, limpiamos la tarjeta.
+        
+        const deshabilitarYLimpiar = (selector) => {
+            const el = campo(selector)
+            if (el) {
+                el.disabled = true
+                el.value = ""
+                el.classList.remove("adelantar")
+            }
+        }
+        deshabilitarYLimpiar('#campo_imagen')
+        deshabilitarYLimpiar('#campo_imagen_indice')
+        deshabilitarYLimpiar('#nombre_tarjeta')
+        deshabilitarYLimpiar('#campo_etnia')
+        deshabilitarYLimpiar('#campo_origen')
+        deshabilitarYLimpiar('#campo_edad')
+        deshabilitarYLimpiar('#campo_clase')
+        deshabilitarYLimpiar('#apariencia_personaje')
+        deshabilitarYLimpiar('#historia_personaje')
+
+        const imagen_tarjeta = campo('#imagen_tarjeta')
+        if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar")
+
+        refrescarTabla('personaje')
+        cerrarTarjeta()
     }
 }
 
