@@ -37,12 +37,22 @@ async function toggleArrows() {
     typeWriter("ETNIAS", 0, 250, "item4")
 }
 
+function transparentarPadre(boton) {
+    const contenedor = boton.parentElement;
+    const hijos = contenedor.children;
+    for (let hijo of hijos) {
+        hijo.style.opacity = "0";
+    }
+}
+
+
 async function redirect(sitio, id, t) {
     const elemento = id ? document.getElementById(id) : null
     if (elemento) {
-        if(false){
-            cerrarTarjeta()
-            await new Promise(res => setTimeout(res, 2500))
+        const tarjeta = document.getElementById("tarjeta");
+        if (tarjeta && tarjeta.classList.contains("abrirtarjeta")) {
+            cerrarTarjeta();
+            await new Promise(res => setTimeout(res, 3000));
         }
         elemento.classList.remove("in")
         elemento.classList.add("out")

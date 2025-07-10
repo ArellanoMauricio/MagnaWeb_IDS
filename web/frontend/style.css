@@ -177,11 +177,10 @@ polygon {
     /*formatos*/
     width: 0vw; /* Será 35 */
     height: 0vh; /* Será 60 */
-    background: #FFFFFB;
-    opacity: 0.6;
+    background-color: rgba(255,255,251,0.6);
+    backdrop-filter: blur(2.5px);
     border-radius: 0px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
     overflow: hidden;
 
     transform-style: preserve-3d;
