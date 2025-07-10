@@ -657,7 +657,7 @@ app.put("/api/personajes/:num", async (req, res) => {
     apariencia = null
   }
   else{
-    if(apariencia.length > 25){
+    if(apariencia.length > 80){
       errores.error_apariencia = "La apariencia ingresada supera el limite de caracteres"
     }
   }

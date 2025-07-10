@@ -526,12 +526,19 @@ async function aceptarEdicionPersonaje(id) {
     const nombre = valor('#nombre_tarjeta')
     const etnia = valor('#campo_etnia')
     const origen = valor('#campo_origen')
-    const edad = valor('#campo_edad')
+    let edad = valor('#campo_edad')
+    if (edad === "" || edad === null || edad === undefined) {
+        edad = null;
+    } else if (isNaN(Number(edad))) {
+        edad = null;
+    } else {
+        edad = Number(edad);
+    }
     const clase = valor('#campo_clase')
     const apariencia = valor('#apariencia_personaje')
     const historia = valor('#historia_personaje')
-    if (validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice)) {
-        const datosActualizados = { nombre, edad: Number(edad), etnia, origen, clase, apariencia, historia, imagen, imagen_indice };
+    if (await validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice)) {
+        const datosActualizados = { nombre, edad: edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice };
         const response = await fetch(`http://localhost:3000/api/personajes/${id}`, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(datosActualizados)});
         if (response) {
             console.log("Personaje actualizado")
