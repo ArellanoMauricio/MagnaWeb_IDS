@@ -424,10 +424,28 @@ async function cerrarTarjeta() {
     contenedor.classList.add('moverizquierda')
 } 
 
+async function listarEtnias() {
+  try {
+    const etnias = await obtener_todas_las_etnias()
+
+    if (!etnias || etnias.length === 0) {
+      console.log('No se encontraron etnias')
+      return false
+    }
+
+    // Extrae solo los nombres de las etnias
+    const nombres = etnias.map(etnia => etnia.nombre)
+    return nombres
+  } catch (error) {
+    console.error('Error al obtener los nombres de las etnias:', error)
+    return false
+  }
+}
+
 async function validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice){
     const apiDataLugares = await getElementoApi('http://localhost:3000/api/lugares/')
+    let listaLugares = []
     if (apiDataLugares) {
-        let listaLugares = []
         apiDataLugares.forEach(lugar => {
             listaLugares.push(lugar.nombre)
         })
@@ -435,18 +453,15 @@ async function validarDatosPersonaje(nombre, edad, etnia, origen, clase, aparien
         return false
     }
     const apiDataEtnias = await getElementoApi('http://localhost:3000/api/etnias/')
+    let listaEtnias = []
     if (apiDataEtnias) {
-        let listaEtnias = []
         apiDataEtnias.forEach(etnia => {
             listaEtnias.push(etnia.nombre)
         })
     } else {
         return false
     }
-    if (!nombre) {
-        alert("El campo nombre no puede estar vacío")
-        return false
-    } else if (nombre.length > 25) {
+    if (nombre && nombre.length > 25) {
         alert("El nombre ingresado supera el límite de 25 caracteres")
         return false
     } else {
@@ -484,6 +499,13 @@ async function validarDatosPersonaje(nombre, edad, etnia, origen, clase, aparien
                                     if (imagen_indice && imagen_indice.length > 255) {
                                         alert("La URL de la imagen de índice es demasiado larga (máx. 255 caracteres)")
                                         return false
+                                    } else {
+                                        if (!nombre && (!edad && edad !== 0) && !etnia && !origen && !apariencia && !historia && !clase && !imagen && !imagen_indice) {
+                                            alert("Nada ha sido modificado.")
+                                            return false
+                                        } else {
+                                            return true // Pasamos!!
+                                        }
                                     }
                                 }
                             }
@@ -509,6 +531,16 @@ async function aceptarEdicionPersonaje(id) {
     const apariencia = valor('#apariencia_personaje')
     const historia = valor('#historia_personaje')
     if (validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice)) {
+        const datosActualizados = { nombre, edad: Number(edad), etnia, origen, clase, apariencia, historia, imagen, imagen_indice };
+        const response = await fetch(`http://localhost:3000/api/personajes/${id}`, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(datosActualizados)});
+        if (response) {
+            console.log("Personaje actualizado")
+        } else {
+            console.log("Error al actualizar personaje")
+        }
+
+        // Después de aplicar cambios, limpiamos la tarjeta.
+        
         const deshabilitarYLimpiar = (selector) => {
             const el = campo(selector)
             if (el) {
