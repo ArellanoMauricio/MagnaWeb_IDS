@@ -98,10 +98,10 @@ async function armarTarjetaLugar(id){
                 <div class="data_imagen">
                 </div>
                 <img src="${imagen}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_tarjeta">
-                <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
-                <input disabled id="campo_clima" class="dato_secundario" type="text" placeholder="${clima}">
-                <input disabled id="campo_faccion" class="dato_secundario" type="text" placeholder="${faccion}">
-                <textarea disabled id="campo_descripcion" placeholder="${descripcion}"></textarea>
+                <input disabled id="nombre_tarjeta" type="text" placeholder="${escaparHTML(nombre)}">
+                <input disabled id="campo_clima" class="dato_secundario" type="text" placeholder="${escaparHTML(clima)}">
+                <input disabled id="campo_faccion" class="dato_secundario" type="text" placeholder="${escaparHTML(faccion)}">
+                <textarea disabled id="campo_descripcion" placeholder="${escaparHTML(descripcion)}"></textarea>
                 <button id="editar_aceptar" onclick="habilitarEdicionLugar(${id})">
                     <span class="material-symbols-outlined">
                     edit
@@ -190,7 +190,9 @@ async function armarTarjetaPersonajeVacia(){
     `
     tarjeta.replaceChildren(informacion)
 }
-
+function escaparHTML(texto) {
+    return texto?.replace(/"/g, '&quot;') || ''
+}
 async function armarTarjetaPersonaje(id){
     const tarjeta = document.getElementById('tarjeta')
     const apiData = await getElementoApi(`http://localhost:3000/api/personajes/${id}`)
@@ -219,15 +221,15 @@ async function armarTarjetaPersonaje(id){
 
                 <img src="${imagen}" onerror="this.src='https://i.imgur.com/oIw7byw.png'" alt="imagen" id="imagen_tarjeta">
                 
-                <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
+                <input disabled id="nombre_tarjeta" type="text" placeholder="${escaparHTML(nombre)}">
 
-                <input disabled id="campo_etnia" class="dato_foraneo_etnia" list="etnias" placeholder="${etnia}">
-                <input disabled id="campo_origen" class="dato_foraneo_lugar" list="lugares" placeholder="${origen}">
+                <input disabled id="campo_etnia" class="dato_foraneo_etnia" list="etnias" placeholder="${escaparHTML(etnia)}">
+                <input disabled id="campo_origen" class="dato_foraneo_lugar" list="lugares" placeholder="${escaparHTML(origen)}">
                 <input disabled id="campo_edad" class="dato_secundario" type="number" placeholder="${edad}">
                 <input disabled id="campo_clase" class="dato_secundario" type="text" placeholder="${clase}">
 
-                <textarea disabled id="apariencia_personaje" placeholder="${apariencia}"></textarea>
-                <textarea disabled id="historia_personaje" placeholder="${historia}"></textarea>
+                <textarea disabled id="apariencia_personaje" placeholder="${escaparHTML(apariencia)}"></textarea>
+                <textarea disabled id="historia_personaje" placeholder="${escaparHTML(historia)}"></textarea>
 
                 <button id="editar_aceptar" onclick="habilitarEdicionPersonaje(${id})">
                     <span class="material-symbols-outlined">
@@ -299,9 +301,9 @@ async function armarTarjetaEtnia(id){
                     <input disabled id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="${imagen_indice}">
                 </div>
                 <img src="${moodboard}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_tarjeta">
-                <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
-                <input disabled id="naturaleza_tarjeta" class="dato_secundario" type="text" placeholder="${naturaleza}">
-                <textarea disabled id="descripcion_etnia" placeholder="${descripcion}"></textarea>
+                <input disabled id="nombre_tarjeta" type="text" placeholder="${escaparHTML(nombre)}">
+                <input disabled id="naturaleza_tarjeta" class="dato_secundario" type="text" placeholder="${escaparHTML(naturaleza)}">
+                <textarea disabled id="descripcion_etnia" placeholder="${escaparHTML(descripcion)}"></textarea>
                 <button id="editar_aceptar" onclick="habilitarEdicionEtnia(${id})">
                     <span class="material-symbols-outlined">
                     edit
