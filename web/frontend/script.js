@@ -98,7 +98,7 @@ async function armarTarjetaLugar(id){
                 </div>
                 <div class="data_imagen">
                 </div>
-                <img src="${imagen}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_targeta">
+                <img src="${imagen}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_tarjeta">
                 <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
                 <input disabled class="dato_secundario" type="text" placeholder="${clima}">
                 <input disabled class="dato_secundario" type="text" placeholder="${faccion}">
@@ -145,19 +145,19 @@ async function armarTarjetaPersonaje(id){
                     <input disabled id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="${imagen_indice}">
                 </div>
 
-                <img src="${imagen}" onerror="this.src='https://i.imgur.com/oIw7byw.png'" alt="imagen" id="imagen_targeta">
+                <img src="${imagen}" onerror="this.src='https://i.imgur.com/oIw7byw.png'" alt="imagen" id="imagen_tarjeta">
                 
                 <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
 
-                <input disabled class="dato_foraneo_etnia" list="etnias" placeholder="${etnia}">
-                <input disabled class="dato_foraneo_lugar" list="lugares" placeholder="${origen}">
-                <input disabled class="dato_secundario" type="number" placeholder="${edad}">
-                <input disabled class="dato_secundario" type="text" placeholder="${clase}">
+                <input disabled id="campo_etnia" class="dato_foraneo_etnia" list="etnias" placeholder="${etnia}">
+                <input disabled id="campo_origen" class="dato_foraneo_lugar" list="lugares" placeholder="${origen}">
+                <input disabled id="campo_edad" class="dato_secundario" type="number" placeholder="${edad}">
+                <input disabled id="campo_clase" class="dato_secundario" type="text" placeholder="${clase}">
 
                 <textarea disabled id="apariencia_personaje" placeholder="${apariencia}"></textarea>
-                <textarea disabled id="descripcion_personaje" placeholder="${historia}"></textarea>
+                <textarea disabled id="historia_personaje" placeholder="${historia}"></textarea>
 
-                <button id="editar_aceptar">
+                <button id="editar_aceptar" onclick="habilitarEdicionPersonaje(${id})">
                     <span class="material-symbols-outlined">
                     edit
                     </span>
@@ -220,7 +220,7 @@ async function armarTarjetaEtnia(id){
                     <h3 class="imagen_de">Imagen_indice:</h3>
                     <input disabled id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="${imagen_indice}">
                 </div>
-                <img src="${moodboard}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_targeta">
+                <img src="${moodboard}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_tarjeta">
                 <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
                 <input disabled class="dato_secundario" type="text" placeholder="${naturaleza}">
                 <textarea disabled id="descripcion_lugar" placeholder="${descripcion}"></textarea>
@@ -424,6 +424,194 @@ async function cerrarTarjeta() {
     const contenedor = document.getElementById('container')
     contenedor.classList.add('moverizquierda')
 } 
+
+async function aceptarEdicionPersonaje(id) {
+    const tarjeta = document.getElementById('tarjeta');
+
+    // Obtener campos
+    const campo = (selector) => tarjeta.querySelector(selector);
+    const valor = (selector) => campo(selector)?.value?.trim() || "";
+
+    const imagen = valor('#campo_imagen');
+    const imagen_indice = valor('#campo_imagen_indice');
+    const nombre = valor('#nombre_tarjeta');
+    const etnia = valor('#campo_etnia');
+    const origen = valor('#campo_origen');
+    const edad = valor('#campo_edad');
+    const clase = valor('#campo_clase');
+    const apariencia = valor('#apariencia_personaje');
+    const historia = valor('#historia_personaje');
+
+    let errores = {};
+
+    // Validaciones
+    if (!nombre) {
+        errores.nombre = "El campo nombre no puede estar vacío";
+    } else if (nombre.length > 25) {
+        errores.nombre = "El nombre ingresado supera el límite de 25 caracteres";
+    }
+
+    if (etnia && etnia.length > 25) {
+        errores.etnia = "La etnia ingresada supera el límite de 25 caracteres";
+    }
+
+    if (isNaN(Number(edad))) {
+        errores.edad = "El valor ingresado para edad no es un número válido";
+    } else if (Number(edad) < 0) {
+        errores.edad = "La edad no puede ser negativa";
+    }
+
+    if (origen && origen.length > 25) {
+        errores.origen = "El lugar de origen ingresado supera el límite de 25 caracteres";
+    }
+
+    if (apariencia && apariencia.length > 80) {
+        errores.apariencia = "La apariencia ingresada supera el límite de 80 caracteres";
+    }
+
+    if (historia && historia.length > 200) {
+        errores.historia = "La historia ingresada supera el límite de 200 caracteres";
+    }
+
+    if (clase && clase.length > 25) {
+        errores.clase = "La clase ingresada supera el límite de 25 caracteres";
+    }
+
+    if (imagen && imagen.length > 255) {
+        errores.imagen = "La URL de la imagen es demasiado larga (máx. 255 caracteres)";
+    }
+
+    if (imagen_indice && imagen_indice.length > 255) {
+        errores.imagen_indice = "La URL de la imagen de índice es demasiado larga (máx. 255 caracteres)";
+    }
+
+    // Si hay errores, los devolvemos
+    if (Object.keys(errores).length > 0) return errores;
+
+    // Resetear y deshabilitar campos
+    const deshabilitarYLimpiar = (selector) => {
+        const el = campo(selector);
+        if (el) {
+            el.disabled = true;
+            el.value = "";
+            el.classList.remove("adelantar");
+        }
+    };
+
+    deshabilitarYLimpiar('#campo_imagen');
+    deshabilitarYLimpiar('#campo_imagen_indice');
+    deshabilitarYLimpiar('#nombre_tarjeta');
+    deshabilitarYLimpiar('#campo_etnia');
+    deshabilitarYLimpiar('#campo_origen');
+    deshabilitarYLimpiar('#campo_edad');
+    deshabilitarYLimpiar('#campo_clase');
+    deshabilitarYLimpiar('#apariencia_personaje');
+    deshabilitarYLimpiar('#historia_personaje');
+
+    const imagen_tarjeta = campo('#imagen_tarjeta');
+    if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar");
+
+    // Actualizar botones
+    const editar_aceptar = campo('#editar_aceptar');
+    if (editar_aceptar) {
+        editar_aceptar.innerHTML = '<span class="material-symbols-outlined">edit</span>';
+        editar_aceptar.setAttribute("onclick", `habilitarEdicionPersonaje(${id})`);
+    }
+
+    const borrar_cancelar = campo('#borrar_cancelar');
+    if (borrar_cancelar) {
+        borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>';
+        borrar_cancelar.setAttribute("onclick", `eliminarPersonaje(${id})`);
+    }
+}
+
+async function cancelarEdicionPersonaje(id) {
+    const tarjeta = document.getElementById('tarjeta')
+    const campo_imagen = tarjeta.querySelector('#campo_imagen')
+    campo_imagen.setAttribute("disabled", true)
+    campo_imagen.value = ""
+    
+    const imagen_tarjeta = tarjeta.querySelector('#imagen_tarjeta')
+    imagen_tarjeta.classList.remove("transparentar")
+    
+    const data_imagen = tarjeta.querySelector('#data_imagen')
+    campo_imagen.classList.remove("adelantar")
+
+    const campo_imagen_indice = tarjeta.querySelector('#campo_imagen_indice')
+    campo_imagen_indice.setAttribute("disabled", true)
+    campo_imagen_indice.classList.remove("adelantar")
+
+    campo_imagen_indice.value = ""
+    const campo_nombre = tarjeta.querySelector('#nombre_tarjeta')
+    campo_nombre.setAttribute("disabled", true)
+    campo_nombre.value = ""
+    const campo_etnia = tarjeta.querySelector('#campo_etnia')
+    campo_etnia.setAttribute("disabled", true)
+    campo_etnia.value = ""
+    const campo_origen = tarjeta.querySelector('#campo_origen')
+    campo_origen.setAttribute("disabled", true)
+    campo_origen.value = ""
+    const campo_edad = tarjeta.querySelector('#campo_edad')
+    campo_edad.setAttribute("disabled", true)
+    campo_edad.value = ""
+    const campo_clase = tarjeta.querySelector('#campo_clase')
+    campo_clase.setAttribute("disabled", true)
+    campo_clase.value = ""
+    const campo_apariencia = tarjeta.querySelector('#apariencia_personaje')
+    campo_apariencia.setAttribute("disabled", true)
+    campo_apariencia.value = ""
+    const campo_historia = tarjeta.querySelector('#historia_personaje')
+    campo_historia.setAttribute("disabled", true)
+    campo_historia.value = ""
+
+    
+    const editar_aceptar = tarjeta.querySelector('#editar_aceptar')
+    editar_aceptar.innerHTML = '<span class="material-symbols-outlined">edit</span>'
+    editar_aceptar.setAttribute("onclick", `habilitarEdicionPersonaje(${id})`)
+
+    const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar')
+    borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>'
+    borrar_cancelar.setAttribute("onclick", `eliminarPersonaje(${id})`)
+}
+
+async function habilitarEdicionPersonaje(id) {
+    const tarjeta = document.getElementById('tarjeta')
+    const campo_imagen = tarjeta.querySelector('#campo_imagen')
+    campo_imagen.removeAttribute("disabled")
+
+    const imagen_tarjeta = tarjeta.querySelector('#imagen_tarjeta')
+    imagen_tarjeta.classList.add("transparentar")
+    
+    const data_imagen = tarjeta.querySelector('#data_imagen')
+    campo_imagen.classList.add("adelantar")
+
+    const campo_imagen_indice = tarjeta.querySelector('#campo_imagen_indice')
+    campo_imagen_indice.removeAttribute("disabled")
+    campo_imagen_indice.classList.add("adelantar")
+
+    const campo_nombre = tarjeta.querySelector('#nombre_tarjeta')
+    campo_nombre.removeAttribute("disabled")
+    const campo_etnia = tarjeta.querySelector('#campo_etnia')
+    campo_etnia.removeAttribute("disabled")
+    const campo_origen = tarjeta.querySelector('#campo_origen')
+    campo_origen.removeAttribute("disabled")
+    const campo_edad = tarjeta.querySelector('#campo_edad')
+    campo_edad.removeAttribute("disabled")
+    const campo_clase = tarjeta.querySelector('#campo_clase')
+    campo_clase.removeAttribute("disabled")
+    const campo_apariencia = tarjeta.querySelector('#apariencia_personaje')
+    campo_apariencia.removeAttribute("disabled")
+    const campo_historia = tarjeta.querySelector('#historia_personaje')
+    campo_historia.removeAttribute("disabled")
+
+    const editar_aceptar = tarjeta.querySelector('#editar_aceptar')
+    editar_aceptar.innerHTML = '<span class="material-symbols-outlined">check</span>'
+    editar_aceptar.setAttribute("onclick", `aceptarEdicionPersonaje(${id})`)
+
+    const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar')
+    borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">close</span>'
+    borrar_cancelar.setAttribute("onclick", "cancelarEdicionPersonaje()")
+}
 
 document.addEventListener('mousedown', () => {
   document.querySelector('.mf-cursor')?.classList.add('-clicked')

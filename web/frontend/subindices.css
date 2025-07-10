@@ -224,7 +224,7 @@
     border: none;
 }
 
-#imagen_targeta {
+#imagen_tarjeta {
     position: absolute;
 
     top: 0.9375rem;
@@ -462,7 +462,7 @@
     font-weight: 200;
 }
 
-#descripcion_personaje {
+#historia_personaje {
     display: inline-block;
     position: relative;
 
@@ -495,4 +495,12 @@
 .moverizquierda {
     transform: translate(-50%, -50%) !important;
     transition: 2s;
+}
+
+.transparentar {
+    opacity: 0;
+}
+
+.adelantar {
+    z-index: 3;
 }
