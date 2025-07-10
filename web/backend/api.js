@@ -251,7 +251,7 @@ app.post("/api/personajes/", async (req, res) => {
     apariencia = null
   }
   else{
-    if(apariencia.length > 80){
+    if(apariencia.length > 200){
       errores.error_apariencia = "La apariencia ingresada supera el limite de caracteres"
     }
   }
@@ -259,7 +259,7 @@ app.post("/api/personajes/", async (req, res) => {
     historia = null
   }
   else{
-    if(historia.length > 200){
+    if(historia.length > 400){
       errores.error_historia = "La historia ingresada supera el limite de caracteres"
     }
   }
@@ -657,7 +657,7 @@ app.put("/api/personajes/:num", async (req, res) => {
     apariencia = null
   }
   else{
-    if(apariencia.length > 80){
+    if(apariencia.length > 200){
       errores.error_apariencia = "La apariencia ingresada supera el limite de caracteres"
     }
   }
@@ -665,7 +665,7 @@ app.put("/api/personajes/:num", async (req, res) => {
     historia = null
   }
   else{
-    if(historia.length > 200){
+    if(historia.length > 400){
       errores.error_historia = "La historia ingresada supera el limite de caracteres"
     }
   }
