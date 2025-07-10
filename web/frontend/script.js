@@ -94,7 +94,7 @@ async function armarTarjetaLugar(id){
                     edit
                     </span>
                 </button>
-                <button id="borrar_cancelar">
+                <button id="borrar_cancelar" onclick="eliminarLugar(${id})">
                     <span class="material-symbols-outlined">
                     delete
                     </span>
@@ -148,7 +148,7 @@ async function armarTarjetaPersonaje(id){
                     edit
                     </span>
                 </button>
-                <button id="borrar_cancelar">
+                <button id="borrar_cancelar" onclick="eliminarPersonaje(${id})">
                     <span class="material-symbols-outlined">
                     delete
                     </span>
@@ -215,7 +215,7 @@ async function armarTarjetaEtnia(id){
                     edit
                     </span>
                 </button>
-                <button id="borrar_cancelar">
+                <button id="borrar_cancelar" onclick="eliminarEtnia(${id})">
                     <span class="material-symbols-outlined">
                     delete
                     </span>
@@ -233,9 +233,9 @@ async function rellenarEtnias(){
         apiData.forEach((etnia, i) => {
             const tarjeta = document.createElement('div')
             tarjeta.classList.add('lugar')
-            const id = etnia.id;
-            const nombre = etnia.nombre;
-            const imagen = etnia.imagen_indice;
+            const id = etnia.id
+            const nombre = etnia.nombre
+            const imagen = etnia.imagen_indice
             tarjeta.innerHTML = `
             <div class="imgcontainer" onclick="mostrarTarjetaEtnias(${id})">
               <img src="${imagen}" onerror="this.src='https://i.imgur.com/c1tlvB9.jpeg'" class="imglug">
@@ -267,9 +267,9 @@ async function rellenarLugares(){
         apiData.forEach((lugar, i) => {
             const tarjeta = document.createElement('div')
             tarjeta.classList.add('lugar')
-            const id = lugar.id;
-            const nombre = lugar.nombre;
-            const imagen = lugar.imagen;
+            const id = lugar.id
+            const nombre = lugar.nombre
+            const imagen = lugar.imagen
             tarjeta.innerHTML = `
             <div class="imgcontainer" onclick="mostrarTarjetaLugares(${id})">
               <img src="${imagen}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" class="imglug">
@@ -301,10 +301,10 @@ async function rellenarPersonajes(){
         apiData.forEach((personaje, i) => {
             const tarjeta = document.createElement('div')
             tarjeta.classList.add('personaje')
-            const nombre = personaje.nombre;
-            const imagen = personaje.imagen_indice;
-            const id = personaje.id;
-            tarjeta.setAttribute('onclick', `mostrarTarjetaPersonajes(${id})`);
+            const nombre = personaje.nombre
+            const imagen = personaje.imagen_indice
+            const id = personaje.id
+            tarjeta.setAttribute('onclick', `mostrarTarjetaPersonajes(${id})`)
             if (i % 2 === 0) {
                 tarjeta.innerHTML = `
                 <div class="nombrepers">
@@ -327,7 +327,8 @@ async function rellenarPersonajes(){
             }
             contenedor.appendChild(tarjeta)
         })
-        const tarjeta = document.createElement('div')
+    }
+    const tarjeta = document.createElement('div')
         tarjeta.classList.add('lugar')
         tarjeta.innerHTML = `
         <div class="imgcontainer">
@@ -338,7 +339,26 @@ async function rellenarPersonajes(){
         </div>
         `
         contenedor.appendChild(tarjeta)
+}
+
+async function refrescarTabla(txt) {
+    const contenedor = document.getElementById('cuadro2')
+    contenedor.innerHTML = ''
+    switch (txt) {
+        case 'personaje':
+            await rellenarPersonajes()
+            break
+        case 'etnia':
+            await rellenarEtnias()
+            break
+        case 'lugar':
+            await rellenarLugares()
+            break
+        default:
+            console.warn(`No hay función para rellenar tipo: ${txt}`)
+            break
     }
+    document.getElementById('tarjeta').innerHTML = '';
 }
 
 async function eliminarPersonaje(id) {
@@ -351,6 +371,7 @@ async function eliminarPersonaje(id) {
   } catch (error) {
     console.error('Hubo un problema al eliminar el personaje:', error)
   }
+  refrescarTabla('personaje')
 }
 
 async function eliminarEtnia(id) {
@@ -363,6 +384,7 @@ async function eliminarEtnia(id) {
   } catch (error) {
     console.error('Hubo un problema al eliminar la etnia:', error)
   }
+  refrescarTabla('etnia')
 }
 
 async function eliminarLugar(id) {
@@ -375,6 +397,7 @@ async function eliminarLugar(id) {
   } catch (error) {
     console.error('Hubo un problema al eliminar el lugar:', error)
   }
+  refrescarTabla('lugar')
 }
 
 document.addEventListener('mousedown', () => {
