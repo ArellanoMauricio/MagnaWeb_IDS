@@ -197,4 +197,33 @@
     }
 }
 
+@keyframes close_card {
+    0% {
+        width: 40rem;
+        height: 50.5rem;
+        opacity: 0.6;
+    }
+    25% {
+        width: 0.125rem;
+        height: 50.5rem;
+        border-radius: 0.9375rem;
+        opacity: 0.6;
+    }
+    26% {
+        width: 0.125rem;
+    }
+    75% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0.9375rem;
+        opacity: 0.6;
+    }
+    100% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0rem;
+        opacity: 0;
+    }
+}
+
 /*-------------------------------------------------------------------------------------------------*/

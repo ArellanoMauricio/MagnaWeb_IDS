@@ -400,6 +400,11 @@ async function eliminarLugar(id) {
   refrescarTabla('lugar')
 }
 
+async function cerrarTarjeta() {
+    const contenedor = document.getElementById('tarjeta')
+    contenedor.classList.add('cerrarTarjeta')
+} 
+
 document.addEventListener('mousedown', () => {
   document.querySelector('.mf-cursor')?.classList.add('-clicked')
 })
