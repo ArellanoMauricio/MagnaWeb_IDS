@@ -739,8 +739,7 @@ async function agregarPersonaje() {
         const imagen_tarjeta = campo('#imagen_tarjeta')
         if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar")
 
-        refrescarTabla('personaje')
-        cerrarTarjeta()
+        redirect('personajes', 'elementos', 2000)
     }
 }
 
