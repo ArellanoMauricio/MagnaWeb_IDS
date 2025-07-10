@@ -598,8 +598,8 @@ async function validarDatosPersonaje(nombre, edad, etnia, origen, clase, aparien
                         alert("La apariencia ingresada supera el límite de 80 caracteres")
                         return false
                     } else {
-                        if (historia && historia.length > 400) {
-                            alert("La historia ingresada supera el límite de 200 caracteres")
+                        if (historia && historia.length > 2000) {
+                            alert("La historia ingresada supera el límite de 2000 caracteres")
                             return false
                         } else {
                             if (clase && clase.length > 25) {
@@ -649,8 +649,8 @@ async function validarDatosEtnia(nombre, descripcion, naturaleza, imagen_indice,
             alert("La etnia ingresada ya existe")
             return false
         } else {
-            if (descripcion && descripcion.length > 280) {
-                    alert("La apariencia ingresada supera el límite de 80 caracteres")
+            if (descripcion && descripcion.length > 2000) {
+                    alert("La apariencia ingresada supera el límite de 2000 caracteres")
                     return false
             } else {
                 if (naturaleza && naturaleza.length > 25) {
@@ -716,8 +716,8 @@ async function validarDatosCreacionPersonaje(nombre, edad, etnia, origen, clase,
                         alert("La apariencia ingresada supera el límite de 80 caracteres")
                         return false
                     } else {
-                        if (historia && historia.length > 400) {
-                            alert("La historia ingresada supera el límite de 200 caracteres")
+                        if (historia && historia.length > 2000) {
+                            alert("La historia ingresada supera el límite de 2000 caracteres")
                             return false
                         } else {
                             if (clase && clase.length > 25) {
@@ -771,8 +771,8 @@ async function validarDatosCreacionEtnia(nombre, descripcion, naturaleza, imagen
                 alert("La etnia ingresada ya existe")
                 return false
             } else {
-                if (descripcion && descripcion.length > 280) {
-                        alert("La apariencia ingresada supera el límite de 80 caracteres")
+                if (descripcion && descripcion.length > 2000) {
+                        alert("La apariencia ingresada supera el límite de 2000 caracteres")
                         return false
                 } else {
                     if (naturaleza && naturaleza.length > 25) {
@@ -1493,8 +1493,8 @@ async function validarDatosLugar(nombre, clima, faccion, descripcion, imagen){
                     alert("La facción ingresada supera el límite de 25 caracteres")
                     return false
                 } else {
-                    if (descripcion && descripcion.length > 280) {
-                        alert("La descripción ingresada supera el límite de 280 caracteres")
+                    if (descripcion && descripcion.length > 2000) {
+                        alert("La descripción ingresada supera el límite de 2000 caracteres")
                         return false
                     } else {
                         if (imagen && imagen.length > 255) {
@@ -1540,8 +1540,8 @@ async function validarDatosCreacionLugar(nombre, clima, faccion, descripcion, im
                     alert("La facción ingresada supera el límite de 25 caracteres")
                     return false
                 } else {
-                    if (descripcion && descripcion.length > 280) {
-                        alert("La descripción ingresada supera el límite de 280 caracteres")
+                    if (descripcion && descripcion.length > 2000) {
+                        alert("La descripción ingresada supera el límite de 2000 caracteres")
                         return false
                     } else {
                         if (imagen && imagen.length > 255) {

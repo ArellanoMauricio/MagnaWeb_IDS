@@ -265,7 +265,7 @@ app.post("/api/personajes/", async (req, res) => {
     historia = null
   }
   else{
-    if(historia.length > 400){
+    if(historia.length > 2000){
       errores.error_historia = "La historia ingresada supera el limite de caracteres"
     }
   }
@@ -340,7 +340,7 @@ app.post("/api/etnias/", async (req, res) => {
     descripcion = null
   }
   else{
-    if(descripcion.length > 280){
+    if(descripcion.length > 2000){
       errores.error_descripcion = "La descripcion ingresada para la etnia supera el limite de caracteres"
     }
   }
@@ -415,7 +415,7 @@ app.post("/api/lugares/", async (req, res) => {
     descripcion = null
   }
   else{
-    if(descripcion.length > 280){
+    if(descripcion.length > 2000){
       errores.error_descripcion = "La descripcion ingresada para el lugar supera el limite de caracteres"
     }
   }
@@ -671,7 +671,7 @@ app.put("/api/personajes/:num", async (req, res) => {
     historia = null
   }
   else{
-    if(historia.length > 400){
+    if(historia.length > 2000){
       errores.error_historia = "La historia ingresada supera el limite de caracteres"
     }
   }
@@ -786,7 +786,7 @@ app.put("/api/etnias/:num", async (req, res) => {
     descripcion = null
   }
   else{
-    if(descripcion.length > 280){
+    if(descripcion.length > 2000){
       errores.error_descripcion = "La descripcion ingresada supera el limite de caracteres"
     }
   }
@@ -897,7 +897,7 @@ app.put("/api/lugares/:num", async (req, res) => {
     descripcion = null
   }
   else{
-    if(descripcion.length > 280){
+    if(descripcion.length > 2000){
       errores.error_descripcion = "La descripcion ingresada para lugar supera el limite de caracteres"
     }
   }

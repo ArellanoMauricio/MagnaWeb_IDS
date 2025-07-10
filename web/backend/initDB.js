@@ -6,10 +6,10 @@ async function initDB() {
       CREATE TABLE IF NOT EXISTS etnias (
         id SERIAL PRIMARY KEY,
         nombre VARCHAR(25) UNIQUE NOT NULL,
-        descripcion VARCHAR(280) DEFAULT 'No se posee informacion de este enigmatico grupo',
+        descripcion VARCHAR(2000) DEFAULT 'No se posee informacion de este enigmatico grupo',
         naturaleza VARCHAR(25) DEFAULT 'Neutral',
-        imagen_indice TEXT DEFAULT 'https://i.imgur.com/c1tlvB9.jpeg',
-        moodboard TEXT DEFAULT 'https://i.imgur.com/IvYrcaz.png'
+        imagen_indice TEXT DEFAULT 'https://i.imgur.com/qJbRZSw.png',
+        moodboard TEXT DEFAULT 'https://i.imgur.com/qJbRZSw.png'
       );
     `);
 
@@ -17,7 +17,7 @@ async function initDB() {
       CREATE TABLE IF NOT EXISTS lugares (
         id SERIAL PRIMARY KEY,
         nombre VARCHAR(25) UNIQUE NOT NULL,
-        descripcion VARCHAR(280) DEFAULT 'Las leyendas hablan de este sitio, pero su verdadera historia permanece oculta',
+        descripcion VARCHAR(2000) DEFAULT 'Las leyendas hablan de este sitio, pero su verdadera historia permanece oculta',
         faccion VARCHAR(25) DEFAULT 'Ninguna',
         clima VARCHAR(25) DEFAULT 'Templado',
         imagen TEXT DEFAULT 'https://i.imgur.com/2Bo3dP1.jpeg'
@@ -32,7 +32,7 @@ async function initDB() {
         edad INT NOT NULL DEFAULT 0,
         origen VARCHAR(25) REFERENCES lugares(nombre) DEFAULT 'Desconocido',
         apariencia VARCHAR(200) DEFAULT 'No se conoce la apariencia de este personaje',
-        historia VARCHAR(500) DEFAULT 'La historia de este personaje permanece oculta en las sombras',
+        historia VARCHAR(2000) DEFAULT 'La historia de este personaje permanece oculta en las sombras',
         clase VARCHAR(25) DEFAULT 'Desconocida',
         imagen TEXT DEFAULT 'https://i.imgur.com/oIw7byw.png',
         imagen_indice TEXT DEFAULT 'https://i.imgur.com/if90NDE.jpeg'
@@ -64,11 +64,11 @@ async function initDB() {
 
     await pool.query(`
       INSERT INTO etnias (nombre, descripcion, naturaleza, imagen_indice, moodboard) VALUES
-        ('Gredanos', 'Pueblo ancestral del sur que habita las costas del Mar Verde y las fronteras con Thauren y Khadaria.', 'dominante', 'gredanos_indice.png', 'gredanos_moodboard.png'),
-        ('Malasai', 'Pueblo nómada originario de las vastas sabanas de Khadaria.', 'rebelde', 'malasai_indice.png', 'malasai_moodboard.png'),
-        ('Thurin', 'Etnia tradicionalista del sureste con gran herencia mítica y religiosa.', 'neutral', 'thurin_indice.png', 'thurin_moodboard.png'),
-        ('Dracovianos', 'Antiguo pueblo insular que habita el archipiélago del Mar Verde.', 'aislado', 'dracovianos_indice.png', 'dracovianos_moodboard.png'),
-        ('Vesmerlinos', 'Pueblo endurecido por la vida en la tormentosa península de Vesmerlia', 'misterioso', 'vesmerlinos_indice.png', 'vesmerlinos_moodboard.png')
+        ('Gredanos', 'Pueblo ancestral del sur que habita las costas del Mar Verde y las fronteras con Thauren y Khadaria.', 'Dominante', 'https://i.imgur.com/OGwbr0t.jpeg', 'https://i.imgur.com/gfPQVNB.png'),
+        ('Malasai', 'Pueblo nómada originario de las vastas sabanas de Khadaria.', 'Rebelde', 'https://i.imgur.com/BrW4NCd.jpeg', 'https://i.imgur.com/lMqPnQr.png'),
+        ('Thurin', 'Etnia tradicionalista del sureste con gran herencia mítica y religiosa.', 'Neutral', 'https://i.imgur.com/hTG2Tnu.jpeg', 'https://i.imgur.com/mOn7yrs.png'),
+        ('Dracovianos', 'Antiguo pueblo insular que habita el archipiélago del Mar Verde.', 'Hostil', 'https://i.imgur.com/pGh7kri.jpeg', 'https://i.imgur.com/GW4UuuD.png'),
+        ('Vesmerlinos', 'Pueblo endurecido por la vida en la tormentosa península de Vesmerlia', 'Aislada', 'https://i.imgur.com/h47M8cP.png', 'https://i.imgur.com/RKUlLb2.png')
       ON CONFLICT (nombre) DO NOTHING;
     `);
 
