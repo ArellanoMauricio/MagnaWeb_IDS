@@ -77,9 +77,31 @@ async function armarTarjetaLugar(id){
         const clima = apiData.clima;
         const descripcion = apiData.descripcion;
         informacion.innerHTML = `
-        
+            <div id="contenido">
+                <div class="data_imagen">
+                    <h3 class="imagen_de">Imágen:</h3>
+                    <input disabled id="campo_imagen" class="fuente_imagen" type="text" placeholder="${imagen}">
+                </div>
+                <div class="data_imagen">
+                </div>
+                <img src="${imagen}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_targeta">
+                <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
+                <input disabled class="dato_secundario" type="text" placeholder="${clima}">
+                <input disabled class="dato_secundario" type="text" placeholder="${faccion}">
+                <textarea disabled id="descripcion_lugar" placeholder="${descripcion}"></textarea>
+                <button id="editar_aceptar">
+                    <span class="material-symbols-outlined">
+                    edit
+                    </span>
+                </button>
+                <button id="borrar_cancelar">
+                    <span class="material-symbols-outlined">
+                    delete
+                    </span>
+                </button>
+            </div>
         `
-        tarjeta.appendChild(informacion)
+        tarjeta.replaceChildren(informacion)
     }
 }
 
@@ -98,9 +120,9 @@ async function armarTarjetaPersonaje(id){
         const historia = apiData.historia;
         const apariencia = apiData.apariencia;
         informacion.innerHTML = `
-        
+
         `
-        tarjeta.appendChild(informacion)
+        tarjeta.replaceChildren(informacion)
     }
 }
 
@@ -108,6 +130,15 @@ async function mostrarTarjetaEtnias(id){
     const indiceamover = document.getElementById("container")
     indiceamover.classList.add("moverderecha")
     armarTarjetaEtnia(id)
+    await new Promise(res => setTimeout(res, 2000))
+    const tarjeta = document.getElementById("tarjeta")
+    tarjeta.classList.add("abrirtarjeta")
+}
+
+async function mostrarTarjetaLugares(id){
+    const indiceamover = document.getElementById("container")
+    indiceamover.classList.add("moverderecha")
+    armarTarjetaLugar(id)
     await new Promise(res => setTimeout(res, 2000))
     const tarjeta = document.getElementById("tarjeta")
     tarjeta.classList.add("abrirtarjeta")
@@ -194,10 +225,11 @@ async function rellenarLugares(){
         apiData.forEach((lugar, i) => {
             const tarjeta = document.createElement('div')
             tarjeta.classList.add('lugar')
+            const id = lugar.id;
             const nombre = lugar.nombre;
             const imagen = lugar.imagen;
             tarjeta.innerHTML = `
-            <div class="imgcontainer">
+            <div class="imgcontainer" onclick="mostrarTarjetaLugares(${id})">
               <img src="${imagen}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" class="imglug">
               <div class="nombrelug">
                 <p><span>-</span><br> <span><a>${nombre}</a></span><br> <span>-</span></p>

@@ -16,7 +16,7 @@
     <script src="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.js"></script>
   </head>
   <body>
-    <div id="container" onclick="mostrarTarjeta()">
+    <div id="container">
       <div id="elementos" class="delaytilt" data-tilt data-tilt-max="1" data-tilt-reverse="true" data-tilt-full-page-listening data-tilt-transition="true">
         
         <div id="cuadro1">
@@ -34,33 +34,6 @@
 
     <div id="container2">
       <div id="tarjeta">
-        <div id="contenido">
-
-          <div class="data_imagen">
-            <h3 class="imagen_de">Imágen:</h3>
-            <input disabled id="campo_imagen" class="fuente_imagen" type="text" placeholder="Ingrese un link directo a la imagen">
-          </div>
-          <div class="data_imagen">
-            <h3 class="imagen_de">Imágen del índice:</h3>
-            <input disabled id="campo_imagen_indice" class="fuente_imagen" type="text" placeholder="Ingrese un link directo a la imagen">
-          </div>
-          <img src="source/defaultmap.jpg" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_targeta">
-          <input disabled id="nombre_tarjeta" type="text" placeholder="Nombre">
-          <input disabled class="dato_secundario" type="text" placeholder="Clima">
-          <input disabled class="dato_secundario" type="text" placeholder="Facción">
-          <textarea disabled id="descripcion_lugar" placeholder="Ingrese una descripción"></textarea>
-          <button id="editar_aceptar">
-            <span class="material-symbols-outlined">
-              edit
-            </span>
-          </button>
-          <button id="borrar_cancelar">
-            <span class="material-symbols-outlined">
-              delete
-            </span>
-          </button>
-          
-        </div>
       </div>
     </div>
     
