@@ -425,50 +425,66 @@ async function cerrarTarjeta() {
 } 
 
 validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice){
-    
-    traer lugares y etnias plis
-    
+    const apiDataLugares = await getElementoApi('http://localhost:3000/api/lugares/')
+    if (apiDataLugares) {
+        let listaLugares = []
+        apiDataLugares.forEach(lugar => {
+            listaLugares.push(lugar.nombre)
+        })
+    } else {
+        return false
+    }
+    const apiDataEtnias = await getElementoApi('http://localhost:3000/api/lugares/')
+    if (apiDataEtnias) {
+        let listaEtnias = []
+        apiDataEtnias.forEach(etnia => {
+            listaEtnias.push(etnia.nombre)
+        })
+    } else {
+        return false
+    }
+
     if (!nombre) {
         alert("El campo nombre no puede estar vacío")
-        return;
+        return false
     } else if (nombre.length > 25) {
         alert("El nombre ingresado supera el límite de 25 caracteres")
-        return;
+        return false
     } else {
-        if (etnia && !etnias.includes(etnia)) {
+        if (etnia && !listaEtnias.includes(etnia)) {
             alert("La etnia ingresada no existe")
-            return;
+            return false
         } else {
             if (isNaN(Number(edad))) {
                 alert("El valor ingresado para edad no es un número válido")
-                return;
+                return false
             } else if (Number(edad) < 0) {
                 alert("La edad no puede ser negativa")
-                return;
+                return false
             } else {
-                if (origen && !lugares.includes(origen)) {
+                if (origen && !listaLugares.includes(origen)) {
                     alert("El lugar de origen no existe")
-                    return
+                    return false
                 } else {
                     if (apariencia && apariencia.length > 80) {
                         alert("La apariencia ingresada supera el límite de 80 caracteres")
-                        return
+                        return false
                     } else {
                         if (historia && historia.length > 200) {
                             alert("La historia ingresada supera el límite de 200 caracteres")
-                            return
+                            return false
                         } else {
                             if (clase && clase.length > 25) {
                                 alert("La clase ingresada supera el límite de 25 caracteres")
-                                return
+                                return false
                             } else {
                                 if (imagen && imagen.length > 255) {
                                     alert("La URL de la imagen es demasiado larga (máx. 255 caracteres)")
-                                    return
+                                    return false
                                 } else {
                                     if (imagen_indice && imagen_indice.length > 255) {
                                         alert("La URL de la imagen de índice es demasiado larga (máx. 255 caracteres)")
-                                        return
+                                        return false
                                     }
                                 }
                             }
