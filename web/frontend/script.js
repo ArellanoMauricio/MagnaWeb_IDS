@@ -1141,13 +1141,9 @@ async function aceptarEdicionEtnia(id) {
     
     const moodboard = valor('#campo_imagen');
     const imagen_indice = valor('#campo_imagen_indice');
-    let nombre = valor('#nombre_tarjeta');
+    const nombre = (() => { const el = tarjeta.querySelector('#nombre_tarjeta'); return el && !el.disabled && el.value.trim() ? el.value.trim() : null })();
     const naturaleza = valor('#naturaleza_tarjeta');
     const descripcion = valor('#descripcion_etnia');
-    
-    if (nombre === "") {
-        nombre = null
-    }
 
     if (await validarDatosEtnia(nombre, descripcion, naturaleza, imagen_indice, moodboard)) {
         const datosActualizados = { nombre, descripcion, naturaleza, imagen_indice, moodboard };
