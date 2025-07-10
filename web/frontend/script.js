@@ -341,21 +341,49 @@ async function rellenarPersonajes(){
     }
 }
 
-async function mostrarTarjeta(){
-    const indiceamover = document.getElementById("container")
-    indiceamover.classList.add("moverderecha")
-    await new Promise(res => setTimeout(res, 2000))
-    const tarjeta = document.getElementById("tarjeta")
-    tarjeta.classList.add("abrirtarjeta")
+async function eliminarPersonaje(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/personajes/${id}`, {method: 'DELETE'})
+    if (!response.ok) {
+      throw new Error(`Error al eliminar: ${response.status}`)
+    }
+    console.log(`Personaje con ID ${id} eliminado con éxito.`)
+  } catch (error) {
+    console.error('Hubo un problema al eliminar el personaje:', error)
+  }
+}
+
+async function eliminarEtnia(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/etnias/${id}`, {method: 'DELETE'})
+    if (!response.ok) {
+      throw new Error(`Error al eliminar: ${response.status}`)
+    }
+    console.log(`Etnia con ID ${id} eliminado con éxito.`)
+  } catch (error) {
+    console.error('Hubo un problema al eliminar la etnia:', error)
+  }
+}
+
+async function eliminarLugar(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/lugares/${id}`, {method: 'DELETE'})
+    if (!response.ok) {
+      throw new Error(`Error al eliminar: ${response.status}`)
+    }
+    console.log(`Lugar con ID ${id} eliminado con éxito.`)
+  } catch (error) {
+    console.error('Hubo un problema al eliminar el lugar:', error)
+  }
 }
 
 document.addEventListener('mousedown', () => {
-  document.querySelector('.mf-cursor')?.classList.add('-clicked');
-});
+  document.querySelector('.mf-cursor')?.classList.add('-clicked')
+})
 
 document.addEventListener('mouseup', () => {
-  document.querySelector('.mf-cursor')?.classList.remove('-clicked');
-});
+  document.querySelector('.mf-cursor')?.classList.remove('-clicked')
+})
 
 const cursor = new MouseFollower({
     el: null,
