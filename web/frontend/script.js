@@ -424,7 +424,7 @@ async function cerrarTarjeta() {
     contenedor.classList.add('moverizquierda')
 } 
 
-validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice){
+async function validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice){
     const apiDataLugares = await getElementoApi('http://localhost:3000/api/lugares/')
     if (apiDataLugares) {
         let listaLugares = []
@@ -434,7 +434,7 @@ validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, 
     } else {
         return false
     }
-    const apiDataEtnias = await getElementoApi('http://localhost:3000/api/lugares/')
+    const apiDataEtnias = await getElementoApi('http://localhost:3000/api/etnias/')
     if (apiDataEtnias) {
         let listaEtnias = []
         apiDataEtnias.forEach(etnia => {
@@ -443,7 +443,6 @@ validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, 
     } else {
         return false
     }
-
     if (!nombre) {
         alert("El campo nombre no puede estar vacío")
         return false
