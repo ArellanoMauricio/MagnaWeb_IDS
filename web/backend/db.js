@@ -476,6 +476,7 @@ async function modificar_lugar(
 /*Funciones a exportar*/
 
 module.exports = {
+    pool,
     verificar_nombre_de_etnia,
     verificar_nombre_de_lugar,
     es_etnia_default,

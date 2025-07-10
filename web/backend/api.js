@@ -1,11 +1,17 @@
 const express = require("express")
 const path = require("path")
+const initDB = require("./initDB");
 
 const app = express()
 app.use(express.json())
 
 const port = 3000
-app.listen(port, () => console.log(`Server running on port ${port}`));
+initDB().then(() => {
+  app.listen(port, () => console.log(`🚀 Servidor corriendo en el puerto: ${port}`));
+}).catch(err => {
+  console.error("❌ No se pudo iniciar el servidor:", err);
+});
+
 
 const {
   verificar_nombre_de_etnia,
