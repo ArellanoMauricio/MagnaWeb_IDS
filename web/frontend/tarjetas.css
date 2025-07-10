@@ -1,0 +1,53 @@
+.lugar {
+    width: 100%;
+    height: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 1rem;
+
+    /* Fuente */
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 200;
+    letter-spacing: 1rem;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+.imglug {
+    width: 90%;
+    height: 7rem;
+    border-radius: 1rem;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.nombrelug {
+    position: absolute;
+    width: 100%;
+    mix-blend-mode: add;
+}
+
+.sumar {
+    width: 90%;
+    height: 7rem;
+    border-radius: 1rem;
+    background-color: #ceced3;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.nombresum {
+    position: absolute;
+    width: 100%;
+    mix-blend-mode: add;
+    font-size: 3rem;
+}

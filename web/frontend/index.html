@@ -11,7 +11,10 @@
         <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
         <!--hojas de estilo-->
         <link rel="stylesheet" href="style.css">
-
+        <link rel="stylesheet" href="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+        <script src="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.js"></script>
+        
     </head>
 
     <body>
@@ -21,7 +24,6 @@
 
             <!--titulo-->
             <img id="title" src="source/title.png" alt="𝗠𝗔𝗚𝗡𝗔𝗢𝗡𝗜𝗥𝗜𝗖𝗔">
-
             <!--flechas-->
             <svg id="arrows" onclick="toggleArrows()"
                 viewBox="0 0 75.5 65"
@@ -36,17 +38,21 @@
         </div>
 
         <!--indice-->
-        <div id="index">
-            <p id="index_text">INDICE</p>
-            <p>​</p>
-            <p id="item1">​</p>
-            <p id="item2">​</p>
-            <p id="item3">​</p>
+        <div id="index_wrapper">
+            <div id="index" class="delaytilt" data-tilt data-tilt-max="5" data-tilt-reverse="true" data-tilt-full-page-listening data-tilt-transition="true">
+                <p id="index_text">⌞ ÍNDICE ⌝</p>
+                <div class="bluronselection">
+                    <p>​</p>
+                    <p id="item1" class="item" onclick="redirect('personajes', 'index', 3500)">​</p>
+                    <p id="item2" class="item" onclick="window.alert('La sección de historia no existe aún.')">​</p>
+                    <p id="item3" class="item" onclick="redirect('lugares', 'index', 3500)">​</p>
+                    <p id="item4" class="item" onclick="redirect('etnias', 'index', 3500)">​</p>
+                </div>
+            </div>
         </div>
-
-        <!--java script-->
-        <script src="script.js"></script>
-
+        <!--javascript-->
+        <script src="script.js"></script> <!--funciones propias-->
+        <script src="vanillatilt.js"></script> <!--librería vanilla tilt -->
     </body>
 
 </html>

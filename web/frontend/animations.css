@@ -52,10 +52,6 @@
     }
 }
 
-/*-------------------------------------------------------------------------------------------------*/
-/*  miscelaneo  */
-/*-------------------------------------------------------------------------------------------------*/
-
 @keyframes levitation {
     0% {
         transform: translateY(0rem);
@@ -68,7 +64,16 @@
     }
 }
 
+/*-------------------------------------------------------------------------------------------------*/
+/*  miscelaneo  */
+/*-------------------------------------------------------------------------------------------------*/
+
 @keyframes open_index {
+    0% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0rem;
+    }
     50% {
         width: 0rem;
         height: 0.125rem;
@@ -86,10 +91,138 @@
     }
 }
 
+/* Intentamos hacer esta animación de cierre con un reverse, pero no logramos hacerlo funcionar correctamente. */
+
+@keyframes close_index {
+    0% {
+        width: 30.375rem;
+        height: 40.5rem;
+        border-radius: 0.9375rem;
+    }
+    50% {
+        width: 30.375rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    75% {
+        width: 0rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    100% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0rem;
+    }
+}
+
 @keyframes selectedIndex {
     to {
         color: #770909;
         font-size: 1.7rem;
+    }
+}
+
+/*-------------------------------------------------------------------------------------------------*/
+/*  personajes  */
+/*-------------------------------------------------------------------------------------------------*/
+
+@keyframes open_character_index {
+    50% {
+        width: 0rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    75% {
+        width: 60.375rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    100% {
+        width: 60.375rem;
+        height: 50.5rem;
+        border-radius: 0.9375rem;
+    }
+}
+
+@keyframes close_character_index {
+    0% {
+        width: 60.375rem;
+        height: 50.5rem;
+        border-radius: 0.9375rem; 
+    }
+    50% {
+        width: 60.375rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    75% {
+        width: 0rem;
+        height: 0.125rem;
+        border-radius: 0rem;
+    }
+    100% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0rem;
+    }
+}
+
+@keyframes open_card {
+    0% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0rem;
+        opacity: 0;
+    }
+    25% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0.9375rem;
+        opacity: 0.6;
+    }
+    26% {
+        width: 0.125rem;
+    }
+    75% {
+        width: 0.125rem;
+        height: 50.5rem;
+        border-radius: 0.9375rem;
+        opacity: 0.6;
+    }
+    100% {
+        width: 40rem;
+        height: 50.5rem;
+        opacity: 0.6;
+    }
+}
+
+@keyframes close_card {
+    0% {
+        width: 40rem;
+        height: 50.5rem;
+        opacity: 0.6;
+    }
+    25% {
+        width: 0.125rem;
+        height: 50.5rem;
+        border-radius: 0.9375rem;
+        opacity: 0.6;
+    }
+    26% {
+        width: 0.125rem;
+    }
+    75% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0.9375rem;
+        opacity: 0.6;
+    }
+    100% {
+        width: 0rem;
+        height: 0rem;
+        border-radius: 0rem;
+        opacity: 0;
     }
 }
 

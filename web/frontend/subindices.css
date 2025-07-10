@@ -1,0 +1,506 @@
+#container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#elementos {
+    background: #FFFFFB;
+    opacity: 0.6;
+    border-radius: 0rem;
+    width: 0rem;
+    height: 0rem;
+    display: flex;
+    transition: transform 0.25s ease-out !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    mix-blend-mode: add;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+#elementos.clicked {
+    animation: open_character_index 2s ease-in forwards;
+}
+
+#elementos.out {
+    animation: close_character_index 2s ease-in forwards;
+}
+
+#titulo {
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 400;
+    letter-spacing: 0.6rem;
+    font-size: 2.75rem;
+}
+
+#volver {
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 400;
+    letter-spacing: 0.3rem;
+    font-size: 1.75rem;
+}
+
+.personaje {
+    width: 100%;
+    height: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 1rem;
+
+    /* Fuente */
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 200;
+    letter-spacing: 1rem;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+.nombrepers {
+    width: 100%;
+}
+
+.imgcontainer {
+    width: 100%;
+    transform: translateX(-0.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imgpers {
+    width: 18rem;
+    height: 7rem;
+    border-radius: 1rem;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Orden de Aparición: Cuadro 1, Cuadro 3, Cuadro 2.*/
+
+#cuadro1 {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+#cuadro2 {
+    width: 100%;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    scrollbar-gutter: overlay;
+    -webkit-mask-image: linear-gradient(to bottom,
+    black 0%,
+    black 75%,
+    transparent 100%
+    );
+    mask-image: linear-gradient(to bottom,
+    black 0%,
+    black 75%,
+    transparent 100%
+    );
+}
+#cuadro3 {
+    width: 100%;
+    height: 11%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.moverderecha {
+    transform: translate(-85%, -50%) !important;
+    transition: 2s;
+}
+
+#container2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(10rem, -50%); /* 25% */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #000000;
+    font-weight: 200;
+}
+
+#tarjeta {
+    background: #FFFFFB;
+    opacity: 0;
+    border-radius: 0.9375rem;
+    width: 0rem;
+    height: 0rem;
+
+    transition: transform 0.25s ease-out !important;
+
+    mix-blend-mode: add;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.abrirtarjeta {
+    animation: open_card 2s ease-in forwards;
+}
+
+#contenido {
+    width: 40rem;
+    height: 50.5rem;
+    padding: 0.9375rem;
+}
+
+.data_imagen {
+    box-sizing: border-box;
+    position: relative;
+    width: 38.125rem;
+
+    height: 8.15rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    border-radius: 0.9375rem;
+    padding: 0.9375rem;
+}
+
+.imagen_de {
+    box-sizing: border-box;
+    position: relative;
+
+    width: 36.25rem;
+    height: 2rem;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+
+    border-radius: 0.46875rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.7318rem;
+    font-weight: normal;
+}
+
+.fuente_imagen{
+    box-sizing: border-box;
+    position: relative;
+
+    width: 36.25rem;
+    height: 3.7rem;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+
+    border-radius: 0.46875rem;
+
+    font-size: 1.237rem;
+    font-weight: normal;
+
+    border: none;
+}
+
+#imagen_tarjeta {
+    position: absolute;
+
+    top: 0.9375rem;
+
+    width: 38.125rem;
+    height: 16.8rem;
+    background-color: #A9A9AC;
+    border-radius: 0.9375rem;
+}
+
+#nombre_tarjeta {
+    display: inline-block;
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+
+    width: 38.125rem;
+    height: 2.7rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 2.23rem;
+}
+
+#tarjeta input::placeholder {
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
+}
+
+#tarjeta input {
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0rem;
+    cursor: none;
+}
+
+#tarjeta button {
+    cursor: none;
+}
+
+#tarjeta textarea {
+    cursor: none;
+}
+
+.dato_secundario {
+    display: inline-block;
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 18.8125rem;
+    height: 1.89rem;
+
+    border-radius: 0.2187rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.561rem;
+    font-weight: normal;
+}
+
+.dato_foraneo_etnia {
+    display: inline-block;
+    position: absolute;
+
+    top: 21.4375rem;
+    left: 20.25rem;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 18.8125rem;
+    height: 1.89rem;
+
+    border-radius: 0.2187rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.561rem;
+    font-weight: normal;
+}
+
+.dato_foraneo_lugar {
+    display: inline-block;
+    position: absolute;
+
+    top: 23.8275rem;
+    left: 20.25rem;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 18.8125rem;
+    height: 1.89rem;
+
+    border-radius: 0.2187rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.561rem;
+    font-weight: normal;
+}
+
+#editar_aceptar {
+    display: inline-block;
+    position: absolute;
+
+    bottom: 0.9375rem;
+    right: calc(0.9375rem + 0.9375rem + 1.4rem);
+
+    width: 2rem;
+    height: 2rem;
+
+    border: none;
+    border-radius: 0.25rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#borrar_cancelar {
+    display: inline-block;
+    position: absolute;
+    background: #ccc;
+
+    bottom: 0.9375rem;
+    right: 0.9375rem;
+
+    width: 2rem;
+    height: 2rem;
+
+    border: none;
+    border-radius: 0.25rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#campo_descripcion {
+    display: inline-block;
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 38.125rem;
+    height: 21rem;
+
+    border-radius: 0.2187rem;
+    
+    font-size: 1.16rem;
+    text-indent: 2rem;
+    padding: 0rem;
+    resize: none;
+    text-align: justify;
+    border: none;
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
+    
+}
+
+#campo_descripcion input::placeholder {
+    text-justify: auto;
+}
+
+
+#descripcion_etnia {
+    display: inline-block;
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 38.125rem;
+    height: 23.39rem;
+
+    border-radius: 0.2187rem;
+    
+    font-size: 1.16rem;
+    text-indent: 2rem;
+    padding: 0rem;
+    resize: none;
+    text-align: justify;
+    border: none;
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
+}
+
+#apariencia_personaje {
+    display: inline-block;
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 38.125rem;
+    height: 6.867rem;
+
+    border-radius: 0.2187rem;
+    
+    font-size: 1.16rem;
+    text-indent: 2rem;
+    padding: 0rem;
+    resize: none;
+    text-align: justify;
+    border: none;
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
+}
+
+#historia_personaje {
+    display: inline-block;
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    
+    width: 38.125rem;
+    height: 14.023rem;
+
+    border-radius: 0.2187rem;
+    
+    font-size: 1.16rem;
+    text-indent: 2rem;
+    padding: 0rem;
+    resize: none;
+    text-align: justify;
+    border: none;
+    font-family: "Averia Serif Libre", serif;
+    text-shadow: -0rem 0rem 0.125rem #A9A9AC;
+    font-weight: 200;
+}
+
+.cerrarTarjeta {
+    animation: close_card 2s ease-in forwards;
+}
+
+.moverizquierda {
+    transform: translate(-50%, -50%) !important;
+    transition: 2s;
+}
+
+.transparentar {
+    opacity: 0;
+}
+
+.adelantar {
+    z-index: 3;
+}
