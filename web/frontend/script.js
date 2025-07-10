@@ -45,7 +45,6 @@ function transparentarPadre(boton) {
     }
 }
 
-
 async function redirect(sitio, id, t) {
     const elemento = id ? document.getElementById(id) : null
     if (elemento) {
@@ -425,103 +424,109 @@ async function cerrarTarjeta() {
     contenedor.classList.add('moverizquierda')
 } 
 
-async function aceptarEdicionPersonaje(id) {
-    const tarjeta = document.getElementById('tarjeta');
-
-    // Obtener campos
-    const campo = (selector) => tarjeta.querySelector(selector);
-    const valor = (selector) => campo(selector)?.value?.trim() || "";
-
-    const imagen = valor('#campo_imagen');
-    const imagen_indice = valor('#campo_imagen_indice');
-    const nombre = valor('#nombre_tarjeta');
-    const etnia = valor('#campo_etnia');
-    const origen = valor('#campo_origen');
-    const edad = valor('#campo_edad');
-    const clase = valor('#campo_clase');
-    const apariencia = valor('#apariencia_personaje');
-    const historia = valor('#historia_personaje');
-
-    let errores = {};
-
-    // Validaciones
+validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice){
+    
+    traer lugares y etnias plis
+    
     if (!nombre) {
-        errores.nombre = "El campo nombre no puede estar vacío";
+        alert("El campo nombre no puede estar vacío")
+        return;
     } else if (nombre.length > 25) {
-        errores.nombre = "El nombre ingresado supera el límite de 25 caracteres";
-    }
-
-    if (etnia && etnia.length > 25) {
-        errores.etnia = "La etnia ingresada supera el límite de 25 caracteres";
-    }
-
-    if (isNaN(Number(edad))) {
-        errores.edad = "El valor ingresado para edad no es un número válido";
-    } else if (Number(edad) < 0) {
-        errores.edad = "La edad no puede ser negativa";
-    }
-
-    if (origen && origen.length > 25) {
-        errores.origen = "El lugar de origen ingresado supera el límite de 25 caracteres";
-    }
-
-    if (apariencia && apariencia.length > 80) {
-        errores.apariencia = "La apariencia ingresada supera el límite de 80 caracteres";
-    }
-
-    if (historia && historia.length > 200) {
-        errores.historia = "La historia ingresada supera el límite de 200 caracteres";
-    }
-
-    if (clase && clase.length > 25) {
-        errores.clase = "La clase ingresada supera el límite de 25 caracteres";
-    }
-
-    if (imagen && imagen.length > 255) {
-        errores.imagen = "La URL de la imagen es demasiado larga (máx. 255 caracteres)";
-    }
-
-    if (imagen_indice && imagen_indice.length > 255) {
-        errores.imagen_indice = "La URL de la imagen de índice es demasiado larga (máx. 255 caracteres)";
-    }
-
-    // Si hay errores, los devolvemos
-    if (Object.keys(errores).length > 0) return errores;
-
-    // Resetear y deshabilitar campos
-    const deshabilitarYLimpiar = (selector) => {
-        const el = campo(selector);
-        if (el) {
-            el.disabled = true;
-            el.value = "";
-            el.classList.remove("adelantar");
+        alert("El nombre ingresado supera el límite de 25 caracteres")
+        return;
+    } else {
+        if (etnia && !etnias.includes(etnia)) {
+            alert("La etnia ingresada no existe")
+            return;
+        } else {
+            if (isNaN(Number(edad))) {
+                alert("El valor ingresado para edad no es un número válido")
+                return;
+            } else if (Number(edad) < 0) {
+                alert("La edad no puede ser negativa")
+                return;
+            } else {
+                if (origen && !lugares.includes(origen)) {
+                    alert("El lugar de origen no existe")
+                    return
+                } else {
+                    if (apariencia && apariencia.length > 80) {
+                        alert("La apariencia ingresada supera el límite de 80 caracteres")
+                        return
+                    } else {
+                        if (historia && historia.length > 200) {
+                            alert("La historia ingresada supera el límite de 200 caracteres")
+                            return
+                        } else {
+                            if (clase && clase.length > 25) {
+                                alert("La clase ingresada supera el límite de 25 caracteres")
+                                return
+                            } else {
+                                if (imagen && imagen.length > 255) {
+                                    alert("La URL de la imagen es demasiado larga (máx. 255 caracteres)")
+                                    return
+                                } else {
+                                    if (imagen_indice && imagen_indice.length > 255) {
+                                        alert("La URL de la imagen de índice es demasiado larga (máx. 255 caracteres)")
+                                        return
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-    };
-
-    deshabilitarYLimpiar('#campo_imagen');
-    deshabilitarYLimpiar('#campo_imagen_indice');
-    deshabilitarYLimpiar('#nombre_tarjeta');
-    deshabilitarYLimpiar('#campo_etnia');
-    deshabilitarYLimpiar('#campo_origen');
-    deshabilitarYLimpiar('#campo_edad');
-    deshabilitarYLimpiar('#campo_clase');
-    deshabilitarYLimpiar('#apariencia_personaje');
-    deshabilitarYLimpiar('#historia_personaje');
-
-    const imagen_tarjeta = campo('#imagen_tarjeta');
-    if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar");
-
-    // Actualizar botones
-    const editar_aceptar = campo('#editar_aceptar');
-    if (editar_aceptar) {
-        editar_aceptar.innerHTML = '<span class="material-symbols-outlined">edit</span>';
-        editar_aceptar.setAttribute("onclick", `habilitarEdicionPersonaje(${id})`);
     }
+}
 
-    const borrar_cancelar = campo('#borrar_cancelar');
-    if (borrar_cancelar) {
-        borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>';
-        borrar_cancelar.setAttribute("onclick", `eliminarPersonaje(${id})`);
+async function aceptarEdicionPersonaje(id) {
+    const tarjeta = document.getElementById('tarjeta')
+    const campo = (selector) => tarjeta.querySelector(selector);
+    const valor = (selector) => campo(selector)?.value?.trim() || ""
+    const imagen = valor('#campo_imagen')
+    const imagen_indice = valor('#campo_imagen_indice')
+    const nombre = valor('#nombre_tarjeta')
+    const etnia = valor('#campo_etnia')
+    const origen = valor('#campo_origen')
+    const edad = valor('#campo_edad')
+    const clase = valor('#campo_clase')
+    const apariencia = valor('#apariencia_personaje')
+    const historia = valor('#historia_personaje')
+    if (validarDatosPersonaje(nombre, edad, etnia, origen, clase, apariencia, historia, imagen, imagen_indice)) {
+        const deshabilitarYLimpiar = (selector) => {
+            const el = campo(selector)
+            if (el) {
+                el.disabled = true
+                el.value = ""
+                el.classList.remove("adelantar")
+            }
+        }
+        deshabilitarYLimpiar('#campo_imagen')
+        deshabilitarYLimpiar('#campo_imagen_indice')
+        deshabilitarYLimpiar('#nombre_tarjeta')
+        deshabilitarYLimpiar('#campo_etnia')
+        deshabilitarYLimpiar('#campo_origen')
+        deshabilitarYLimpiar('#campo_edad')
+        deshabilitarYLimpiar('#campo_clase')
+        deshabilitarYLimpiar('#apariencia_personaje')
+        deshabilitarYLimpiar('#historia_personaje')
+
+        const imagen_tarjeta = campo('#imagen_tarjeta')
+        if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar")
+
+        // Actualizar botones
+        const editar_aceptar = campo('#editar_aceptar')
+        if (editar_aceptar) {
+            editar_aceptar.innerHTML = '<span class="material-symbols-outlined">edit</span>'
+            editar_aceptar.setAttribute("onclick", `habilitarEdicionPersonaje(${id})`)
+        }
+
+        const borrar_cancelar = campo('#borrar_cancelar')
+        if (borrar_cancelar) {
+            borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>'
+            borrar_cancelar.setAttribute("onclick", `eliminarPersonaje(${id})`)
+        }
     }
 }
 
