@@ -581,6 +581,9 @@ async function aceptarEdicionPersonaje(id) {
             borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>'
             borrar_cancelar.setAttribute("onclick", `eliminarPersonaje(${id})`)
         }
+        refrescarTabla('personaje')
+        armarTarjetaPersonaje(id)
+        armarTarjetaPersonaje(id)
     }
 }
 
