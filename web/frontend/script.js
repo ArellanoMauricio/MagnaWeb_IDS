@@ -529,11 +529,11 @@ async function validarDatosPersonaje(nombre, edad, etnia, origen, clase, aparien
                     alert("El lugar de origen no existe")
                     return false
                 } else {
-                    if (apariencia && apariencia.length > 80) {
+                    if (apariencia && apariencia.length > 200) {
                         alert("La apariencia ingresada supera el límite de 80 caracteres")
                         return false
                     } else {
-                        if (historia && historia.length > 200) {
+                        if (historia && historia.length > 400) {
                             alert("La historia ingresada supera el límite de 200 caracteres")
                             return false
                         } else {
@@ -607,11 +607,11 @@ async function validarDatosCreacionPersonaje(nombre, edad, etnia, origen, clase,
                     alert("El lugar de origen no existe")
                     return false
                 } else {
-                    if (apariencia && apariencia.length > 80) {
+                    if (apariencia && apariencia.length > 200) {
                         alert("La apariencia ingresada supera el límite de 80 caracteres")
                         return false
                     } else {
-                        if (historia && historia.length > 200) {
+                        if (historia && historia.length > 400) {
                             alert("La historia ingresada supera el límite de 200 caracteres")
                             return false
                         } else {
