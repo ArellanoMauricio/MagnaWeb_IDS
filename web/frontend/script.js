@@ -216,28 +216,34 @@ async function armarTarjetaPersonaje(id){
 
 async function mostrarTarjetaEtnias(id){
     const indiceamover = document.getElementById("container")
+    indiceamover.classList.remove("moverizquierda")
     indiceamover.classList.add("moverderecha")
     armarTarjetaEtnia(id)
     await new Promise(res => setTimeout(res, 2000))
     const tarjeta = document.getElementById("tarjeta")
+    tarjeta.classList.remove("cerrarTarjeta");
     tarjeta.classList.add("abrirtarjeta")
 }
 
 async function mostrarTarjetaLugares(id){
     const indiceamover = document.getElementById("container")
+    indiceamover.classList.remove("moverizquierda")
     indiceamover.classList.add("moverderecha")
     armarTarjetaLugar(id)
     await new Promise(res => setTimeout(res, 2000))
     const tarjeta = document.getElementById("tarjeta")
+    tarjeta.classList.remove("cerrarTarjeta");
     tarjeta.classList.add("abrirtarjeta")
 }
 
 async function mostrarTarjetaPersonajes(id){
     const indiceamover = document.getElementById("container")
+    indiceamover.classList.remove("moverizquierda")
     indiceamover.classList.add("moverderecha")
     armarTarjetaPersonaje(id)
     await new Promise(res => setTimeout(res, 2000))
     const tarjeta = document.getElementById("tarjeta")
+    tarjeta.classList.remove("cerrarTarjeta");
     tarjeta.classList.add("abrirtarjeta")
 }
 
@@ -739,7 +745,8 @@ async function agregarPersonaje() {
         const imagen_tarjeta = campo('#imagen_tarjeta')
         if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar")
 
-        redirect('personajes', 'elementos', 2000)
+        refrescarTabla('personaje')
+        cerrarTarjeta()
     }
 }
 
