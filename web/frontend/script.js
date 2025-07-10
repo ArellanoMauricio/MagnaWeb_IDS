@@ -99,10 +99,10 @@ async function armarTarjetaLugar(id){
                 </div>
                 <img src="${imagen}" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_tarjeta">
                 <input disabled id="nombre_tarjeta" type="text" placeholder="${nombre}">
-                <input disabled class="dato_secundario" type="text" placeholder="${clima}">
-                <input disabled class="dato_secundario" type="text" placeholder="${faccion}">
-                <textarea disabled id="descripcion_lugar" placeholder="${descripcion}"></textarea>
-                <button id="editar_aceptar" onclick="habilitarEdicionEtnia(${id})">
+                <input disabled id="campo_clima" class="dato_secundario" type="text" placeholder="${clima}">
+                <input disabled id="campo_faccion" class="dato_secundario" type="text" placeholder="${faccion}">
+                <textarea disabled id="campo_descripcion" placeholder="${descripcion}"></textarea>
+                <button id="editar_aceptar" onclick="habilitarEdicionLugar(${id})">
                     <span class="material-symbols-outlined">
                     edit
                     </span>
@@ -116,6 +116,37 @@ async function armarTarjetaLugar(id){
         `
         tarjeta.replaceChildren(informacion)
     }
+}
+
+async function armarTarjetaLugarVacia(){
+    const tarjeta = document.getElementById('tarjeta')
+    const informacion = document.createElement('div')
+    informacion.innerHTML = `
+        <div id="contenido">
+            <div class="data_imagen">
+                <h3 class="imagen_de">Imágen:</h3>
+                <input disabled id="campo_imagen" class="fuente_imagen" type="text" placeholder="">
+            </div>
+            <div class="data_imagen">
+            </div>
+            <img src="" onerror="this.src='https://i.imgur.com/2Bo3dP1.jpeg'" alt="imagen" id="imagen_tarjeta">
+            <input disabled id="nombre_tarjeta" type="text" placeholder="">
+            <input disabled id="campo_clima" class="dato_secundario" type="text" placeholder="">
+            <input disabled id="campo_faccion" class="dato_secundario" type="text" placeholder="">
+            <textarea disabled id="campo_descripcion" placeholder=""></textarea>
+            <button id="editar_aceptar" onclick="habilitarEdicionLugar()">
+                <span class="material-symbols-outlined">
+                edit
+                </span>
+            </button>
+            <button id="borrar_cancelar" onclick="eliminarLugar()">
+                <span class="material-symbols-outlined">
+                delete
+                </span>
+            </button>
+        </div>
+    `
+    tarjeta.replaceChildren(informacion)
 }
 
 async function armarTarjetaPersonajeVacia(){
@@ -385,6 +416,7 @@ async function rellenarLugares(){
             </div>
         </div>
         `
+        tarjeta.setAttribute('onclick', `crearLugar()`)
         contenedor.appendChild(tarjeta)
 }
 
@@ -1231,7 +1263,303 @@ async function cancelarEdicionEtnia(id) {
     borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>';
     borrar_cancelar.setAttribute("onclick", `eliminarEtnia(${id})`);
 
-    armarTarjetaEtnia(id); // Recargar la tarjeta con los datos originales
+    armarTarjetaEtnia(id);
+}
+
+async function crearLugar() {
+    armarTarjetaLugarVacia()
+    mostrarTarjetaLugares()
+    const tarjeta = document.getElementById('tarjeta')
+    const campo_imagen = tarjeta.querySelector('#campo_imagen')
+    campo_imagen.removeAttribute("disabled")
+
+    const imagen_tarjeta = tarjeta.querySelector('#imagen_tarjeta')
+    imagen_tarjeta.classList.add("transparentar")
+    
+    campo_imagen.classList.add("adelantar")
+
+    const campo_nombre = tarjeta.querySelector('#nombre_tarjeta')
+    campo_nombre.removeAttribute("disabled")
+    const campo_clima = tarjeta.querySelector('#campo_clima')
+    campo_clima.removeAttribute("disabled")
+    const campo_faccion = tarjeta.querySelector('#campo_faccion')
+    campo_faccion.removeAttribute("disabled")
+    const campo_descripcion = tarjeta.querySelector('#campo_descripcion')
+    campo_descripcion.removeAttribute("disabled")
+
+    campo_nombre.setAttribute("placeholder", "Nombre");
+    campo_clima.setAttribute("placeholder", "Clima");
+    campo_faccion.setAttribute("placeholder", "Facción");
+    campo_descripcion.setAttribute("placeholder", "Descripción");
+    campo_imagen.setAttribute("placeholder", "URL Imagen");
+
+
+    const editar_aceptar = tarjeta.querySelector('#editar_aceptar')
+    editar_aceptar.innerHTML = '<span class="material-symbols-outlined">check</span>'
+    editar_aceptar.setAttribute("onclick", `agregarLugar()`)
+
+    const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar')
+    borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">close</span>'
+    borrar_cancelar.setAttribute("onclick", "cancelarEdicionLugar()")
+}
+
+async function agregarLugar() {
+    const tarjeta = document.getElementById('tarjeta')
+    const campo = (selector) => tarjeta.querySelector(selector);
+    const valor = (selector) => campo(selector)?.value?.trim() || ""
+    
+    const imagen = valor('#campo_imagen')
+    const nombre = valor('#nombre_tarjeta')
+    const clima = valor('#campo_clima')
+    const faccion = valor('#campo_faccion')
+    const descripcion = valor('#campo_descripcion')
+
+    if (await validarDatosCreacionLugar(nombre, clima, faccion, descripcion, imagen)) {
+        const datosActualizados = { nombre, clima, faccion, descripcion, imagen };
+        const response = await fetch(`http://localhost:3000/api/lugares/`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(datosActualizados)});
+        if (response.ok) {
+            console.log("Lugar creado")
+        } else {
+            console.error("Error al crear lugar:", await response.text())
+        }
+
+        const deshabilitarYLimpiar = (selector) => {
+            const el = campo(selector)
+            if (el) {
+                el.disabled = true
+                el.value = ""
+                el.classList.remove("adelantar")
+            }
+        }
+        deshabilitarYLimpiar('#campo_imagen')
+        deshabilitarYLimpiar('#nombre_tarjeta')
+        deshabilitarYLimpiar('#campo_clima')
+        deshabilitarYLimpiar('#campo_faccion')
+        deshabilitarYLimpiar('#campo_descripcion')
+
+        const imagen_tarjeta = campo('#imagen_tarjeta')
+        if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar")
+
+        refrescarTabla('lugar')
+        cerrarTarjeta()
+    }
+}
+
+async function habilitarEdicionLugar(id) {
+    const tarjeta = document.getElementById('tarjeta');
+    const campo_imagen = tarjeta.querySelector('#campo_imagen');
+    campo_imagen.removeAttribute("disabled");
+    campo_imagen.classList.add("adelantar");
+
+    const imagen_tarjeta = tarjeta.querySelector('#imagen_tarjeta');
+    imagen_tarjeta.classList.add("transparentar");
+
+    const campo_nombre = tarjeta.querySelector('#nombre_tarjeta');
+    campo_nombre.removeAttribute("disabled");
+    const campo_clima = tarjeta.querySelector('#campo_clima');
+    campo_clima.removeAttribute("disabled");
+    const campo_faccion = tarjeta.querySelector('#campo_faccion');
+    campo_faccion.removeAttribute("disabled");
+    const campo_descripcion = tarjeta.querySelector('#campo_descripcion');
+    campo_descripcion.removeAttribute("disabled");
+
+    const editar_aceptar = tarjeta.querySelector('#editar_aceptar');
+    editar_aceptar.innerHTML = '<span class="material-symbols-outlined">check</span>';
+    editar_aceptar.setAttribute("onclick", `aceptarEdicionLugar(${id})`);
+
+    const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar');
+    borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">close</span>';
+    borrar_cancelar.setAttribute("onclick", `cancelarEdicionLugar(${id})`);
+}
+
+async function aceptarEdicionLugar(id) {
+    const tarjeta = document.getElementById('tarjeta');
+    const campo = (selector) => tarjeta.querySelector(selector);
+    const valor = (selector) => campo(selector)?.value?.trim() || campo(selector)?.placeholder?.trim() || "";
+    
+    const imagen = valor('#campo_imagen');
+    const nombre = (() => { const el = tarjeta.querySelector('#nombre_tarjeta'); return el && !el.disabled && el.value.trim() ? el.value.trim() : null })();
+    const clima = valor('#campo_clima');
+    const faccion = valor('#campo_faccion');
+    const descripcion = valor('#campo_descripcion');
+
+    // You'll need to create a validation function for Lugares similar to validarDatosEtnia
+    if (await validarDatosLugar(nombre, clima, faccion, descripcion, imagen)) {
+        const datosActualizados = { nombre, clima, faccion, descripcion, imagen };
+        try {
+            const response = await fetch(`http://localhost:3000/api/lugares/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datosActualizados)
+            });
+            if (response.ok) {
+                console.log("Lugar actualizado");
+            } else {
+                console.error("Error al actualizar lugar:", await response.text());
+            }
+        } catch (error) {
+            console.error('Hubo un problema al actualizar el lugar:', error);
+        }
+
+        const deshabilitarYLimpiar = (selector) => {
+            const el = campo(selector);
+            if (el) {
+                el.disabled = true;
+                el.value = "";
+                el.classList.remove("adelantar");
+            }
+        };
+
+        deshabilitarYLimpiar('#campo_imagen');
+        deshabilitarYLimpiar('#nombre_tarjeta');
+        deshabilitarYLimpiar('#campo_clima');
+        deshabilitarYLimpiar('#campo_faccion');
+        deshabilitarYLimpiar('#campo_descripcion');
+
+        const imagen_tarjeta = campo('#imagen_tarjeta');
+        if (imagen_tarjeta) imagen_tarjeta.classList.remove("transparentar");
+
+        const editar_aceptar = campo('#editar_aceptar');
+        if (editar_aceptar) {
+            editar_aceptar.innerHTML = '<span class="material-symbols-outlined">edit</span>';
+            editar_aceptar.setAttribute("onclick", `habilitarEdicionLugar(${id})`);
+        }
+
+        const borrar_cancelar = campo('#borrar_cancelar');
+        if (borrar_cancelar) {
+            borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>';
+            borrar_cancelar.setAttribute("onclick", `eliminarLugar(${id})`);
+        }
+        refrescarTabla('lugar');
+        armarTarjetaLugar(id); // Recargar la tarjeta con los datos actualizados
+        cerrarTarjeta()
+    }
+}
+
+async function cancelarEdicionLugar(id) {
+    const tarjeta = document.getElementById('tarjeta');
+    const campo_imagen = tarjeta.querySelector('#campo_imagen');
+    campo_imagen.setAttribute("disabled", true);
+    campo_imagen.value = "";
+
+    const imagen_tarjeta = tarjeta.querySelector('#imagen_tarjeta');
+    imagen_tarjeta.classList.remove("transparentar");
+
+    campo_imagen.classList.remove("adelantar");
+
+    const campo_nombre = tarjeta.querySelector('#nombre_tarjeta');
+    campo_nombre.setAttribute("disabled", true);
+    campo_nombre.value = "";
+    const campo_clima = tarjeta.querySelector('#campo_clima');
+    campo_clima.setAttribute("disabled", true);
+    campo_clima.value = "";
+    const campo_faccion = tarjeta.querySelector('#campo_faccion');
+    campo_faccion.setAttribute("disabled", true);
+    campo_faccion.value = "";
+    const campo_descripcion = tarjeta.querySelector('#campo_descripcion');
+    campo_descripcion.setAttribute("disabled", true);
+    campo_descripcion.value = "";
+
+    const editar_aceptar = tarjeta.querySelector('#editar_aceptar');
+    editar_aceptar.innerHTML = '<span class="material-symbols-outlined">edit</span>';
+    editar_aceptar.setAttribute("onclick", `habilitarEdicionLugar(${id})`);
+
+    const borrar_cancelar = tarjeta.querySelector('#borrar_cancelar');
+    borrar_cancelar.innerHTML = '<span class="material-symbols-outlined">delete</span>';
+    borrar_cancelar.setAttribute("onclick", `eliminarLugar(${id})`);
+
+    armarTarjetaLugar(id); // Recargar la tarjeta con los datos originales
+}
+
+async function validarDatosLugar(nombre, clima, faccion, descripcion, imagen){
+    const apiDataLugares = await getElementoApi('http://localhost:3000/api/lugares/')
+    let listaLugares = []
+    if (apiDataLugares) {
+        apiDataLugares.forEach(lugar => {
+            listaLugares.push(lugar.nombre)
+        })
+    } else {
+        return false
+    }
+    if (nombre && nombre.length > 25) {
+        alert("El nombre ingresado supera el límite de 25 caracteres")
+        return false
+    } else {
+            if (clima && clima.length > 25) {
+                alert("El clima ingresado supera el límite de 25 caracteres")
+                return false
+            } else {
+                if (faccion && faccion.length > 25) {
+                    alert("La facción ingresada supera el límite de 25 caracteres")
+                    return false
+                } else {
+                    if (descripcion && descripcion.length > 280) {
+                        alert("La descripción ingresada supera el límite de 280 caracteres")
+                        return false
+                    } else {
+                        if (imagen && imagen.length > 255) {
+                            alert("La URL de la imagen es demasiado larga (máx. 255 caracteres)")
+                            return false
+                        } else {
+                            if (!nombre && !clima && !faccion && !descripcion && !imagen) {
+                                alert("Nada ha sido modificado.")
+                                return false
+                            } else {
+                                return true // Pasamos!!
+                            }
+                        }
+                    }
+                }
+            }
+    }
+}
+
+async function validarDatosCreacionLugar(nombre, clima, faccion, descripcion, imagen){
+    const apiDataLugares = await getElementoApi('http://localhost:3000/api/lugares/')
+    let listaLugares = []
+    if (apiDataLugares) {
+        apiDataLugares.forEach(lugar => {
+            listaLugares.push(lugar.nombre)
+        })
+    } else {
+        return false
+    }
+    if (!nombre || nombre.length > 25) {
+        alert("El nombre ingresado supera el límite de 25 caracteres o no existe")
+        return false
+    } else {
+        if (nombre && listaLugares.includes(nombre)) {
+            alert("El lugar ingresado ya existe")
+            return false
+        } else {
+            if (clima && clima.length > 25) {
+                alert("El clima ingresado supera el límite de 25 caracteres")
+                return false
+            } else {
+                if (faccion && faccion.length > 25) {
+                    alert("La facción ingresada supera el límite de 25 caracteres")
+                    return false
+                } else {
+                    if (descripcion && descripcion.length > 280) {
+                        alert("La descripción ingresada supera el límite de 280 caracteres")
+                        return false
+                    } else {
+                        if (imagen && imagen.length > 255) {
+                            alert("La URL de la imagen es demasiado larga (máx. 255 caracteres)")
+                            return false
+                        } else {
+                            if (!nombre) {
+                                alert("Debes escribir un nombre")
+                                return false
+                            } else {
+                                return true // Pasamos!!
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 document.addEventListener('mousedown', () => {

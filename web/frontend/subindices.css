@@ -378,7 +378,7 @@
     justify-content: center;
 }
 
-#descripcion_lugar {
+#campo_descripcion {
     display: inline-block;
     position: relative;
 
@@ -405,7 +405,7 @@
     
 }
 
-#descripcion_lugar input::placeholder {
+#campo_descripcion input::placeholder {
     text-justify: auto;
 }
 
